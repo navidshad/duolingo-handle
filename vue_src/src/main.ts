@@ -1,12 +1,12 @@
 import { createApp } from 'vue'
-import App from './apps/main.vue'
+import ToolsBox from './apps/ToolsBox.vue'
 
 import '@/assets/styles/main.css';
 
 import fontawesome from './plugins/fontawesome';
 import { vuetify } from './plugins/vuetify';
 
-const app = createApp(App);
+const app = createApp(ToolsBox);
 
 app.use(fontawesome);
 app.use(vuetify);

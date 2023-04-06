@@ -1,0 +1,1 @@
+export type ToolType = 'none' | 'words-detector'; 

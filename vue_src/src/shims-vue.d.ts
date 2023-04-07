@@ -13,6 +13,7 @@ declare module '*.vue' {
 export default interface ElectronApi {
   sendMessage: (data:BaseEvent) => void,
   onMessage: (event:any, data:BaseEvent) => void,
+  takeScreenShot: () => string
 }
 
 declare global {

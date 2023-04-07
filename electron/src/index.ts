@@ -62,6 +62,6 @@ function onOpenTool(event: RoleEvent) {
   windowsManagerService.createWindow(event.toolType)
 }
 
-function onSetIgnoreMouseEvent(event:SetIgnoreMouseEvents) {
+function onSetIgnoreMouseEvent(event: SetIgnoreMouseEvents) {
   windowsManagerService.windows[event.toolType].setIgnoreMouseEvents(event.value);
 }

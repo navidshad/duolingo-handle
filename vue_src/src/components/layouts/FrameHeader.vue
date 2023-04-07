@@ -5,7 +5,7 @@
 
 	<!-- Action Buttons -->
 	<div class="flex space-x-1">
-		<span name="actions"></span>
+		<slot name="actions"></slot>
 	</div>
   </section>
 </template>

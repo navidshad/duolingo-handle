@@ -1,4 +1,4 @@
-import { BrowserWindow, ipcMain } from 'electron';
+import { BrowserWindow, desktopCapturer, ipcMain } from 'electron';
 import { WindowType } from '../../../vue_src/src/types/base';
 import { BaseEvent } from '../../../vue_src/src/types/event';
 import { windowsConfigs, WindowConfig } from '../windows';
@@ -15,6 +15,29 @@ export class WindowsManagerService {
 	constructor(entryPagePath: string, defaultPreloadPath: string) {
 		this.entryPagePath = entryPagePath;
 		this.defaultPreloadPath = defaultPreloadPath;
+
+		// Events
+		ipcMain.handle('get-media-source', this.onAskForMediaSourceId)
+		ipcMain.handle('get-window-bound', this.onAskForBound)
+	}
+
+	private async onAskForMediaSourceId(event: Electron.IpcMainInvokeEvent) {
+		const webContents = event.sender
+		const win = BrowserWindow.fromWebContents(webContents)
+
+		return await desktopCapturer.getSources({ types: ['window', 'screen'] }).then(async sources => {
+			for (const source of sources) {
+				if (source.name === "Entire screen") {
+					return source.id
+				}
+			}
+		})
+	}
+
+	private async onAskForBound(event: Electron.IpcMainInvokeEvent) {
+		const webContents = event.sender
+		const win = BrowserWindow.fromWebContents(webContents)
+		return win.getBounds();
 	}
 
 	getWindowConfig(type: WindowType) {

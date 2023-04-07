@@ -19,7 +19,10 @@ export const windowsConfigs: WindowConfig[] = [
 		initConfig: {
 			height: 640,
 			width: 512,
-			title: 'Words Detector'
+			title: 'Words Detector',
+			resizable: true,
+			frame: false,
+			transparent: true,
 		}
 	},
 	{

@@ -1,5 +1,7 @@
 <template>
-  <div>Words Detector</div>
+  <FrameBorder>
+    <div>Words Detector</div>
+  </FrameBorder>
 </template>
 
 <script lang="ts">

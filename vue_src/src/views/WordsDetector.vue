@@ -1,5 +1,6 @@
 <template>
   <FrameBorder>
+    <Frameheader title="Words Detector"></Frameheader>
     <div>Words Detector</div>
   </FrameBorder>
 </template>

@@ -57,5 +57,6 @@ function closeAllTools() {
 
 function onOpenTool(event: RoleEvent) {
   if (event.toolType == 'none') return;
+  closeAllTools()
   windowsManagerService.createWindow(event.toolType)
 }

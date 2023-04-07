@@ -52,6 +52,8 @@ export class WindowsManagerService {
 	};
 
 	closeWindow(type: WindowType) {
+		if (!this.windows[type]) return;
+
 		this.windows[type].destroy();
 		this.windows[type] = null
 	}

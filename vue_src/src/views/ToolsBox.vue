@@ -27,6 +27,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { ToolType } from "@/types/base";
+import { BaseEvent, RoleEvent } from "@/types/event";
 
 export default defineComponent({
   name: "toolsbox",
@@ -36,6 +37,31 @@ export default defineComponent({
     } as {
       activeTool: ToolType;
     };
+  },
+
+  watch: {
+    activeTool() {
+      this.onToolsSelected();
+    },
+  },
+
+  methods: {
+    onToolsSelected() {
+      let event!: BaseEvent;
+
+      if (this.activeTool == "none") {
+        event = {
+          type: "close-tools",
+        };
+      } else {
+        event = {
+          toolType: this.activeTool,
+          type: "open-tool",
+        } as RoleEvent;
+      }
+
+      window.electronAPI.sendMessage(event);
+    },
   },
 });
 </script>

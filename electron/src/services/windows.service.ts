@@ -1,30 +1,10 @@
 import { BrowserWindow, ipcMain } from 'electron';
 import { WindowType } from '../../../vue_src/src/types/base';
 import { BaseEvent } from '../../../vue_src/src/types/event';
+import { windowsConfigs, WindowConfig } from '../windows';
 
-export interface WindowConfig {
-	type: WindowType,
-	initConfig: Electron.BrowserWindowConstructorOptions,
-}
-
-const windowsConfigs: WindowConfig[] = [
-	{
-		type: 'tools-box',
-		initConfig: {
-			height: 400,
-			width: 230,
-			title: 'Tools Box',
-		}
-	},
-	{
-		type: 'words-detector',
-		initConfig: {
-			height: 640,
-			width: 512,
-			title: 'Words Detector'
-		}
-	}
-]
+export { WindowType } from '../../../vue_src/src/types/base';
+export { BaseEvent, RoleEvent } from '../../../vue_src/src/types/event';
 
 export class WindowsManagerService {
 	entryPagePath: string;
@@ -58,18 +38,23 @@ export class WindowsManagerService {
 		const window = new BrowserWindow(initConfig);
 
 		// and load the index.html of the app.
-		window.loadURL(this.entryPagePath + '#tools-box');
+		window.loadURL(this.entryPagePath + `/#/${type}`);
 
 		// Open the DevTools.
 		// window.webContents.openDevTools();
 
-		if (this.windows[type] === undefined) {
+		if (!this.windows[type]) {
 			this.windows[type] = window;
 		} else {
-			this.windows[type].close();
+			this.closeWindow(type);
 			this.windows[type] = window;
 		}
 	};
+
+	closeWindow(type: WindowType) {
+		this.windows[type].destroy();
+		this.windows[type] = null
+	}
 
 	sendMessage(type: WindowType, data: BaseEvent) {
 		const win = this.windows[type];

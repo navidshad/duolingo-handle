@@ -1,12 +1,13 @@
 import { createApp } from 'vue'
-import ToolsBox from './apps/ToolsBox.vue'
+import App from './App.vue'
 
 import '@/assets/styles/main.css';
 
 import fontawesome from './plugins/fontawesome';
 import { vuetify } from './plugins/vuetify';
+import router from './router'
 
-const app = createApp(ToolsBox);
+const app = createApp(App).use(router);
 
 app.use(fontawesome);
 app.use(vuetify);

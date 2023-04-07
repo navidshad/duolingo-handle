@@ -4,7 +4,7 @@ import { BaseEvent } from '../../../vue_src/src/types/event';
 import { windowsConfigs, WindowConfig } from '../windows';
 
 export { WindowType } from '../../../vue_src/src/types/base';
-export { BaseEvent, RoleEvent } from '../../../vue_src/src/types/event';
+export { BaseEvent, RoleEvent, SetIgnoreMouseEvents } from '../../../vue_src/src/types/event';
 
 export class WindowsManagerService {
 	entryPagePath: string;

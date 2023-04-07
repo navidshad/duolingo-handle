@@ -12,6 +12,8 @@ export const windowsConfigs: WindowConfig[] = [
 			height: 400,
 			width: 230,
 			title: 'Tools Box',
+			alwaysOnTop: true,
+			resizable: false,
 		}
 	},
 	{
@@ -20,6 +22,7 @@ export const windowsConfigs: WindowConfig[] = [
 			height: 640,
 			width: 512,
 			title: 'Words Detector',
+			alwaysOnTop: true,
 			resizable: true,
 			frame: false,
 			transparent: true,
@@ -30,7 +33,11 @@ export const windowsConfigs: WindowConfig[] = [
 		initConfig: {
 			height: 640,
 			width: 512,
-			title: 'Writing Guide'
+			title: 'Writing Guide',
+			alwaysOnTop: true,
+			resizable: true,
+			frame: false,
+			transparent: true,
 		}
 	}
 ]

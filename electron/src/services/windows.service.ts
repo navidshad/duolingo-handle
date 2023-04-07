@@ -1,5 +1,6 @@
-import { BrowserWindow } from 'electron';
+import { BrowserWindow, ipcMain } from 'electron';
 import { WindowType } from '../../../vue_src/src/types/base';
+import { BaseEvent } from '../../../vue_src/src/types/event';
 
 export interface WindowConfig {
 	type: WindowType,
@@ -57,7 +58,7 @@ export class WindowsManagerService {
 		const window = new BrowserWindow(initConfig);
 
 		// and load the index.html of the app.
-		window.loadURL(this.entryPagePath);
+		window.loadURL(this.entryPagePath + '#tools-box');
 
 		// Open the DevTools.
 		// window.webContents.openDevTools();
@@ -69,4 +70,20 @@ export class WindowsManagerService {
 			this.windows[type] = window;
 		}
 	};
+
+	sendMessage(type: WindowType, data: BaseEvent) {
+		const win = this.windows[type];
+
+		if (!win) return;
+
+		win.webContents.send('message', data)
+	}
+
+	onMessage(callback: (data: BaseEvent) => void) {
+		ipcMain.on('message', (event, data: BaseEvent) => {
+			// const webContents = event.sender
+			// const win = BrowserWindow.fromWebContents(webContents)
+			callback(data);
+		})
+	}
 }

@@ -12,3 +12,5 @@ app.use(fontawesome);
 app.use(vuetify);
 
 app.mount('#app')
+
+console.log(location.href.toString());

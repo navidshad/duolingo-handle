@@ -4,5 +4,6 @@
 const { contextBridge, ipcRenderer } = require('electron')
 
 contextBridge.exposeInMainWorld('electronAPI', {
-    setTitle: (title:string) => ipcRenderer.send('set-title', title)
+    sendMessage: (data:any) => ipcRenderer.send('message', data),
+    onMessage: (callback:(data:any) => void) => ipcRenderer.on('message', callback),
 })

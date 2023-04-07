@@ -21,5 +21,13 @@ export const windowsConfigs: WindowConfig[] = [
 			width: 512,
 			title: 'Words Detector'
 		}
+	},
+	{
+		type: 'writing-guide',
+		initConfig: {
+			height: 640,
+			width: 512,
+			title: 'Writing Guide'
+		}
 	}
 ]

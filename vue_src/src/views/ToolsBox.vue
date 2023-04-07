@@ -20,6 +20,16 @@
       >
         Word Detector
       </v-btn>
+
+      <v-btn
+        variant="flat"
+        prepend-icon="fa fa-w"
+        block
+        @click="activeTool = 'writing-guide'"
+        :color="activeTool == 'writing-guide' ? 'primary' : ''"
+      >
+        Writing Guide
+      </v-btn>
     </div>
   </section>
 </template>

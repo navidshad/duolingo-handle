@@ -10,6 +10,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/words-detector',
     name: 'words-detector',
     component: () => import('../views/WordsDetector.vue')
+  },
+  {
+    path: '/writing-guide',
+    name: 'writing-guide',
+    component: () => import('../views/WritingGuide.vue')
   }
 ]
 

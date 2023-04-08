@@ -44,9 +44,9 @@ export class GoogleVision {
 			image: {
 				content: Buffer.from(base64Content, 'base64')
 			},
-			"imageContext": {
-				"languageHints": ["en-t-i0-und"]
-			}
+			// "imageContext": {
+			// 	"languageHints": ["en-t-i0-und"]
+			// }
 		};
 
 		return client.textDetection(request).then(([result]) => {

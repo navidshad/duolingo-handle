@@ -1,4 +1,4 @@
-export interface TextAnnotations {
+export interface TextAnnotation {
 	locale: string
 	description: string
 	boundingPoly: BoundingPoly

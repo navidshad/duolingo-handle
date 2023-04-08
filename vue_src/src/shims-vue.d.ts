@@ -1,5 +1,5 @@
 import { BaseEvent } from "./types/event"
-import { TextAnnotations } from '@/types/vision';
+import { TextAnnotation } from '@/types/vision';
 
 /* eslint-disable */
 declare module '*.vue' {
@@ -15,7 +15,7 @@ export default interface ElectronApi {
   sendMessage: (data: BaseEvent) => void,
   onMessage: (event: any, data: BaseEvent) => void,
   takeScreenShot: (coordinateBoundOffset?: { x?: number, y?: number }) => string,
-  detectTextFromImage: (base64:string) => Promise<TextAnnotations>
+  detectTextFromImage: (base64:string) => Promise<TextAnnotation[]>
 }
 
 declare global {

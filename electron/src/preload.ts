@@ -11,9 +11,18 @@ contextBridge.exposeInMainWorld('electronAPI', {
     sendMessage: (data: BaseEvent) => ipcRenderer.send('message', data),
     onMessage: (callback: (event: IpcRendererEvent, data: BaseEvent) => void) => ipcRenderer.on('message', callback),
 
-    takeScreenShot: async () => {
-        let sourceId = await ipcRenderer.invoke('get-media-source');
-        let bound = await ipcRenderer.invoke('get-window-bound') as Electron.Rectangle;
+    detectTextFromImage: (base64: string) => ipcRenderer.invoke('vision:detect-text', base64),
+
+    takeScreenShot: async (coordinateBoundOffset?: { x?: number, y?: number }) => {
+        let sourceId = await ipcRenderer.invoke('window:get-media-source');
+        let bound = await ipcRenderer.invoke('window:get-window-bound') as Electron.Rectangle;
+
+        bound.x += coordinateBoundOffset?.x || 0;
+        bound.y += coordinateBoundOffset?.y || 0;
+        bound.height -= coordinateBoundOffset?.y || 0;
+        bound.width -= coordinateBoundOffset?.x || 0;
+
         return captureScreenShot(sourceId, bound);
-    }
+    },
+
 })

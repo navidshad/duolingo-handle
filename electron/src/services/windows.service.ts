@@ -17,8 +17,8 @@ export class WindowsManagerService {
 		this.defaultPreloadPath = defaultPreloadPath;
 
 		// Events
-		ipcMain.handle('get-media-source', this.onAskForMediaSourceId)
-		ipcMain.handle('get-window-bound', this.onAskForBound)
+		ipcMain.handle('window:get-media-source', this.onAskForMediaSourceId)
+		ipcMain.handle('window:get-window-bound', this.onAskForBound)
 	}
 
 	private async onAskForMediaSourceId(event: Electron.IpcMainInvokeEvent) {

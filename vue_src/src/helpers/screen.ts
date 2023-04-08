@@ -28,9 +28,9 @@ export const captureScreenShot = (sourceId: string, bound: Rectangle) => {
 				video.play()
 
 				// https://cloudinary.com/guides/automatic-image-cropping/cropping-images-in-javascript
-				context.drawImage(video, bound.x, bound.y, window.innerWidth, window.innerHeight, 0,0, window.innerWidth, window.innerHeight);
+				context.drawImage(video, bound.x, bound.y, bound.width, bound.height, 0,0, bound.width, bound.height);
 				
-				const frame = canvas.toDataURL("image/png");
+				const frame = canvas.toDataURL("image/png").split('base64,')[1];
 				captureStream.getTracks().forEach(track => track.stop());
 				resolve(frame);
 			}

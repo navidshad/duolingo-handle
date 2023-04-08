@@ -1,11 +1,10 @@
 <template>
   <FrameBorder>
-    <Frameheader title="Words Detector">
+    <Frameheader ref="header" title="Words Detector">
       <template #actions>
         <v-btn @click="takeScreenShot">Take</v-btn>
       </template>
     </Frameheader>
-    <div>Words Detector</div>
     <section>
       <img v-if="imgUrl.length" :src="imgUrl" />
     </section>
@@ -14,7 +13,6 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { captureScreenShot } from "@/helpers/screen";
 
 export default defineComponent({
   data() {
@@ -24,7 +22,18 @@ export default defineComponent({
   },
   methods: {
     async takeScreenShot() {
-      this.imgUrl = await window.electronAPI.takeScreenShot();
+      // @ts-ignore
+      let headerHight = (this.$refs.header.$el as HTMLDivElement).clientHeight;
+
+      const base64 = await window.electronAPI.takeScreenShot({
+        y: headerHight,
+      });
+
+      const textAnnotations = await window.electronAPI.detectTextFromImage(
+        base64
+      );
+
+      console.log(textAnnotations);
     },
   },
 });

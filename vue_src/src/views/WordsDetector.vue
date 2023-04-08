@@ -7,7 +7,7 @@
     </Frameheader>
     <section class="h-full w-full relative">
       <div
-        class="absolute bg-blue-600 text-center"
+        class="absolute bg-blue-600 text-center flex justify-center items-center"
         v-for="(anotation, i) of wordAnnotations"
         :key="i + anotation.word"
         :style="{
@@ -17,7 +17,15 @@
           height: anotation.rect.height + 'px',
         }"
       >
-        <span>{{ anotation.word }}</span>
+        <div
+          class="text-lg px-4 py-2"
+          :class="{
+            'bg-green-600': anotation.isValid,
+            'bg-red-600': anotation.isValid == false,
+          }"
+        >
+          {{ anotation.word }}
+        </div>
       </div>
     </section>
   </FrameBorder>
@@ -31,9 +39,12 @@ import { defineComponent } from "vue";
 export default defineComponent({
   data() {
     return {
-      wordAnnotations: <{ word: string; rect: Rectangle }[]>[],
+      wordAnnotations: <
+        { word: string; rect: Rectangle; isValid?: boolean }[]
+      >[],
     };
   },
+
   methods: {
     async takeScreenShotAndDetect() {
       this.wordAnnotations = [];
@@ -55,11 +66,9 @@ export default defineComponent({
     },
 
     renderBox(textAnnotations: TextAnnotation[]) {
-      const wordAnnotations = textAnnotations.filter(
-        (a) => !a.description.includes(" ")
-      );
+      textAnnotations.shift();
 
-      for (const annotation of wordAnnotations) {
+      for (const annotation of textAnnotations) {
         if (annotation.boundingPoly.vertices.length > 4) continue;
 
         const { description, boundingPoly } = annotation;
@@ -72,6 +81,20 @@ export default defineComponent({
 
         this.wordAnnotations.push({ word: description, rect });
       }
+
+      this.checkWordValidity();
+    },
+
+    async checkWordValidity() {
+      const tasks: Promise<void>[] = [];
+
+      for (const annotation of this.wordAnnotations) {
+        const task = window.electronAPI
+          .checkValidWord(annotation.word)
+          .then((isValid) => (annotation.isValid = isValid));
+      }
+
+      Promise.all(tasks);
     },
   },
 });

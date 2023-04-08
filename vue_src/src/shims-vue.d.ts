@@ -15,7 +15,8 @@ export default interface ElectronApi {
   sendMessage: (data: BaseEvent) => void,
   onMessage: (event: any, data: BaseEvent) => void,
   takeScreenShot: (coordinateBoundOffset?: { x?: number, y?: number }) => string,
-  detectTextFromImage: (base64:string) => Promise<TextAnnotation[]>
+  detectTextFromImage: (base64:string) => Promise<TextAnnotation[]>,
+  checkValidWord: (word:string) => Promise<boolean>,
 }
 
 declare global {

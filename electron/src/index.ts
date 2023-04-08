@@ -1,6 +1,7 @@
 import { app, BrowserWindow } from 'electron';
 import { WindowsManagerService, RoleEvent, WindowType, SetIgnoreMouseEvents } from './services/windows.service';
 import { GoogleVision } from './services/google-vision.service';
+import { TextService } from './services/text.service';
 
 require('dotenv').config();
 
@@ -10,7 +11,8 @@ require('dotenv').config();
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
 
-const googleVision = new GoogleVision(process.env.GOOGLE_CLOUD_API_KEY);
+const googleVisionService = new GoogleVision(process.env.GOOGLE_CLOUD_API_KEY);
+const textService = new TextService();
 const windowsManagerService = new WindowsManagerService(MAIN_WINDOW_WEBPACK_ENTRY, MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY);
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.

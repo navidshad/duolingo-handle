@@ -13,6 +13,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
 
     detectTextFromImage: (base64: string) => ipcRenderer.invoke('vision:detect-text', base64),
 
+    checkValidWord: (word:string) => ipcRenderer.invoke('text:validate-word', word),
+
     takeScreenShot: async (coordinateBoundOffset?: { x?: number, y?: number }) => {
         let sourceId = await ipcRenderer.invoke('window:get-media-source');
         let bound = await ipcRenderer.invoke('window:get-window-bound') as Electron.Rectangle;

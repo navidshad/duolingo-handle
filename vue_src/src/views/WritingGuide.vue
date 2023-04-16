@@ -82,7 +82,7 @@ export default defineComponent({
       // @ts-ignore
       let headerHight = (this.$refs.header.$el as HTMLDivElement).clientHeight;
 
-      const [an1] = await extractAnnotationsFromScreen({ x: headerHight + 40 });
+      const [an1] = await extractAnnotationsFromScreen({ y: headerHight + 40 });
       this.question = an1.description;
 
       this.generateAnswere().finally(() => {
@@ -93,7 +93,7 @@ export default defineComponent({
     async generateAnswere() {
       this.isGenerating = true;
       const score = "140";
-      const prompt = `write an duolingo esay with score ${score} for this topic: \n${this.question}`;
+      const prompt = `write an duolingo esay with score ${score} with at least 90 words for this topic: \n${this.question}`;
 
       this.answere = await window.electronAPI.createCompletion(prompt);
       this.isGenerating = false;

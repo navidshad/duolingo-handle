@@ -66,7 +66,7 @@ export default defineComponent({
       let headerHight = (this.$refs.header.$el as HTMLDivElement).clientHeight;
 
       extractAnnotationsFromScreen({
-        x: headerHight,
+        y: headerHight,
       })
         .then(async (textAnnotations) => this.renderBox(textAnnotations))
         .finally(() => {

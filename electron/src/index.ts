@@ -56,10 +56,8 @@ windowsManagerService.onMessage((data) => {
 
 function closeAllTools() {
   Object.keys(windowsManagerService.windows)
-    .forEach((key: WindowType) => {
-      if (key == 'tools-box') return;
-      windowsManagerService.closeWindow(key);
-    })
+    .filter(key => key !== 'tools-box')
+    .forEach((key: WindowType) => windowsManagerService.closeWindow(key))
 }
 
 function onOpenTool(event: RoleEvent) {

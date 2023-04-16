@@ -28,8 +28,8 @@ export const captureScreenShot = (sourceId: string, bound: Rectangle) => {
 				video.play()
 
 				// https://cloudinary.com/guides/automatic-image-cropping/cropping-images-in-javascript
-				context.drawImage(video, bound.x, bound.y, bound.width, bound.height, 0,0, bound.width, bound.height);
-				
+				context.drawImage(video, bound.x, bound.y, bound.width, bound.height, 0, 0, bound.width, bound.height);
+
 				const frame = canvas.toDataURL("image/png").split('base64,')[1];
 				captureStream.getTracks().forEach(track => track.stop());
 				resolve(frame);
@@ -39,3 +39,11 @@ export const captureScreenShot = (sourceId: string, bound: Rectangle) => {
 		}
 	})
 };
+
+export const extractAnnotationsFromScreen = async (coordinateBoundOffset?: {
+	x?: number | undefined;
+	y?: number | undefined;
+} | undefined) => {
+	const base64 = await window.electronAPI.takeScreenShot(coordinateBoundOffset);
+	return window.electronAPI.detectTextFromImage(base64);
+}

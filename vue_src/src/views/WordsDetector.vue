@@ -2,7 +2,13 @@
   <FrameBorder>
     <Frameheader ref="header" title="Words Detector">
       <template #actions>
-        <v-btn @click="takeScreenShotAndDetect">Take</v-btn>
+        <v-btn
+          size="x-small"
+          icon="fa fa-user-secret"
+          :loading="isPending"
+          @click="detect"
+        />
+        <v-btn size="x-small" icon="fa fa-eraser" @click="clear" />
       </template>
     </Frameheader>
     <section class="h-full w-full relative">
@@ -35,10 +41,12 @@
 import { Rectangle } from "@/types/base";
 import { TextAnnotation } from "@/types/vision";
 import { defineComponent } from "vue";
+import { extractAnnotationsFromScreen } from "@/helpers/screen";
 
 export default defineComponent({
   data() {
     return {
+      isPending: false,
       wordAnnotations: <
         { word: string; rect: Rectangle; isValid?: boolean }[]
       >[],
@@ -46,23 +54,24 @@ export default defineComponent({
   },
 
   methods: {
-    async takeScreenShotAndDetect() {
+    clear() {
+      this.wordAnnotations = [];
+    },
+
+    async detect() {
+      this.isPending = true;
       this.wordAnnotations = [];
 
       // @ts-ignore
       let headerHight = (this.$refs.header.$el as HTMLDivElement).clientHeight;
 
-      const base64 = await window.electronAPI.takeScreenShot({
-        y: headerHight,
-      });
-
-      const textAnnotations = await window.electronAPI.detectTextFromImage(
-        base64
-      );
-
-      this.renderBox(textAnnotations);
-
-      console.log(textAnnotations);
+      extractAnnotationsFromScreen({
+        x: headerHight,
+      })
+        .then(async (textAnnotations) => this.renderBox(textAnnotations))
+        .finally(() => {
+          this.isPending = false;
+        });
     },
 
     renderBox(textAnnotations: TextAnnotation[]) {
@@ -82,10 +91,10 @@ export default defineComponent({
         this.wordAnnotations.push({ word: description, rect });
       }
 
-      this.checkWordValidity();
+      return this.checkWordValidity();
     },
 
-    async checkWordValidity() {
+    checkWordValidity() {
       const tasks: Promise<void>[] = [];
 
       for (const annotation of this.wordAnnotations) {
@@ -94,7 +103,7 @@ export default defineComponent({
           .then((isValid) => (annotation.isValid = isValid));
       }
 
-      Promise.all(tasks);
+      return Promise.allSettled(tasks);
     },
   },
 });

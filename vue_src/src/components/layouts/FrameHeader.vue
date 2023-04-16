@@ -1,12 +1,16 @@
 <template>
-  <section class="flex justify-between items-center w-screen h-10 bg-orange-400">
-	<!-- Title -->
-	<div class="pl-2 text-white font-bold"><span>{{ title || '' }}</span></div>
+  <section
+    class="flex justify-between items-center w-screen h-12 bg-orange-400 p-2 pr-3"
+  >
+    <!-- Title -->
+    <div class="text-white font-bold select-none">
+      <span>{{ title || "" }}</span>
+    </div>
 
-	<!-- Action Buttons -->
-	<div class="flex space-x-1">
-		<slot name="actions"></slot>
-	</div>
+    <!-- Action Buttons -->
+    <div class="flex space-x-1">
+      <slot name="actions"></slot>
+    </div>
   </section>
 </template>
 
@@ -14,12 +18,11 @@
 import { defineComponent } from "vue";
 
 export default defineComponent({
-	props: {
-		title: String,
-	}
-})
+  props: {
+    title: String,
+  },
+});
 </script>
 
 <style>
-
 </style>

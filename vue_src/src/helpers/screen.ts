@@ -1,4 +1,4 @@
-import { Rectangle } from "@/types/base";
+import { Rectangle } from "../types/base";
 
 export const captureScreenShot = (sourceId: string, bound: Rectangle) => {
 

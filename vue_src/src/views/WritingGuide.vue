@@ -1,6 +1,6 @@
 <template>
-  <FrameBorder>
-    <Frameheader ref="header" title="Words Detector">
+  <FrameBorder v-slot="{ locked }">
+    <Frameheader ref="header" title="Words Detector" :locked="locked">
       <template #actions>
         <v-btn
           size="x-small"

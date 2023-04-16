@@ -5,13 +5,13 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 /* import specific icons */
-import { faEraser, faW, faUserSecret, } from '@fortawesome/free-solid-svg-icons'
+import { faEraser, faW, faUserSecret, faArrowsRotate, } from '@fortawesome/free-solid-svg-icons'
 
 /* add icons to the library */
-library.add(faEraser, faW, faUserSecret)
+library.add(faEraser, faW, faUserSecret, faArrowsRotate)
 
 export default {
-	install(app:any) {
+	install(app: any) {
 		app.component('font-awesome-icon', FontAwesomeIcon)
 	}
 }

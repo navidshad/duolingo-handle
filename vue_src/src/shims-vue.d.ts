@@ -13,11 +13,13 @@ declare module '*.vue' {
  */
 export default interface ElectronApi {
   sendMessage: (data: BaseEvent) => void,
-  onMessage: (callback:(event: any, data: BaseEvent) => void) => void,
+  onMessage: (callback: (event: any, data: BaseEvent) => void) => void,
   takeScreenShot: (coordinateBoundOffset?: { x?: number, y?: number }) => string,
   detectTextFromImage: (base64: string) => Promise<TextAnnotation[]>,
+  detectTextFromAudio: (base64: string) => Promise<string>,
   checkValidWord: (word: string) => Promise<boolean>,
   createCompletion: (prompt: string) => Promise<string>,
+  getMediaSource: (sourceName?: string) => Promise<string>,
 }
 
 declare global {

@@ -21,13 +21,13 @@ export class WindowsManagerService {
 		ipcMain.handle('window:get-window-bound', this.onAskForBound)
 	}
 
-	private async onAskForMediaSourceId(event: Electron.IpcMainInvokeEvent) {
+	private async onAskForMediaSourceId(event: Electron.IpcMainInvokeEvent, name = 'Entire screen') {
 		const webContents = event.sender
 		const win = BrowserWindow.fromWebContents(webContents)
 
 		return await desktopCapturer.getSources({ types: ['window', 'screen'] }).then(async sources => {
 			for (const source of sources) {
-				if (source.name === "Entire screen") {
+				if (source.name === name) {
 					return source.id
 				}
 			}

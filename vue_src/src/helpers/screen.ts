@@ -1,6 +1,6 @@
 import { Rectangle } from "../types/base";
 
-export const captureScreenShot = (sourceId: string, bound: Rectangle) => {
+export const captureScreenShotBySourceID = (sourceId: string, bound: Rectangle) => {
 
 	const canvas = document.createElement("canvas");
 	const context = canvas.getContext("2d") as CanvasRenderingContext2D;

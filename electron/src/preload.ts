@@ -3,7 +3,7 @@
 
 import { IpcRendererEvent } from "electron"
 import { BaseEvent } from "../../vue_src/src/types/event"
-import { captureScreenShot } from '../../vue_src/src/helpers/screen'
+import { captureScreenShotBySourceID } from '../../vue_src/src/helpers/screen'
 
 const { contextBridge, ipcRenderer } = require('electron')
 
@@ -20,12 +20,12 @@ contextBridge.exposeInMainWorld('electronAPI', {
         bound.height -= coordinateBoundOffset?.y || 0;
         bound.width -= coordinateBoundOffset?.x || 0;
 
-        return captureScreenShot(sourceId, bound);
+        return captureScreenShotBySourceID(sourceId, bound);
     },
 
     detectTextFromImage: (base64: string) => ipcRenderer.invoke('vision:detect-text', base64),
 
-    checkValidWord: (word:string) => ipcRenderer.invoke('text:validate-word', word),
+    checkValidWord: (word: string) => ipcRenderer.invoke('text:validate-word', word),
 
-    createCompletion: (prompt:string) => ipcRenderer.invoke('text:create-completion', prompt),
+    createCompletion: (prompt: string) => ipcRenderer.invoke('text:create-completion', prompt),
 })

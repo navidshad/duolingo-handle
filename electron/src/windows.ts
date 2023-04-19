@@ -39,5 +39,17 @@ export const windowsConfigs: WindowConfig[] = [
 			frame: false,
 			transparent: true,
 		}
+	},
+	{
+		type: 'voice-recognition',
+		initConfig: {
+			height: 350,
+			width: 550,
+			title: 'Voice Recognition',
+			alwaysOnTop: true,
+			resizable: true,
+			frame: false,
+			// transparent: true,
+		}
 	}
 ]

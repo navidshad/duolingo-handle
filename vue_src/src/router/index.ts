@@ -15,7 +15,12 @@ const routes: Array<RouteRecordRaw> = [
     path: '/writing-guide',
     name: 'writing-guide',
     component: () => import('../views/WritingGuide.vue')
-  }
+  },
+  {
+    path: '/voice-recognition',
+    name: 'voice-recognition',
+    component: () => import('../views/VoiceRecognition.vue')
+  },
 ]
 
 const router = createRouter({

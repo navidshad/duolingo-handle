@@ -59,6 +59,11 @@ export default defineComponent({
           icon: "fa fa-w",
           title: "Writing Guide",
         },
+        {
+          type: "voice-recognition",
+          icon: "fa fa-microphone-lines",
+          title: "Voice Recognition",
+        },
       ],
     } as {
       activeTool: ToolType;

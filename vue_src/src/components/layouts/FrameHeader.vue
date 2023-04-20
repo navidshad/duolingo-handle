@@ -1,29 +1,38 @@
 <template>
-  <section
-    class="flex justify-between items-center w-screen h-12 p-2 pr-3"
-    :class="{
-      'bg-orange-400': !locked,
-      'bg-gray-400': locked,
-    }"
-  >
-    <!-- Title -->
-    <div class="text-white font-bold select-none">
-      <span>{{ title || "" }}</span>
+  <div>
+    <div
+      class="header w-screen h-4 -mt-1 cursor-pointer"
+      :class="{
+        'bg-orange-600': !locked,
+        'bg-gray-400': locked,
+      }"
+    />
+    <section
+      class="flex justify-between items-center w-screen h-12 p-2 pr-3"
+      :class="{
+        'bg-orange-400': !locked,
+        'bg-gray-400': locked,
+      }"
+    >
+      <!-- Title -->
+      <div class="text-white font-bold select-none">
+        <span>{{ title || "" }}</span>
+      </div>
 
-      <v-btn
-        class="mx-4"
-        size="x-small"
-        :icon="locked ? 'fa-lock' : 'fa fa-lock-open'"
-        :disabled="locked"
-        @click="sendLockSignal(windowType, true)"
-      />
-    </div>
+      <!-- Action Buttons -->
+      <div class="flex space-x-1">
+        <v-btn
+          class="mx-4"
+          size="x-small"
+          :icon="locked ? 'fa-lock' : 'fa fa-lock-open'"
+          :disabled="locked"
+          @click="sendLockSignal(windowType, true)"
+        />
 
-    <!-- Action Buttons -->
-    <div class="flex space-x-1">
-      <slot name="actions"></slot>
-    </div>
-  </section>
+        <slot name="actions"></slot>
+      </div>
+    </section>
+  </div>
 </template>
 
 <script lang="ts">
@@ -39,9 +48,15 @@ export default defineComponent({
     };
   },
 
+  data() {
+    return {
+      isMoving: false,
+    };
+  },
+
   computed: {
     windowType() {
-      return this.$route.path.replaceAll('/', '');
+      return this.$route.path.replaceAll("/", "");
     },
   },
 
@@ -51,3 +66,9 @@ export default defineComponent({
   },
 });
 </script>
+
+<style scoped>
+.header {
+  -webkit-app-region: drag;
+}
+</style>

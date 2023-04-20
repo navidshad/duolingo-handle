@@ -38,12 +38,19 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, inject } from "vue";
 import { ToolType } from "@/types/base";
 import { BaseEvent, RoleEvent, SetIgnoreMouseEvents } from "@/types/event";
 
 export default defineComponent({
   name: "toolsbox",
+
+  setup() {
+    return {
+      sendLockSignal: inject("sendLockSignal") as (type:string, isLocked:boolean) => void,
+    };
+  },
+
   data() {
     return {
       activeTool: "none",
@@ -81,7 +88,7 @@ export default defineComponent({
   methods: {
     onToolsSelected() {
       let event!: BaseEvent;
-      this.unlockAll()
+      this.unlockAll();
 
       if (this.activeTool == "none") {
         event = { type: "close-tools" };
@@ -99,16 +106,12 @@ export default defineComponent({
       const isLock = !!this.lockMap[type];
       this.lockMap[type] = !isLock;
 
-      window.electronAPI.sendMessage({
-        type: "set-ignore-mouse-event",
-        toolType: type,
-        value: this.lockMap[type],
-      } as SetIgnoreMouseEvents);
+      this.sendLockSignal(type, this.lockMap[type]);
     },
 
     unlockAll() {
       this.tools.forEach((tool) => (this.lockMap[tool.type] = false));
-    }
+    },
   },
 });
 </script>

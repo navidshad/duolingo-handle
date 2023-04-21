@@ -6,6 +6,7 @@ import {
 	GoogleAuth,
 	grpc
 } from 'google-gax';
+import { postData } from "./http.service";
 
 export class GoogleCloud {
 
@@ -25,6 +26,7 @@ export class GoogleCloud {
 
 		ipcMain.handle('gcloud:detect-text', (event, data) => this.detectTextFromImage(data))
 		ipcMain.handle('gcloud:detect-text-from-audio', (event, data) => this.detectTextFromAudio(data))
+		ipcMain.handle('gcloud:translate-text', (event, data) => this.translateText(data))
 	}
 
 	static getInstance() {
@@ -74,5 +76,26 @@ export class GoogleCloud {
 		return response.results
 			.map(result => result.alternatives[0].transcript)
 			.join('\n');
+	}
+
+	translateText({ phrase, lang }: { phrase: string, lang: string }) {
+		const url = `https://translation.googleapis.com/language/translate/v2?key=${this.apiKey}`;
+
+		const body = {
+			q: phrase,
+			target: lang,
+		}
+
+		return postData(url, body)
+			.then((body: any) => body.data.translations)
+			.then((list: any[]) => {
+
+				let newList = list.map(
+					(item: { translatedText: string; detectedSourceLanguage: string }) =>
+						item.translatedText
+				) as string[];
+
+				return newList;
+			});
 	}
 }

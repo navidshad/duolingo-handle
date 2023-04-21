@@ -8,6 +8,14 @@
           :loading="isPending"
           @click="detect"
         />
+
+        <button-language
+          :disabled="!wordAnnotations.length"
+          :loading="isTranslating"
+          :isActive="showTranslate"
+          @click="toggleTranslate"
+        />
+
         <v-btn size="x-small" icon="fa fa-eraser" @click="clear" />
       </template>
     </Frameheader>
@@ -28,9 +36,11 @@
           :class="{
             'bg-green-600': anotation.isValid,
             'bg-red-600': anotation.isValid == false,
+            'bg-gray-300': showTranslate,
           }"
         >
-          {{ anotation.word }}
+          <p v-if="showTranslate">{{ translated[anotation.word] || "" }}</p>
+          <p v-else>{{ anotation.word }}</p>
         </div>
       </div>
     </section>
@@ -47,9 +57,12 @@ export default defineComponent({
   data() {
     return {
       isPending: false,
+      isTranslating: false,
+      showTranslate: false,
       wordAnnotations: <
         { word: string; rect: Rectangle; isValid?: boolean }[]
       >[],
+      translated: <{ [key: string]: string }>{},
     };
   },
 
@@ -104,6 +117,29 @@ export default defineComponent({
       }
 
       return Promise.allSettled(tasks);
+    },
+
+    toggleTranslate() {
+      this.showTranslate = !this.showTranslate;
+
+      if (this.showTranslate) {
+        this.isTranslating = true;
+        const tasks = [];
+
+        for (const annotation of this.wordAnnotations) {
+          if (this.translated[annotation.word] != undefined) continue;
+
+          const task = window.electronAPI
+            .translateText({ phrase: annotation.word, lang: "fa" })
+            .then(([translated]) => {
+              this.translated[annotation.word] = translated;
+            });
+
+          tasks.push(task);
+        }
+
+        Promise.all(tasks).finally(() => (this.isTranslating = false));
+      }
     },
   },
 });

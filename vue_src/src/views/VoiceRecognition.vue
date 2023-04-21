@@ -14,15 +14,22 @@
           icon="fa-solid fa-stop-circle"
           v-else
           @click="stopRecording"
-        />
+        >
+          <v-icon color="error" />
+        </v-btn>
 
-        <!-- <v-btn size="x-small" icon="fa fa-eraser" @click="clear" /> -->
+        <button-language
+          :disabled="!text.length"
+          :loading="isTranslating"
+          :isActive="showTranslate"
+          @click="toggleTranslate"
+        />
       </template>
     </Frameheader>
 
     <section>
-      <!-- <button>play</button> -->
-      <p>{{ text }}</p>
+      <p v-if="showTranslate && translatedText.length">{{ translatedText }}</p>
+      <p v-else>{{ text }}</p>
     </section>
   </FrameBorder>
 </template>
@@ -39,14 +46,18 @@ export default defineComponent({
 
     return {
       isRecording: false,
+      isTranslating: false,
+      showTranslate: false,
       recorder,
       chunks: <BlobPart[]>[],
       text: "",
+      translatedText: "",
     };
   },
   methods: {
     async startRecording() {
       this.text = "";
+      this.translatedText = "";
       this.chunks = [];
       this.isRecording = true;
 
@@ -75,6 +86,20 @@ export default defineComponent({
       const blob = new Blob(this.chunks, { type: "audio/wav" });
       const base64 = await blobToBase64(blob);
       this.text = await window.electronAPI.detectTextFromAudio(base64);
+    },
+
+    toggleTranslate() {
+      this.showTranslate = !this.showTranslate;
+
+      if (this.showTranslate && !this.translatedText.length) {
+        this.isTranslating = true;
+        window.electronAPI
+          .translateText({ phrase: this.text, lang: "fa" })
+          .then(([translated]) => {
+            this.translatedText = translated;
+          })
+          .finally(() => (this.isTranslating = false));
+      }
     },
   },
 });

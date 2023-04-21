@@ -20,24 +20,26 @@
     </Frameheader>
 
     <!-- Content -->
-    <section class="w-full h-full relative">
-      <!-- Statistic -->
+    <section
+      class="w-full h-full flex flex-col"
+      :class="{ 'bg-white': answere.length }"
+    >
       <div
-        class="available-area h-10 mx-10 absolute top-0 pt-4"
-        :class="{ 'bg-white': answere.length }"
+        class="px-5 flex items-center justify-between h-16 bg-white border-b-2"
       >
         <p>
           <span class="mr-10">Words: {{ wordCount }}</span>
           <span>Sentences: {{ sentenceCount }}</span>
         </p>
+
+        <div class="mt-6">
+          <v-select label="Type" :items="types" v-model="selectedType" />
+        </div>
       </div>
 
       <!-- Answere -->
-      <div
-        class="available-area border-yellow-500 border-2 absolute m-10 overflow-y-auto"
-        :class="{ 'bg-white': answere.length }"
-      >
-        <p>{{ answere }}</p>
+      <div class="h-full overflow-y-auto">
+        <p v-html="answere" />
       </div>
     </section>
   </FrameBorder>
@@ -52,6 +54,8 @@ export default defineComponent({
     return {
       isPending: false,
       isGenerating: false,
+      types: ["speaking", "writing"],
+      selectedType: "writing",
       question: "",
       answere: "",
     };
@@ -93,9 +97,23 @@ export default defineComponent({
     async generateAnswere() {
       this.isGenerating = true;
       const score = "140";
-      const prompt = `write an duolingo esay with score ${score} with at least 90 words for this topic: \n${this.question}`;
 
-      this.answere = await window.electronAPI.createCompletion(prompt);
+      const promptTypes = <{ [key: string]: string }>{
+        writing: `write an duolingo esay with score ${score} and at least 100 words for this topic: \n${this.question}`,
+        speaking: `create an answere with short lines from this cue speaking card: \n${this.question}`,
+      };
+
+      const prompt = promptTypes[this.selectedType];
+
+      this.answere = await window.electronAPI
+        .createCompletion(prompt)
+        .then((text) => {
+          if (this.selectedType == "writing") return text;
+          else {
+            return text.replaceAll(".", ".<br>");
+          }
+        });
+
       this.isGenerating = false;
     },
   },

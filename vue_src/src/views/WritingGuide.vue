@@ -34,7 +34,7 @@
 
       <!-- Answere -->
       <div
-        class="available-area border-yellow-500 border-2 absolute m-10"
+        class="available-area border-yellow-500 border-2 absolute m-10 overflow-y-auto"
         :class="{ 'bg-white': answere.length }"
       >
         <p>{{ answere }}</p>

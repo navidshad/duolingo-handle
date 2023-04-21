@@ -19,8 +19,8 @@ export const windowsConfigs: WindowConfig[] = [
 	{
 		type: 'words-detector',
 		initConfig: {
-			height: 640,
-			width: 512,
+			height: 450,
+			width: 1024,
 			title: 'Words Detector',
 			alwaysOnTop: true,
 			resizable: true,
@@ -32,7 +32,7 @@ export const windowsConfigs: WindowConfig[] = [
 		type: 'writing-guide',
 		initConfig: {
 			height: 640,
-			width: 512,
+			width: 1024,
 			title: 'Writing Guide',
 			alwaysOnTop: true,
 			resizable: true,
@@ -43,8 +43,8 @@ export const windowsConfigs: WindowConfig[] = [
 	{
 		type: 'voice-recognition',
 		initConfig: {
-			height: 350,
-			width: 550,
+			height: 145,
+			width: 450,
 			title: 'Voice Recognition',
 			alwaysOnTop: true,
 			resizable: true,

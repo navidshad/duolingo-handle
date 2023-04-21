@@ -1,6 +1,6 @@
 <template>
   <div
-    class="w-screen h-screen border-2"
+    class="w-screen h-screen border-2 overflow-hidden"
     :class="{
       'border-orange-400': !locked,
       'border-gray-400': locked,

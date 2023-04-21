@@ -21,7 +21,7 @@
     </Frameheader>
     <section class="h-full w-full relative">
       <div
-        class="absolute bg-blue-600 text-center flex justify-center items-center"
+        class="absolute text-center flex justify-center items-center"
         v-for="(anotation, i) of wordAnnotations"
         :key="i + anotation.word"
         :style="{
@@ -32,14 +32,13 @@
         }"
       >
         <div
-          class="text-lg px-4 py-2"
+          class="text-sm p-1 bg-gray-300"
           :class="{
-            'bg-green-600': anotation.isValid,
+            'bg-green-600': !showTranslate && anotation.isValid,
             'bg-red-600': anotation.isValid == false,
-            'bg-gray-300': showTranslate,
           }"
         >
-          <p v-if="showTranslate">{{ translated[anotation.word] || "" }}</p>
+          <p v-if="showTranslate" class="text-xs">{{ translated[anotation.word] || anotation.word }}</p>
           <p v-else>{{ anotation.word }}</p>
         </div>
       </div>
@@ -127,7 +126,11 @@ export default defineComponent({
         const tasks = [];
 
         for (const annotation of this.wordAnnotations) {
-          if (this.translated[annotation.word] != undefined) continue;
+          if (
+            !annotation.isValid ||
+            this.translated[annotation.word] != undefined
+          )
+            continue;
 
           const task = window.electronAPI
             .translateText({ phrase: annotation.word, lang: "fa" })

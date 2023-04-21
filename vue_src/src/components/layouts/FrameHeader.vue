@@ -31,6 +31,8 @@
 
         <slot name="actions"></slot>
       </div>
+
+      <div></div>
     </section>
   </div>
 </template>

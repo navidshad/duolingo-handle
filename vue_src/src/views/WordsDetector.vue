@@ -52,7 +52,12 @@ import { TextAnnotation } from "@/types/vision";
 import { defineComponent } from "vue";
 import { extractAnnotationsFromScreen } from "@/helpers/screen";
 
+// @ts-ignore
+import HeaderMixin from "@/mixins/header-hight.js";
+
 export default defineComponent({
+  mixins: [HeaderMixin],
+
   data() {
     return {
       isPending: false,

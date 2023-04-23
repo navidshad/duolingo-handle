@@ -45,12 +45,13 @@ export class WindowsManagerService {
 		const webContents = event.sender
 		const win = BrowserWindow.fromWebContents(webContents)
 
-		// Calculate 
+		// Calculate max taskbar height
 		const screenWorkArea = screen.getPrimaryDisplay().workArea;
 		const screenArea = screen.getPrimaryDisplay().bounds;
 		const macTaskbarHeight = Math.abs(screenArea.y - screenWorkArea.y);
 
-		bound.y += macTaskbarHeight;
+		if (bound.y)
+			bound.y += macTaskbarHeight;
 
 		win.setBounds(bound);
 	}

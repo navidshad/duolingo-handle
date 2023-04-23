@@ -49,7 +49,7 @@ export const windowsConfigs: WindowConfig[] = [
 			alwaysOnTop: true,
 			resizable: true,
 			frame: false,
-			// transparent: true,
+			transparent: true,
 		}
 	}
 ]

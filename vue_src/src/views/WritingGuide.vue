@@ -1,6 +1,6 @@
 <template>
   <FrameBorder v-slot="{ locked }">
-    <Frameheader ref="header" title="Words Detector" :locked="locked">
+    <Frameheader ref="header" title="Writing Guide" :locked="locked">
       <template #actions>
         <v-btn
           size="x-small"
@@ -17,13 +17,7 @@
         />
         <v-btn size="x-small" icon="fa fa-eraser" @click="clear" />
       </template>
-    </Frameheader>
 
-    <!-- Content -->
-    <section
-      class="w-full h-full flex flex-col"
-      :class="{ 'bg-white': answere.length }"
-    >
       <div
         class="px-5 flex items-center justify-between h-16 bg-white border-b-2"
       >
@@ -36,7 +30,13 @@
           <v-select label="Type" :items="types" v-model="selectedType" />
         </div>
       </div>
+    </Frameheader>
 
+    <!-- Content -->
+    <section
+      class="w-full h-full flex flex-col"
+      :class="{ 'bg-white': answere.length }"
+    >
       <!-- Answere -->
       <div class="h-full overflow-y-auto">
         <p v-html="answere" />
@@ -49,7 +49,12 @@
 import { extractAnnotationsFromScreen } from "@/helpers/screen";
 import { defineComponent } from "vue";
 
+// @ts-ignore
+import HeaderMixin from "@/mixins/header-hight.js";
+
 export default defineComponent({
+  mixins: [HeaderMixin],
+
   data() {
     return {
       isPending: false,
@@ -86,7 +91,7 @@ export default defineComponent({
       // @ts-ignore
       let headerHight = (this.$refs.header.$el as HTMLDivElement).clientHeight;
 
-      const [an1] = await extractAnnotationsFromScreen({ y: headerHight + 40 });
+      const [an1] = await extractAnnotationsFromScreen({ y: headerHight });
       this.question = an1.description;
 
       this.generateAnswere().finally(() => {

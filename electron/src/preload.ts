@@ -14,6 +14,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
 
     getMediaSource: (name = 'Entire screen') => ipcRenderer.invoke('window:get-media-source', name),
     setBound: (type: WindowType, bound: Electron.Rectangle) => ipcRenderer.invoke('window:set-window-bound', { type, bound }),
+    getBound: () => ipcRenderer.invoke('window:get-window-bound'),
 
     async takeScreenShot(coordinateBoundOffset?: { x?: number, y?: number }) {
         let sourceId = await ipcRenderer.invoke('window:get-media-source');

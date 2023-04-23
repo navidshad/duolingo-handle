@@ -34,6 +34,9 @@
 
       <div></div>
     </section>
+    
+    <!-- Sub content -->
+    <slot />
   </div>
 </template>
 

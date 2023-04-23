@@ -1,6 +1,6 @@
 <template>
   <FrameBorder v-slot="{ locked }">
-    <Frameheader ref="header" title="Words Detector" :locked="locked">
+    <Frameheader ref="header" title="Voice Recognition" :locked="locked">
       <template #actions>
         <v-btn
           size="x-small"
@@ -39,7 +39,12 @@ import { defineComponent } from "vue";
 import { getAudioStream } from "@/helpers/audio";
 import { blobToBase64 } from "@/helpers/file";
 
+// @ts-ignore
+import HeaderMixin from "@/mixins/header-hight.js";
+
 export default defineComponent({
+  mixins: [HeaderMixin],
+  
   data() {
     //@ts-ignore
     let recorder: MediaRecorder = null;

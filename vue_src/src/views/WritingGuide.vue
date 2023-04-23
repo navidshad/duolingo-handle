@@ -99,7 +99,7 @@ export default defineComponent({
       const score = "140";
 
       const promptTypes = <{ [key: string]: string }>{
-        writing: `write an duolingo esay with score ${score} and at least 100 words for this topic: \n${this.question}`,
+        writing: `write esay with at least 100 words for this topic: \n${this.question}`,
         speaking: `create an answere with short lines from this cue speaking card: \n${this.question}`,
       };
 

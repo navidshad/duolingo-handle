@@ -1,3 +1,4 @@
+import { Rectangle, WindowType } from "./types/base";
 import { BaseEvent } from "./types/event"
 import { TextAnnotation } from '@/types/vision';
 
@@ -21,6 +22,7 @@ export default interface ElectronApi {
   checkValidWord: (word: string) => Promise<boolean>,
   createCompletion: (prompt: string) => Promise<string>,
   getMediaSource: (sourceName?: string) => Promise<string>,
+  setBound: (type: WindowType, bound: Rectangle) => void
 }
 
 declare global {

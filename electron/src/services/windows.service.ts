@@ -1,4 +1,4 @@
-import { BrowserWindow, desktopCapturer, ipcMain } from 'electron';
+import { BrowserWindow, desktopCapturer, ipcMain, screen } from 'electron';
 import { WindowType } from '../../../vue_src/src/types/base';
 import { BaseEvent } from '../../../vue_src/src/types/event';
 import { windowsConfigs, WindowConfig } from '../windows';
@@ -19,6 +19,7 @@ export class WindowsManagerService {
 		// Events
 		ipcMain.handle('window:get-media-source', this.onAskForMediaSourceId)
 		ipcMain.handle('window:get-window-bound', this.onAskForBound)
+		ipcMain.handle('window:set-window-bound', this.onSetBound)
 	}
 
 	private async onAskForMediaSourceId(event: Electron.IpcMainInvokeEvent, name = 'Entire screen') {
@@ -38,6 +39,20 @@ export class WindowsManagerService {
 		const webContents = event.sender
 		const win = BrowserWindow.fromWebContents(webContents)
 		return win.getBounds();
+	}
+
+	private onSetBound(event: Electron.IpcMainInvokeEvent, { type, bound }: { type: WindowType, bound: Electron.Rectangle }) {
+		const webContents = event.sender
+		const win = BrowserWindow.fromWebContents(webContents)
+
+		// Calculate 
+		const screenWorkArea = screen.getPrimaryDisplay().workArea;
+		const screenArea = screen.getPrimaryDisplay().bounds;
+		const macTaskbarHeight = Math.abs(screenArea.y - screenWorkArea.y);
+
+		bound.y += macTaskbarHeight;
+
+		win.setBounds(bound);
 	}
 
 	getWindowConfig(type: WindowType) {
@@ -61,7 +76,13 @@ export class WindowsManagerService {
 		const window = new BrowserWindow(initConfig);
 
 		// and load the index.html of the app.
-		window.loadURL(this.entryPagePath + `/#/${type}`);
+		if (type == 'tools-box') {
+			window.loadURL(this.entryPagePath + `/#/${type}`);
+		} else {
+			window.loadURL(this.entryPagePath + `/#/create-bound?type=${type}`);
+			const { width, height } = screen.getPrimaryDisplay().workArea
+			window.setBounds({ width, height, x: 0, y: 0 });
+		}
 
 		// Open the DevTools.
 		// window.webContents.openDevTools();

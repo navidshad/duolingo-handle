@@ -2,6 +2,11 @@ import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 
 const routes: Array<RouteRecordRaw> = [
   {
+    path: '/create-bound',
+    name: 'create-bound',
+    component: () => import('../views/CreateBound.vue')
+  },
+  {
     path: '/tools-box',
     name: 'tools-box',
     component: () => import('../views/ToolsBox.vue')

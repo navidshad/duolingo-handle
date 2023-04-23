@@ -4,6 +4,7 @@
 import { IpcRendererEvent } from "electron"
 import { BaseEvent } from "../../vue_src/src/types/event"
 import { captureScreenShotBySourceID } from '../../vue_src/src/helpers/screen'
+import { WindowType } from "./services/windows.service"
 
 const { contextBridge, ipcRenderer } = require('electron')
 
@@ -12,6 +13,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
     onMessage: (callback: (event: IpcRendererEvent, data: BaseEvent) => void) => ipcRenderer.on('message', callback),
 
     getMediaSource: (name = 'Entire screen') => ipcRenderer.invoke('window:get-media-source', name),
+    setBound: (type: WindowType, bound: Electron.Rectangle) => ipcRenderer.invoke('window:set-window-bound', { type, bound }),
 
     async takeScreenShot(coordinateBoundOffset?: { x?: number, y?: number }) {
         let sourceId = await ipcRenderer.invoke('window:get-media-source');

@@ -2,6 +2,7 @@ import { WindowType } from "../../vue_src/src/types/base";
 
 export interface WindowConfig {
 	type: WindowType,
+	openWithCustomBound?: boolean,
 	initConfig: Electron.BrowserWindowConstructorOptions,
 }
 
@@ -18,9 +19,10 @@ export const windowsConfigs: WindowConfig[] = [
 	},
 	{
 		type: 'words-detector',
+		openWithCustomBound: true,
 		initConfig: {
-			height: 450,
-			width: 1024,
+			height: 250,
+			width: 800,
 			title: 'Words Detector',
 			alwaysOnTop: true,
 			resizable: true,
@@ -30,6 +32,7 @@ export const windowsConfigs: WindowConfig[] = [
 	},
 	{
 		type: 'writing-guide',
+		openWithCustomBound: true,
 		initConfig: {
 			height: 640,
 			width: 1024,
@@ -54,6 +57,7 @@ export const windowsConfigs: WindowConfig[] = [
 	},
 	{
 		type: 'gap-filler',
+		openWithCustomBound: true,
 		initConfig: {
 			height: 450,
 			width: 1024,

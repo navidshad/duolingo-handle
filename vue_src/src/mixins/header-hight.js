@@ -1,8 +1,13 @@
 export default {
+	data() {
+		return {
+			contentHeight: 0,
+		}
+	},
+
 	computed: {
 		headerHeight() {
-			let headerHeight = this.$refs.header.$el.clientHeight;
-			return headerHeight;
+			return this.$refs.header.$el.clientHeight;
 		},
 
 		windowType() {
@@ -12,9 +17,18 @@ export default {
 
 	mounted() {
 		this.setBound()
+		window.addEventListener('resize', this.setContentHeight);
 	},
 
 	methods: {
+		async setContentHeight() {
+			const {
+				height = 0
+			} = await window.electronAPI.getBound();
+
+			this.contentHeight = height - this.headerHeight
+		},
+
 		async setBound() {
 			const {
 				height,
@@ -22,7 +36,7 @@ export default {
 			} = await window.electronAPI.getBound();
 
 			window.electronAPI.setBound(this.windowType, {
-				y: Math.abs(y - (this.headerHeight + 40)),
+				y: Math.abs(y - (this.headerHeight + 0)),
 				height: height + this.headerHeight
 			})
 		}

@@ -34,13 +34,16 @@
 
     <!-- Content -->
     <section
+      v-if="answere.length"
       class="w-full h-full flex flex-col"
       :class="{ 'bg-white': answere.length }"
     >
       <!-- Answere -->
-      <div class="h-full overflow-y-auto">
-        <p v-html="answere" />
-      </div>
+      <textarea
+        v-model="answere"
+        :disabled="true"
+        :style="{ height: contentHeight + 'px' }"
+      ></textarea>
     </section>
   </FrameBorder>
 </template>
@@ -104,7 +107,7 @@ export default defineComponent({
       const score = "140";
 
       const promptTypes = <{ [key: string]: string }>{
-        writing: `write esay with at least 100 words for this topic: \n${this.question}`,
+        writing: `write esay with with 100 words for this topic: \n${this.question}`,
         speaking: `create an answere with short lines from this cue speaking card: \n${this.question}`,
       };
 
@@ -115,7 +118,7 @@ export default defineComponent({
         .then((text) => {
           if (this.selectedType == "writing") return text;
           else {
-            return text.replaceAll(".", ".<br>");
+            return text.replaceAll(".", ".\n");
           }
         });
 

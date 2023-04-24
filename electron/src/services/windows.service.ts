@@ -46,12 +46,12 @@ export class WindowsManagerService {
 		const win = BrowserWindow.fromWebContents(webContents)
 
 		// Calculate max taskbar height
-		const screenWorkArea = screen.getPrimaryDisplay().workArea;
-		const screenArea = screen.getPrimaryDisplay().bounds;
-		const macTaskbarHeight = Math.abs(screenArea.y - screenWorkArea.y);
+		// const screenWorkArea = screen.getPrimaryDisplay().workArea;
+		// const screenArea = screen.getPrimaryDisplay().bounds;
+		// const macTaskbarHeight = Math.abs(screenArea.y - screenWorkArea.y);
 
-		if (bound.y)
-			bound.y += macTaskbarHeight;
+		// bound.y += macTaskbarHeight;
+		// bound.height -= macTaskbarHeight
 
 		win.setBounds(bound);
 	}
@@ -61,7 +61,7 @@ export class WindowsManagerService {
 	}
 
 	createWindow(type: WindowType) {
-		const { initConfig } = this.getWindowConfig(type);
+		const { initConfig, openWithCustomBound = false } = this.getWindowConfig(type);
 
 		// Setup preload script
 		//
@@ -77,7 +77,7 @@ export class WindowsManagerService {
 		const window = new BrowserWindow(initConfig);
 
 		// and load the index.html of the app.
-		if (type == 'tools-box') {
+		if (openWithCustomBound == false) {
 			window.loadURL(this.entryPagePath + `/#/${type}`);
 		} else {
 			window.loadURL(this.entryPagePath + `/#/create-bound?type=${type}`);

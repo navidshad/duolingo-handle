@@ -44,7 +44,7 @@ export class TextService {
 
 	private createCompletion(prompt: string) {
 		return this.openai.createCompletion({
-			model: "text-curie-001",
+			model: "text-davinci-003",
 			prompt: prompt,
 			temperature: 0.5,
 			max_tokens: 1024,

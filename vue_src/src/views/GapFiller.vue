@@ -1,6 +1,6 @@
 <template>
   <FrameBorder v-slot="{ locked }">
-    <Frameheader ref="header" title="Words Detector" :locked="locked">
+    <Frameheader ref="header" title="Gap Filler" :locked="locked">
       <template #actions>
         <v-btn
           size="x-small"
@@ -27,17 +27,20 @@
         <v-btn size="x-small" icon="fa fa-eraser" @click="clear" />
       </template>
     </Frameheader>
-    <section class="h-full w-full relative">
+    <section
+      class="h-full w-full relative"
+      :class="{ 'bg-white': detectedText.length }"
+    >
       <v-textarea
+        auto-grow
         v-model="detectedText"
         v-if="detectedText.length && !filledText.length"
-        :class="{ 'bg-white': detectedText.length }"
       />
 
       <v-textarea
+        auto-grow
         v-model="filledText"
         v-else-if="filledText.length"
-        :class="{ 'bg-white': detectedText.length }"
       />
     </section>
   </FrameBorder>
@@ -51,6 +54,7 @@ import { extractAnnotationsFromScreen } from "@/helpers/screen";
 
 // @ts-ignore
 import HeaderMixin from "@/mixins/header-hight.js";
+import { fas } from "@fortawesome/free-solid-svg-icons";
 
 export default defineComponent({
   mixins: [HeaderMixin],
@@ -68,7 +72,6 @@ export default defineComponent({
 
   methods: {
     clear() {
-      this.detectedText = "";
       this.filledText = "";
     },
 
@@ -146,12 +149,17 @@ export default defineComponent({
 
       this.detectedText = sortPolygons(textAnnotations)
         .map((an) => an.description)
-        .join(" ").trim();
+        .join(" ")
+        .trim();
     },
 
     async fillGaps() {
-      const prompt = `fill empty positions which are marked by *:\n${this.detectedText}`;
-      this.filledText = await window.electronAPI.createCompletion(prompt);
+      this.isFilling = true;
+      const prompt = `fill empty positions where marked by "*". for example "wo***" is "world" :\n${this.detectedText}`;
+      this.filledText = await window.electronAPI
+        .createCompletion(prompt)
+        .then((res) => res.replaceAll("\n", ""))
+        .finally(() => (this.isFilling = false));
     },
 
     toggleTranslate() {

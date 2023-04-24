@@ -1,10 +1,10 @@
 <template>
-  <section class="flex justify-center items-center h-screen w-screen">
-    <div class="flex flex-col justify-center items-start space-y-2">
+  <section class="flex justify-center items-center h-screen">
+    <div class="flex justify-center items-center items-start space-x-2">
       <v-btn
         variant="flat"
+        size="x-small"
         prepend-icon="fa fa-eraser"
-        block
         @click="activeTool = 'none'"
         :color="activeTool == 'none' ? 'primary' : ''"
       >
@@ -12,14 +12,14 @@
       </v-btn>
 
       <div
-        class="flex w-full justify-between space-x-1"
+        class="flex w-full justify-between"
         v-for="(tool, i) of tools"
         :key="i"
       >
         <v-btn
           variant="outlined"
           :prepend-icon="tool.icon"
-          class="w-56"
+          size="x-small"
           @click="activeTool = tool.type"
           :color="activeTool == tool.type ? 'primary' : ''"
         >
@@ -28,10 +28,13 @@
 
         <v-btn
           size="x-small"
-          :icon="lockMap[tool.type] ? 'fa-lock' : 'fa fa-lock-open'"
           :disabled="activeTool !== tool.type"
           @click="toggleLock(tool.type)"
-        />
+        >
+          <v-icon
+            :icon="lockMap[tool.type] ? 'fa-lock' : 'fa fa-lock-open'"
+          ></v-icon>
+        </v-btn>
       </div>
     </div>
   </section>
@@ -47,7 +50,10 @@ export default defineComponent({
 
   setup() {
     return {
-      sendLockSignal: inject("sendLockSignal") as (type:string, isLocked:boolean) => void,
+      sendLockSignal: inject("sendLockSignal") as (
+        type: string,
+        isLocked: boolean
+      ) => void,
     };
   },
 
@@ -59,17 +65,22 @@ export default defineComponent({
         {
           type: "words-detector",
           icon: "fa fa-w",
-          title: "Word Detector",
+          title: "Word",
         },
         {
           type: "writing-guide",
           icon: "fa fa-w",
-          title: "Writing Guide",
+          title: "Writing",
         },
         {
           type: "voice-recognition",
           icon: "fa fa-microphone-lines",
-          title: "Voice Recognition",
+          title: "Voice",
+        },
+        {
+          type: "gap-filler",
+          icon: "fa fa-microphone-lines",
+          title: "Gap",
         },
       ],
     } as {

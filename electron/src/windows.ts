@@ -9,8 +9,8 @@ export const windowsConfigs: WindowConfig[] = [
 	{
 		type: 'tools-box',
 		initConfig: {
-			height: 400,
-			width: 300,
+			height: 60,
+			width: 550,
 			title: 'Tools Box',
 			alwaysOnTop: true,
 			resizable: false,
@@ -51,5 +51,17 @@ export const windowsConfigs: WindowConfig[] = [
 			frame: false,
 			transparent: true,
 		}
-	}
+	},
+	{
+		type: 'gap-filler',
+		initConfig: {
+			height: 450,
+			width: 1024,
+			title: 'Gap Filler',
+			alwaysOnTop: true,
+			resizable: true,
+			frame: false,
+			transparent: true,
+		}
+	},
 ]

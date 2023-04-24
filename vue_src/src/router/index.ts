@@ -26,6 +26,11 @@ const routes: Array<RouteRecordRaw> = [
     name: 'voice-recognition',
     component: () => import('../views/VoiceRecognition.vue')
   },
+  {
+    path: '/gap-filler',
+    name: 'gap-filler',
+    component: () => import('../views/GapFiller.vue')
+  },
 ]
 
 const router = createRouter({

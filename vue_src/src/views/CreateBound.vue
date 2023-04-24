@@ -45,7 +45,7 @@ export default defineComponent({
       const width = Math.abs(this.p1.x - this.p2.x);
       const height = Math.abs(this.p1.y - this.p2.y);
 
-      if(width < 100 || height < 100) return;
+      if(width < 50 || height < 50) return;
 
       const bound = { width, height, x: this.p1.x, y: this.p1.y };
       window.electronAPI.setBound(this.type as any, bound);

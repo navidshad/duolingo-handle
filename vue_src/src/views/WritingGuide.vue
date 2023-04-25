@@ -27,7 +27,7 @@
       <div
         class="px-2 flex items-center justify-between h-8 bg-white border-b-2 overflow-x-auto"
       >
-        <p :style="{minWidth: '210px'}">
+        <p :style="{ minWidth: '210px' }">
           <span class="mr-10">Words: {{ wordCount }}</span>
           <span>Sentences: {{ sentenceCount }}</span>
         </p>
@@ -115,14 +115,14 @@ export default defineComponent({
       const score = "140";
 
       const promptTypes = <{ [key: string]: string }>{
-        writing: `write esay with with 100 words for this topic: \n${this.question}`,
+        writing: `write esay maximum 100 words for this topic: \n${this.question}`,
         speaking: `create an answere with short lines from this cue speaking card: \n${this.question}`,
       };
 
       const prompt = promptTypes[this.selectedType];
 
       this.answere = await window.electronAPI
-        .createCompletion(prompt)
+        .createCompletion(prompt, "text-curie-001")
         .then((text) => text.replaceAll("\n", ""))
         .then((text) => {
           if (this.selectedType == "writing") return text;

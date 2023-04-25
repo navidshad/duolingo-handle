@@ -22,8 +22,8 @@ export class TextService {
 		this.openai = new OpenAIApi(configuration);
 
 		// Register IPC Events
-		ipcMain.handle('text:validate-word', (event, word) =>  this.handelWordValidation(word))
-		ipcMain.handle('text:create-completion', (event, prompt) =>  this.createCompletion(prompt))
+		ipcMain.handle('text:validate-word', (event, word) => this.handelWordValidation(word))
+		ipcMain.handle('text:create-completion', (event, data) => this.createCompletion(data))
 	}
 
 	static getInstance() {
@@ -42,10 +42,10 @@ export class TextService {
 			})
 	}
 
-	private createCompletion(prompt: string) {
+	private createCompletion({ prompt = "", model = "text-davinci-003" }) {
 		return this.openai.createCompletion({
-			model: "text-davinci-003",
-			prompt: prompt,
+			model,
+			prompt,
 			temperature: 0.5,
 			max_tokens: 1024,
 		}).then(res => {

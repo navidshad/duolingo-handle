@@ -174,8 +174,8 @@ export default defineComponent({
       this.isFilling = true;
 
       const prompts = <any>{
-        latter: `fill empty positions where marked by "*". for example "wo***" is "world" :\n${this.detectedText}`,
-        word: `fill empty positions where marked by '*'. for example 'She * to school' is 'She went to school' :\n${this.detectedText}`,
+        latter: `fill empty positions where marked by "*". for example "this is a new wo***" is "this is a new world". then put corrected words inside a [] like "this is a new [world]" :\n${this.detectedText}`,
+        word: `fill empty positions where marked by '*'. for example 'She * to school' is 'She went to school'. then put corrected words inside a 'She [went] to school' :\n${this.detectedText}`,
       };
 
       const prompt = prompts[this.selectedType];

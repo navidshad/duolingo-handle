@@ -33,5 +33,5 @@ contextBridge.exposeInMainWorld('electronAPI', {
     translateText: (data: { phrase: string, lang: string }) => ipcRenderer.invoke('gcloud:translate-text', data),
 
     checkValidWord: (word: string) => ipcRenderer.invoke('text:validate-word', word),
-    createCompletion: (prompt: string) => ipcRenderer.invoke('text:create-completion', prompt),
+    createCompletion: (prompt: string, model: string) => ipcRenderer.invoke('text:create-completion', { prompt, model }),
 })

@@ -115,6 +115,7 @@ export default defineComponent({
 
       this.answere = await window.electronAPI
         .createCompletion(prompt)
+        .then((text) => text.replaceAll("\n", ""))
         .then((text) => {
           if (this.selectedType == "writing") return text;
           else {

@@ -46,7 +46,7 @@ export const windowsConfigs: WindowConfig[] = [
 	{
 		type: 'voice-recognition',
 		initConfig: {
-			height: 145,
+			height: 100,
 			width: 450,
 			title: 'Voice Recognition',
 			alwaysOnTop: true,

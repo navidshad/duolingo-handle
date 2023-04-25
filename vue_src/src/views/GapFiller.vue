@@ -26,6 +26,8 @@
 
         <v-btn size="x-small" icon="fa fa-eraser" @click="clear" />
       </template>
+
+      <v-select class="bg-white" label="Type" :items="types" v-model="selectedType" />
     </Frameheader>
     <section
       class="h-full w-full relative"
@@ -65,6 +67,8 @@ export default defineComponent({
       isFilling: false,
       isTranslating: false,
       showTranslate: false,
+      types: ["latter", "word"],
+      selectedType: "latter",
       detectedText: "",
       filledText: "",
     };
@@ -155,7 +159,14 @@ export default defineComponent({
 
     async fillGaps() {
       this.isFilling = true;
-      const prompt = `fill empty positions where marked by "*". for example "wo***" is "world" :\n${this.detectedText}`;
+
+      const prompts = <any>{
+        latter: `fill empty positions where marked by "*". for example "wo***" is "world" :\n${this.detectedText}`,
+        word: `fill empty positions where marked by '*'. for example 'She * to school' is 'She went to school' :\n${this.detectedText}`,
+      };
+
+      const prompt = prompts[this.selectedType];
+
       this.filledText = await window.electronAPI
         .createCompletion(prompt)
         .then((res) => res.replaceAll("\n", ""))

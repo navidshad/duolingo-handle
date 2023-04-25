@@ -1,7 +1,7 @@
 <template>
   <FrameBorder v-slot="{ locked }">
     <Frameheader ref="header" title="Gap Filler" :locked="locked">
-      <template #actions>
+      <template #right-actions>
         <v-btn
           size="x-small"
           icon="fa fa-user-secret"
@@ -27,20 +27,34 @@
         <v-btn size="x-small" icon="fa fa-eraser" @click="clear" />
       </template>
 
-      <v-select class="bg-white" label="Type" :items="types" v-model="selectedType" />
+      <template #actions>
+        <v-btn size="x-small" @click="addCharActivePositionOfContent('*')"
+          >Add *</v-btn
+        >
+
+        <SimpleSelect
+          class="ml-4"
+          label="Type"
+          :items="types"
+          v-model="selectedType"
+        />
+      </template>
     </Frameheader>
     <section
-      class="h-full w-full relative"
-      :class="{ 'bg-white': detectedText.length }"
+      class="h-full w-full"
+      :class="{ 'bg-white': detectedText }"
+      ref="content"
     >
-      <v-textarea
-        auto-grow
+      <textarea
+        class="w-full"
+        :style="{ height: contentHeight + 'px' }"
         v-model="detectedText"
         v-if="detectedText.length && !filledText.length"
       />
 
-      <v-textarea
-        auto-grow
+      <textarea
+        class="w-full"
+        :style="{ height: contentHeight + 'px' }"
         v-model="filledText"
         v-else-if="filledText.length"
       />
@@ -49,7 +63,6 @@
 </template>
 
 <script lang="ts">
-import { Rectangle } from "@/types/base";
 import { TextAnnotation } from "@/types/vision";
 import { defineComponent } from "vue";
 import { extractAnnotationsFromScreen } from "@/helpers/screen";
@@ -65,8 +78,8 @@ export default defineComponent({
     return {
       isPending: false,
       isFilling: false,
-      isTranslating: false,
-      showTranslate: false,
+      // isTranslating: false,
+      // showTranslate: false,
       types: ["latter", "word"],
       selectedType: "latter",
       detectedText: "",
@@ -173,27 +186,53 @@ export default defineComponent({
         .finally(() => (this.isFilling = false));
     },
 
-    toggleTranslate() {
-      this.showTranslate = !this.showTranslate;
+    addCharActivePositionOfContent(char = "*") {
+      // Get the textarea element
+      const textarea = (this.$refs.content as HTMLElement).querySelector(
+        "textarea"
+      ) as HTMLTextAreaElement;
 
-      if (this.showTranslate) {
-        // this.isTranslating = true;
-        // const tasks = [];
-        // for (const annotation of this.wordAnnotations) {
-        //   if (
-        //     !annotation.isValid ||
-        //     this.translated[annotation.word] != undefined
-        //   )
-        //     continue;
-        //   const task = window.electronAPI
-        //     .translateText({ phrase: annotation.word, lang: "fa" })
-        //     .then(([translated]) => {
-        //       this.translated[annotation.word] = translated;
-        //     });
-        //   tasks.push(task);
-        // }
-        // Promise.all(tasks).finally(() => (this.isTranslating = false));
-      }
+      // Get the cursor position
+      const cursorPosition = textarea.selectionStart || 0;
+
+      // Insert the character at the cursor position
+      const textBeforeCursor = textarea.value.substring(0, cursorPosition);
+      const textAfterCursor = textarea.value.substring(
+        cursorPosition,
+        textarea.value.length
+      );
+
+      this.detectedText = textBeforeCursor + char + textAfterCursor;
+
+      // Set the cursor position after the inserted character
+      textarea.focus();
+
+      setTimeout(() => {
+        textarea.selectionStart = cursorPosition + 1;
+        textarea.selectionEnd = cursorPosition + 1;
+      }, 100);
+    },
+
+    toggleTranslate() {
+      // this.showTranslate = !this.showTranslate;
+      // if (this.showTranslate) {
+      // this.isTranslating = true;
+      // const tasks = [];
+      // for (const annotation of this.wordAnnotations) {
+      //   if (
+      //     !annotation.isValid ||
+      //     this.translated[annotation.word] != undefined
+      //   )
+      //     continue;
+      //   const task = window.electronAPI
+      //     .translateText({ phrase: annotation.word, lang: "fa" })
+      //     .then(([translated]) => {
+      //       this.translated[annotation.word] = translated;
+      //     });
+      //   tasks.push(task);
+      // }
+      // Promise.all(tasks).finally(() => (this.isTranslating = false));
+      // }
     },
   },
 });

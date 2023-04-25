@@ -55,9 +55,13 @@ export class GoogleCloud {
 			// }
 		};
 
-		return this.visionClient.textDetection(request).then(([result]) => {
+		return this.visionClient.documentTextDetection(request).then(([result]) => {
 			return result.textAnnotations
 		})
+
+		// return this.visionClient.textDetection(request).then(([result]) => {
+		// 	return result.textAnnotations
+		// })
 	}
 
 	async detectTextFromAudio(base64: string) {

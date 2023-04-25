@@ -8,19 +8,21 @@
       }"
     />
     <section
-      class="flex justify-between items-center w-screen h-12 p-2 pr-3"
+      class="flex justify-between items-center w-screen h-12 p-2 pr-3 overflow-x-auto"
       :class="{
         'bg-orange-400': !locked,
         'bg-gray-400': locked,
       }"
     >
       <!-- Title -->
-      <div class="text-white font-bold select-none">
+      <div class="text-white font-bold select-none"
+      :style="{minWidth: '150px'}"
+      >
         <span>{{ title || "" }}</span>
       </div>
 
       <!-- Action Buttons -->
-      <div class="flex space-x-1">
+      <div class="flex justify-between items-center space-x-1">
         <v-btn
           class="mx-4"
           size="x-small"
@@ -32,7 +34,9 @@
         <slot name="actions"></slot>
       </div>
 
-      <div></div>
+      <div class="flex justify-between items-center space-x-1">
+        <slot name="right-actions"></slot>
+      </div>
     </section>
     
     <!-- Sub content -->

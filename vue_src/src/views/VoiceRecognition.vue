@@ -1,5 +1,5 @@
 <template>
-  <FrameBorder v-slot="{ locked }">
+  <FrameBorder v-slot="{ locked }" class="bg-white">
     <Frameheader ref="header" title="Voice Recognition" :locked="locked">
       <template #actions>
         <v-btn
@@ -44,7 +44,7 @@ import HeaderMixin from "@/mixins/header-hight.js";
 
 export default defineComponent({
   mixins: [HeaderMixin],
-  
+
   data() {
     //@ts-ignore
     let recorder: MediaRecorder = null;

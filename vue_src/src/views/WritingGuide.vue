@@ -1,13 +1,14 @@
 <template>
   <FrameBorder v-slot="{ locked }">
     <Frameheader ref="header" title="Writing Guide" :locked="locked">
-      <template #actions>
+      <template #right-actions>
         <v-btn
           size="x-small"
           icon="fa fa-user-secret"
           :loading="isPending"
           @click="detect"
         />
+
         <v-btn
           size="x-small"
           icon="fa fa-arrows-rotate"
@@ -15,20 +16,24 @@
           :loading="isGenerating"
           @click="generateAnswere"
         />
+
         <v-btn size="x-small" icon="fa fa-eraser" @click="clear" />
       </template>
 
+      <template #actions>
+        <SimpleSelect class="ml-4" :items="types" v-model="selectedType" />
+      </template>
+
       <div
-        class="px-5 flex items-center justify-between h-16 bg-white border-b-2"
+        class="px-2 flex items-center justify-between h-8 bg-white border-b-2 overflow-x-auto"
       >
-        <p>
+        <p :style="{minWidth: '210px'}">
           <span class="mr-10">Words: {{ wordCount }}</span>
           <span>Sentences: {{ sentenceCount }}</span>
         </p>
 
-        <div class="mt-6">
-          <v-select label="Type" :items="types" v-model="selectedType" />
-        </div>
+        <simple-range v-model="fontSize" label="Font" />
+        <simple-range v-model="lineHeight" label="Line" class="mr-4" />
       </div>
     </Frameheader>
 
@@ -37,6 +42,7 @@
       v-if="answere.length"
       class="w-full h-full flex flex-col"
       :class="{ 'bg-white': answere.length }"
+      :style="{ fontSize: fontSize + 'px', lineHeight: lineHeight + 'px' }"
     >
       <!-- Answere -->
       <textarea
@@ -62,6 +68,8 @@ export default defineComponent({
     return {
       isPending: false,
       isGenerating: false,
+      fontSize: 18,
+      lineHeight: 28,
       types: ["speaking", "writing"],
       selectedType: "writing",
       question: "",

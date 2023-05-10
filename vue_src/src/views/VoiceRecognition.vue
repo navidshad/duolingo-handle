@@ -59,6 +59,11 @@ export default defineComponent({
       translatedText: "",
     };
   },
+
+  mounted() {
+    this.startRecording();
+  },
+
   methods: {
     async startRecording() {
       this.text = "";

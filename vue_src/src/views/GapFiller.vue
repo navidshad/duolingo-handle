@@ -80,8 +80,8 @@ export default defineComponent({
       isFilling: false,
       // isTranslating: false,
       // showTranslate: false,
-      types: ["latter", "word"],
-      selectedType: "latter",
+      types: ["letter", "word"],
+      selectedType: "letter",
       detectedText: "",
       filledText: "",
     };
@@ -174,7 +174,7 @@ export default defineComponent({
       this.isFilling = true;
 
       const prompts = <any>{
-        latter: `fill empty positions where marked by "*". for example "this is a new wo***" is "this is a new world". then put corrected words inside a [] like "this is a new [world]" :\n${this.detectedText}`,
+        letter: `fill empty positions where marked by "*". for example "this is a new wo***" is "this is a new world". then put corrected words inside a [] like "this is a new [world]" :\n${this.detectedText}`,
         word: `fill empty positions where marked by '*'. for example 'She * to school' is 'She went to school'. then put corrected words inside a 'She [went] to school' :\n${this.detectedText}`,
       };
 

@@ -4,11 +4,15 @@
     @mousedown="onMouseDown"
     @mousemove="onMouseMove"
   >
-    <div class="absolute rounded border-2 border-yellow-600" :style="selectedAreaStyle" />
+    <div
+      class="absolute rounded border-2 border-yellow-600"
+      :style="selectedAreaStyle"
+    />
   </section>
 </template>
 
 <script lang="ts">
+import { WindowType } from "@/types/base";
 import { defineComponent } from "vue";
 
 type Coordinate = { x: number; y: number };
@@ -17,8 +21,15 @@ export default defineComponent({
   data() {
     const data = {
       isTrackingMouse: false,
-      mouseDownPos: <Coordinate>{ x: 0, y: 0 },
-      mouseUpPos: <Coordinate>{ x: 0, y: 0 },
+      mousePageP1: <Coordinate>{ x: 0, y: 0 },
+      mouseScreenP1: <Coordinate>{ x: 0, y: 0 },
+      mouseScreenP2: <Coordinate>{ x: 0, y: 0 },
+      selectedAreaStyle: <any>{
+        width: 0,
+        height: 0,
+        top: 0,
+        left: 0,
+      },
     };
 
     return data;
@@ -26,70 +37,63 @@ export default defineComponent({
 
   computed: {
     type() {
-      return this.$route.query["type"];
-    },
-
-    selectedAreaStyle() {
-      const width = Math.abs(this.mouseDownPos.x - this.mouseUpPos.x);
-      const height = Math.abs(this.mouseDownPos.y - this.mouseUpPos.y);
-      
-      // @ts-ignore
-      const top = this.mouseDownPos.y;
-      // @ts-ignore
-      const left = this.mouseDownPos.x;
-      
-      return {
-        width: width + "px",
-        height: height + "px",
-        top: top + "px",
-        left: left + "px",
-      };
+      return this.$route.query["type"] as WindowType;
     },
   },
 
   methods: {
     onMouseDown(event: MouseEvent) {
       this.isTrackingMouse = true;
-      this.mouseDownPos.x = event.screenX;
-      this.mouseDownPos.y = event.screenY;
+      this.mousePageP1.x = event.clientX;
+      this.mousePageP1.y = event.clientY;
+      this.mouseScreenP1.x = event.screenX;
+      this.mouseScreenP1.y = event.screenY;
 
       window.addEventListener("mouseup", this.onMouseUp);
     },
 
-    onMouseMove(event: MouseEvent) {
+    onMouseMove({ clientX, clientY }: MouseEvent) {
       if (!this.isTrackingMouse) return;
 
-      this.mouseUpPos.x = event.screenX;
-      this.mouseUpPos.y = event.screenY;
+      
+      const width = Math.abs(this.mousePageP1.x - clientX);
+      const height = Math.abs(this.mousePageP1.y - clientY);
+
+      this.selectedAreaStyle = {
+        width: width + "px",
+        height: height + "px",
+        top: this.mousePageP1.y + "px",
+        left: this.mousePageP1.x + "px",
+      };
     },
 
     onMouseUp(event: MouseEvent) {
       this.isTrackingMouse = false;
       window.removeEventListener("mouseup", this.onMouseUp);
 
-      this.mouseUpPos.x = event.screenX;
-      this.mouseUpPos.y = event.screenY;
+      this.mouseScreenP2.x = event.screenX;
+      this.mouseScreenP2.y = event.screenY;
 
       this.sendResizeSignal();
     },
 
     sendResizeSignal() {
-      const width = Math.abs(this.mouseDownPos.x - this.mouseUpPos.x);
-      const height = Math.abs(this.mouseDownPos.y - this.mouseUpPos.y);
+      const width = Math.abs(this.mouseScreenP1.x - this.mouseScreenP2.x);
+      const height = Math.abs(this.mouseScreenP1.y - this.mouseScreenP2.y);
 
       if (width < 50 || height < 50) return;
 
       const bound = {
         width,
         height,
-        x: this.mouseDownPos.x,
-        y: this.mouseDownPos.y,
+        x: this.mouseScreenP1.x,
+        y: this.mouseScreenP1.y,
         screenWidth: window.screen.availWidth,
         screenHeight: window.screen.availHeight,
       };
 
       window.electronAPI.setBound(this.type as any, bound);
-      // this.$router.push("/" + this.type);
+      this.$router.push("/" + this.type);
     },
   },
 });

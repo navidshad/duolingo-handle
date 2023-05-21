@@ -6,6 +6,4 @@ export interface Rectangle {
 	height: number,
 	x: number,
 	y: number,
-	screenWidth: number,
-	screenHeight: number,
 }

@@ -1,9 +1,11 @@
-export type ToolType = 'none' | 'words-detector' | 'writing-guide' | 'voice-recognition' | 'gap-filler'; 
+export type ToolType = 'none' | 'words-detector' | 'writing-guide' | 'voice-recognition' | 'gap-filler';
 export type WindowType = 'tools-box' | 'words-detector' | 'writing-guide' | 'voice-recognition' | 'gap-filler';
 
 export interface Rectangle {
-	width:number,
+	width: number,
 	height: number,
-	x:number,
-	y:number,
+	x: number,
+	y: number,
+	screenWidth: number,
+	screenHeight: number,
 }

@@ -1,8 +1,11 @@
 <template>
   <section
-    class="w-screen h-screen bg-gray-900 opacity-30"
+    class="w-screen h-screen bg-gray-900 opacity-30 relative"
     @mousedown="onMouseDown"
-  />
+    @mousemove="onMouseMove"
+  >
+    <div class="absolute rounded border-2 border-yellow-600" :style="selectedAreaStyle" />
+  </section>
 </template>
 
 <script lang="ts">
@@ -12,44 +15,81 @@ type Coordinate = { x: number; y: number };
 
 export default defineComponent({
   data() {
-    return {
-      p1: <Coordinate>{ x: 0, y: 0 },
-      p2: <Coordinate>{ x: 0, y: 0 },
+    const data = {
+      isTrackingMouse: false,
+      mouseDownPos: <Coordinate>{ x: 0, y: 0 },
+      mouseUpPos: <Coordinate>{ x: 0, y: 0 },
     };
+
+    return data;
   },
 
   computed: {
     type() {
       return this.$route.query["type"];
     },
+
+    selectedAreaStyle() {
+      const width = Math.abs(this.mouseDownPos.x - this.mouseUpPos.x);
+      const height = Math.abs(this.mouseDownPos.y - this.mouseUpPos.y);
+      
+      // @ts-ignore
+      const top = this.mouseDownPos.y;
+      // @ts-ignore
+      const left = this.mouseDownPos.x;
+      
+      return {
+        width: width + "px",
+        height: height + "px",
+        top: top + "px",
+        left: left + "px",
+      };
+    },
   },
 
   methods: {
     onMouseDown(event: MouseEvent) {
-      this.p1.x = event.clientX;
-      this.p1.y = event.clientY;
+      this.isTrackingMouse = true;
+      this.mouseDownPos.x = event.screenX;
+      this.mouseDownPos.y = event.screenY;
 
       window.addEventListener("mouseup", this.onMouseUp);
     },
 
+    onMouseMove(event: MouseEvent) {
+      if (!this.isTrackingMouse) return;
+
+      this.mouseUpPos.x = event.screenX;
+      this.mouseUpPos.y = event.screenY;
+    },
+
     onMouseUp(event: MouseEvent) {
+      this.isTrackingMouse = false;
       window.removeEventListener("mouseup", this.onMouseUp);
 
-      this.p2.x = event.clientX;
-      this.p2.y = event.clientY;
+      this.mouseUpPos.x = event.screenX;
+      this.mouseUpPos.y = event.screenY;
 
       this.sendResizeSignal();
     },
 
     sendResizeSignal() {
-      const width = Math.abs(this.p1.x - this.p2.x);
-      const height = Math.abs(this.p1.y - this.p2.y);
+      const width = Math.abs(this.mouseDownPos.x - this.mouseUpPos.x);
+      const height = Math.abs(this.mouseDownPos.y - this.mouseUpPos.y);
 
-      if(width < 50 || height < 50) return;
+      if (width < 50 || height < 50) return;
 
-      const bound = { width, height, x: this.p1.x, y: this.p1.y };
+      const bound = {
+        width,
+        height,
+        x: this.mouseDownPos.x,
+        y: this.mouseDownPos.y,
+        screenWidth: window.screen.availWidth,
+        screenHeight: window.screen.availHeight,
+      };
+
       window.electronAPI.setBound(this.type as any, bound);
-      this.$router.push("/" + this.type);
+      // this.$router.push("/" + this.type);
     },
   },
 });

@@ -11,7 +11,7 @@ export const windowsConfigs: WindowConfig[] = [
 		type: 'tools-box',
 		initConfig: {
 			height: 60,
-			width: 550,
+			width: 650,
 			title: 'Tools Box',
 			alwaysOnTop: true,
 			resizable: false,
@@ -21,8 +21,6 @@ export const windowsConfigs: WindowConfig[] = [
 		type: 'words-detector',
 		openWithCustomBound: true,
 		initConfig: {
-			height: 250,
-			width: 800,
 			title: 'Words Detector',
 			alwaysOnTop: true,
 			resizable: true,
@@ -34,8 +32,6 @@ export const windowsConfigs: WindowConfig[] = [
 		type: 'writing-guide',
 		openWithCustomBound: true,
 		initConfig: {
-			height: 640,
-			width: 1024,
 			title: 'Writing Guide',
 			alwaysOnTop: true,
 			resizable: true,
@@ -59,9 +55,18 @@ export const windowsConfigs: WindowConfig[] = [
 		type: 'gap-filler',
 		openWithCustomBound: true,
 		initConfig: {
-			height: 450,
-			width: 1024,
 			title: 'Gap Filler',
+			alwaysOnTop: true,
+			resizable: true,
+			frame: false,
+			transparent: true,
+		}
+	},
+	{
+		type: 'speaking',
+		openWithCustomBound: true,
+		initConfig: {
+			title: 'Speaking',
 			alwaysOnTop: true,
 			resizable: true,
 			frame: false,

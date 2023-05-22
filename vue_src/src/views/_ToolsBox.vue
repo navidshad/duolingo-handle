@@ -74,13 +74,18 @@ export default defineComponent({
         },
         {
           type: "voice-recognition",
-          icon: "fa fa-microphone-lines",
+          icon: "fa fa-headphones",
           title: "Voice",
         },
         {
           type: "gap-filler",
           icon: "fa fa-microphone-lines",
           title: "Gap",
+        },
+        {
+          type: "speaking",
+          icon: "fa fa-microphone-lines",
+          title: "Speaking",
         },
       ],
     } as {

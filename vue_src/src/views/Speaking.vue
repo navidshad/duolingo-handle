@@ -1,6 +1,6 @@
 <template>
   <FrameBorder v-slot="{ locked }">
-    <Frameheader ref="header" title="Writing Guide" :locked="locked">
+    <Frameheader ref="header" title="Speaking Guide" :locked="locked">
       <template #right-actions>
         <v-btn
           size="x-small"
@@ -20,6 +20,10 @@
         <v-btn size="x-small" icon="fa fa-eraser" @click="clear" />
       </template>
 
+      <template #actions>
+        <SimpleSelect class="ml-4" :items="types" v-model="selectedType" />
+      </template>
+
       <div
         class="px-2 flex items-center justify-between h-8 bg-white border-b-2 overflow-x-auto"
       >
@@ -31,8 +35,11 @@
         <v-btn
           size="x-small"
           :disabled="answere.length == 0"
-          @click="writeByKeybard"
-        > Write by keyboard</v-btn> 
+          @click="isSpeeking = !isSpeeking"
+        >
+          <span v-if="!isSpeeking">Start Speaking</span>
+          <span v-else>Stop</span>
+        </v-btn>
       </div>
     </Frameheader>
 
@@ -42,8 +49,11 @@
       class="w-full h-full flex flex-col px-2 pt-1"
       :class="{ 'bg-white': answere.length }"
     >
+      <SpeechPresenter v-if="isSpeeking" :text="answere" />
+
       <!-- Answere -->
       <textarea
+        v-else
         v-model="answere"
         :disabled="true"
         :style="{ height: contentHeight + 'px' }"
@@ -67,6 +77,9 @@ export default defineComponent({
     return {
       isPending: false,
       isGenerating: false,
+      isSpeeking: false,
+      types: ["speaking", "writing"],
+      selectedType: "speaking",
       question: "",
       answere: "",
     };
@@ -109,10 +122,15 @@ export default defineComponent({
       this.isGenerating = true;
       const score = "140";
 
-      const prompt = `write esay maximum 100 words for this topic: \n${this.question}`;
+      const promptTypes = <{ [key: string]: string }>{
+        writing: `write esay maximum 100 words for this topic: \n${this.question}`,
+        speaking: `I have to speek for 2.5 mins, give me a speech text about this: \n${this.question}`,
+      };
+
+      const prompt = promptTypes[this.selectedType];
 
       this.answere = await window.electronAPI
-        .createCompletion(prompt, "text-curie-001")
+        .createCompletion(prompt, "text-davinci-003")
         .then((text) => text.replaceAll("\n", ""));
 
       this.isGenerating = false;

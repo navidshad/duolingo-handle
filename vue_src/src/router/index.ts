@@ -4,12 +4,12 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/create-bound',
     name: 'create-bound',
-    component: () => import('../views/CreateBound.vue')
+    component: () => import('../views/_CreateBound.vue')
   },
   {
     path: '/tools-box',
     name: 'tools-box',
-    component: () => import('../views/ToolsBox.vue')
+    component: () => import('../views/_ToolsBox.vue')
   },
   {
     path: '/words-detector',
@@ -30,6 +30,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/gap-filler',
     name: 'gap-filler',
     component: () => import('../views/GapFiller.vue')
+  },
+  {
+    path: '/speaking',
+    name: 'speaking',
+    component: () => import('../views/Speaking.vue')
   },
 ]
 

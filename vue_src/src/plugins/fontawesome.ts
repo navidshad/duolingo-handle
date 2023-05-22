@@ -7,7 +7,8 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 /* import specific icons */
 import {
 	faEraser, faW, faUserSecret, faArrowsRotate, faLock, faLockOpen,
-	faMicrophoneLines, faStopCircle,
+	faMicrophoneLines, faHeadphones, 
+	faStopCircle,
 	faLanguage, faMagicWandSparkles,
 	faKeyboard,
 } from '@fortawesome/free-solid-svg-icons'
@@ -15,7 +16,8 @@ import {
 /* add icons to the library */
 library.add(
 	faEraser, faW, faUserSecret, faArrowsRotate, faLock, faLockOpen,
-	faMicrophoneLines, faStopCircle,
+	faMicrophoneLines, faHeadphones,
+	faStopCircle,
 	faLanguage, faMagicWandSparkles,
 	faKeyboard,
 )

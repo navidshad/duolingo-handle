@@ -5,6 +5,7 @@ import Frameheader from './layouts/FrameHeader.vue'
 import ButtonLanguage from './materials/ButtonLanguage.vue';
 import SimpleSelect from './materials/SimpleSelect.vue';
 import SimpleRange from './materials/Range.vue'
+import SpeechPresenter from './materials/SpeechPresenter.vue'
 
 export default {
 	FrameBorder,
@@ -12,4 +13,5 @@ export default {
 	ButtonLanguage,
 	SimpleSelect,
 	SimpleRange,
+	SpeechPresenter,
 }

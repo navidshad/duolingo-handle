@@ -34,4 +34,5 @@ contextBridge.exposeInMainWorld('electronAPI', {
 
     checkValidWord: (word: string) => ipcRenderer.invoke('text:validate-word', word),
     createCompletion: (prompt: string, model: string) => ipcRenderer.invoke('text:create-completion', { prompt, model }),
+    writeByKeyboard: (string: string) => ipcRenderer.invoke('text:write-by-keyboard', string),
 })

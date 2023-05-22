@@ -17,6 +17,13 @@
           @click="generateAnswere"
         />
 
+        <v-btn
+          size="x-small"
+          icon="fa fa-keyboard"
+          :disabled="answere.length == 0"
+          @click="writeByKeybard"
+        />
+
         <v-btn size="x-small" icon="fa fa-eraser" @click="clear" />
       </template>
 
@@ -60,6 +67,7 @@ import { defineComponent } from "vue";
 
 // @ts-ignore
 import HeaderMixin from "@/mixins/header-hight.js";
+import { sleep } from "@/helpers/promise";
 
 export default defineComponent({
   mixins: [HeaderMixin],
@@ -133,6 +141,11 @@ export default defineComponent({
 
       this.isGenerating = false;
     },
+
+    async writeByKeybard() {
+      await sleep(2000)
+      window.electronAPI.writeByKeyboard(this.answere);
+    }
   },
 });
 </script>

@@ -1,5 +1,7 @@
 import { ipcMain } from "electron";
 
+import robotjs from 'robotjs';
+
 import {
 	Configuration,
 	OpenAIApi
@@ -24,6 +26,7 @@ export class TextService {
 		// Register IPC Events
 		ipcMain.handle('text:validate-word', (event, word) => this.handelWordValidation(word))
 		ipcMain.handle('text:create-completion', (event, data) => this.createCompletion(data))
+		ipcMain.handle('text:write-by-keyboard', (event, data) => this.writeByKeyboard(data))
 	}
 
 	static getInstance() {
@@ -52,5 +55,9 @@ export class TextService {
 			const [c1] = res.data.choices
 			return c1.text;
 		})
+	}
+
+	private writeByKeyboard(string:string) {
+		robotjs.typeStringDelayed(string, 1000);
 	}
 }

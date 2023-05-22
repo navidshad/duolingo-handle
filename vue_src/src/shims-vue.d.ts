@@ -21,6 +21,7 @@ export default interface ElectronApi {
   translateText: (data: { phrase: string, lang: string }) => Promise<string[]>,
   checkValidWord: (word: string) => Promise<boolean>,
   createCompletion: (prompt: string, model?:string) => Promise<string>,
+  writeByKeyboard: (string:string) => void,
   getMediaSource: (sourceName?: string) => Promise<string>,
   setBound: (type: WindowType, bound: Rectangle) => void
 }

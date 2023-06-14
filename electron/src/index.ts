@@ -13,7 +13,7 @@ declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
 
 const googleCloudService = new GoogleCloud(process.env.GOOGLE_CLOUD_API_KEY);
 const textService = new TextService();
-const windowsManagerService = new WindowsManagerService(MAIN_WINDOW_WEBPACK_ENTRY, MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY);
+const windowsManagerService = new WindowsManagerService('http://localhost:8080', MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY);
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {

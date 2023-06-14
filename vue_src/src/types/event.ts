@@ -1,6 +1,6 @@
 import { ToolType } from "./base";
 
-export type EventType = 'open-tool' | 'close-tools' | 'set-ignore-mouse-event';
+export type EventType = 'system-info' | 'open-tool' | 'close-tools' | 'set-ignore-mouse-event';
 
 export interface BaseEvent {
 	type: EventType,

@@ -25,8 +25,8 @@ jobs:
 
       # Build the Docker image
       - name: Build the Docker image
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/app-ui:${{ github.sha }} -f app-ui.Dockerfile .
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/duolingo-handle:${{ github.sha }} -f app-ui.Dockerfile .
       
       # Push the Docker image to Docker Hub
       - name: Push the Docker image to Docker Hub
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/app-ui:${{ github.sha }}
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/duolingo-handle:${{ github.sha }}

@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "vue_src"
+		},
+		{
+			"path": "electron"
+		},
+		{
+			"path": "."
+		}
+	],
+	"settings": {}
+}

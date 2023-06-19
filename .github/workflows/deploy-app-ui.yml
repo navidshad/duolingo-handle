@@ -45,7 +45,7 @@ jobs:
           script: |
             export UI_CONTAINER=duolingo-handle-ui
             export UI_IMAGE_TAG=current-ui
-            docker login -u ${{ secrets.DOCKER_USERNAME }} -p "${{ secrets.DOCKER_PASSWORD }}" && docker pull ${{ secrets.DOCKER_USERNAME }}/duolingo-handle:${{ github.sha }}
+            docker login -u ${{ secrets.DOCKER_USERNAME }} -p '${{ secrets.DOCKER_PASSWORD }}' && docker pull ${{ secrets.DOCKER_USERNAME }}/duolingo-handle:${{ github.sha }}
             docker stop $UI_CONTAINER || true
             docker rm $UI_CONTAINER || true
             docker rmi ${{ secrets.DOCKER_USERNAME }}/duolingo-handle:$UI_IMAGE_TAG || true

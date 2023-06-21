@@ -1,2 +1,3 @@
 .DS_Store
 electron/vision_test.js
+electron/.env.production

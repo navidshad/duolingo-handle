@@ -65,7 +65,7 @@
 <script lang="ts">
 import { TextAnnotation } from "@/types/vision";
 import { defineComponent } from "vue";
-import { extractAnnotationsFromScreen } from "@/helpers/screen";
+import { extractAnnotationsFromScreen, extractTextFromScreen } from "@/helpers/screen";
 
 // @ts-ignore
 import HeaderMixin from "@/mixins/header-hight.js";
@@ -100,93 +100,44 @@ export default defineComponent({
       // @ts-ignore
       let headerHight = (this.$refs.header.$el as HTMLDivElement).clientHeight;
 
-      extractAnnotationsFromScreen({
+      extractTextFromScreen({
         y: headerHight,
       })
-        .then(this.onTextDetected)
+        .then((detectedText) => (this.detectedText = detectedText))
+        .then(() => {
+          // remove spaces before question marks, for example " ?" is "?".
+          this.detectedText = this.detectedText.replaceAll(/ \?/g, "?");
+        })
         .finally(() => {
           this.isPending = false;
         });
     },
-
-    onTextDetected(textAnnotations: TextAnnotation[]) {
-      textAnnotations.shift();
-      console.log(textAnnotations);
-
-      function sortPolygons(polygons: TextAnnotation[]) {
-        // Sort the polygons by their position within the bounding box
-        return polygons.sort((poly1, poly2) => {
-          const y1min = Math.min(
-            ...poly1.boundingPoly.vertices.map((point) => point.y)
-          );
-          const y2min = Math.min(
-            ...poly2.boundingPoly.vertices.map((point) => point.y)
-          );
-          const y1max = Math.max(
-            ...poly1.boundingPoly.vertices.map((point) => point.y)
-          );
-          const y2max = Math.max(
-            ...poly2.boundingPoly.vertices.map((point) => point.y)
-          );
-
-          if (y1max < y2min) {
-            // poly1 is above poly2
-            return -1;
-          } else if (y2max < y1min) {
-            // poly1 is below poly2
-            return 1;
-          } else {
-            // poly1 and poly2 overlap vertically
-            const x1min = Math.min(
-              ...poly1.boundingPoly.vertices.map((point) => point.x)
-            );
-            const x2min = Math.min(
-              ...poly2.boundingPoly.vertices.map((point) => point.x)
-            );
-            const x1max = Math.max(
-              ...poly1.boundingPoly.vertices.map((point) => point.x)
-            );
-            const x2max = Math.max(
-              ...poly2.boundingPoly.vertices.map((point) => point.x)
-            );
-
-            if (x1max < x2min) {
-              // poly1 is to the left of poly2
-              return -1;
-            } else if (x2max < x1min) {
-              // poly1 is to the right of poly2
-              return 1;
-            } else {
-              // poly1 and poly2 overlap horizontally
-              return 0;
-            }
-          }
-        });
-      }
-
-      this.detectedText = sortPolygons(textAnnotations)
-        .map((an) => an.description)
-        .join(" ")
-        .trim();
-    },
-
+    
     async fillGaps() {
       this.isFilling = true;
 
-      const prompts = <any>{
-        letter: `fill empty positions where marked by "*". for example "this is a new wo***" is "this is a new world". then put corrected words inside a [] like "this is a new [world]" :\n${this.detectedText}`,
-        word: `fill empty positions where marked by '*'. for example 'She * to school' is 'She went to school'. then put corrected words inside a 'She [went] to school' :\n${this.detectedText}`,
+      const systemCharacerestics = <any>{
+        letter: `fill empty positions where marked by "?". for example "this is a new wo???" is "this is a new world". then put corrected words inside a [] like "this is a new [world]."`,
+        word: `fill empty positions where marked by '?'. for example 'She ? to school' is 'She went to school'. then put corrected words inside a 'She [went] to school.'`,
       };
 
-      const prompt = prompts[this.selectedType];
+      const systemCharecter = systemCharacerestics[this.selectedType];
 
       this.filledText = await window.electronAPI
-        .createCompletion(prompt)
-        .then((res) => res.replaceAll("\n", ""))
+        .createChatCompletion([
+          {
+            role: "system",
+            content: systemCharecter,
+          },
+          {
+            role: "user",
+            content: this.detectedText,
+          },
+        ])
         .finally(() => (this.isFilling = false));
     },
 
-    addCharActivePositionOfContent(char = "*") {
+    addCharActivePositionOfContent(char = "?") {
       // Get the textarea element
       const textarea = (this.$refs.content as HTMLElement).querySelector(
         "textarea"

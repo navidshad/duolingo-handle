@@ -26,6 +26,7 @@ export class TextService {
 		// Register IPC Events
 		ipcMain.handle('text:validate-word', (event, word) => this.handelWordValidation(word))
 		ipcMain.handle('text:create-completion', (event, data) => this.createCompletion(data))
+		ipcMain.handle('text:create-chat-completion', (event, data) => this.createChatCompletion(data))
 		ipcMain.handle('text:write-by-keyboard', (event, data) => this.writeByKeyboard(data))
 	}
 
@@ -57,7 +58,18 @@ export class TextService {
 		})
 	}
 
-	private writeByKeyboard(string:string) {
+	// https://platform.openai.com/docs/guides/gpt/function-calling
+	private createChatCompletion({ messages = <any>[], model = "gpt-3.5-turbo-0613" }) {
+		return this.openai.createChatCompletion({
+			model,
+			messages: messages,
+		}).then(res => {
+			const [c1] = res.data.choices
+			return c1.message.content;
+		})
+	}
+
+	private writeByKeyboard(string: string) {
 		robotjs.typeStringDelayed(string, 1000);
 	}
 }

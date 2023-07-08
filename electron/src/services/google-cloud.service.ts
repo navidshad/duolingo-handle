@@ -24,6 +24,7 @@ export class GoogleCloud {
 		this.visionClient = new ImageAnnotatorClient({ sslCreds });
 		this.speechClient = new SpeechClient({ sslCreds });
 
+		ipcMain.handle('gcloud:detect-text-positions', (event, data) => this.detectTextPositionsFromImage(data))
 		ipcMain.handle('gcloud:detect-text', (event, data) => this.detectTextFromImage(data))
 		ipcMain.handle('gcloud:detect-text-from-audio', (event, data) => this.detectTextFromAudio(data))
 		ipcMain.handle('gcloud:translate-text', (event, data) => this.translateText(data))
@@ -45,7 +46,7 @@ export class GoogleCloud {
 		return credentials;
 	}
 
-	detectTextFromImage(base64Content: string) {
+	detectTextPositionsFromImage(base64Content: string) {
 		const request = {
 			image: {
 				content: Buffer.from(base64Content, 'base64')
@@ -58,10 +59,21 @@ export class GoogleCloud {
 		return this.visionClient.documentTextDetection(request).then(([result]) => {
 			return result.textAnnotations
 		})
+	}
 
-		// return this.visionClient.textDetection(request).then(([result]) => {
-		// 	return result.textAnnotations
-		// })
+	detectTextFromImage(base64Content: string) {
+		const request = {
+			image: {
+				content: Buffer.from(base64Content, 'base64')
+			},
+			// "imageContext": {
+			// 	"languageHints": ["en-t-i0-und"]
+			// }
+		};
+
+		return this.visionClient.textDetection(request).then(([result]) => {
+			return result.fullTextAnnotation?.text || ''
+		})
 	}
 
 	async detectTextFromAudio(base64: string) {

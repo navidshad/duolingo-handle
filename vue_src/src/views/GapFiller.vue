@@ -26,19 +26,6 @@
 
         <v-btn size="x-small" icon="fa fa-eraser" @click="clear" />
       </template>
-
-      <template #actions>
-        <v-btn size="x-small" @click="addCharActivePositionOfContent('*')"
-          >Add *</v-btn
-        >
-
-        <SimpleSelect
-          class="ml-4"
-          label="Type"
-          :items="types"
-          v-model="selectedType"
-        />
-      </template>
     </Frameheader>
     <section
       class="h-full w-full"
@@ -81,7 +68,6 @@ export default defineComponent({
       // isTranslating: false,
       // showTranslate: false,
       types: ["letter", "word"],
-      selectedType: "letter",
       detectedText: "",
       filledText: "",
     };
@@ -116,12 +102,11 @@ export default defineComponent({
     async fillGaps() {
       this.isFilling = true;
 
-      const systemCharacerestics = <any>{
-        letter: `fill empty positions where marked by "?". for example "this is a new wo???" is "this is a new world". then put corrected words inside a [] like "this is a new [world]."`,
-        word: `fill empty positions where marked by '?'. for example 'She ? to school' is 'She went to school'. then put corrected words inside a 'She [went] to school.'`,
-      };
-
-      const systemCharecter = systemCharacerestics[this.selectedType];
+      const systemCharecter = `
+        fill empty positions where marked by "?". 
+        for example "this is a new wo???" is "this is a new world". 
+        then put corrected words inside a [] like "this is a new [world]."
+      `;
 
       this.filledText = await window.electronAPI
         .createChatCompletion([

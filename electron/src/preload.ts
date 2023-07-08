@@ -6,7 +6,11 @@ import { BaseEvent } from "../../vue_src/src/types/event"
 import { captureScreenShotBySourceID } from '../../vue_src/src/helpers/screen'
 import { WindowType } from "./services/windows.service"
 
-const { contextBridge, ipcRenderer } = require('electron')
+import { contextBridge, ipcRenderer } from 'electron'
+
+// remove all ports 8080 in bash
+
+``
 
 contextBridge.exposeInMainWorld('electronAPI', {
     sendMessage: (data: BaseEvent) => ipcRenderer.send('message', data),

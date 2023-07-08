@@ -21,18 +21,41 @@
       </template>
 
       <div
-        class="px-2 flex items-center justify-between h-8 bg-white border-b-2 overflow-x-auto"
+        class="py-2 px-2 flex flex-col items-center justify-between bg-white border-b-2 overflow-x-auto"
       >
-        <p :style="{ minWidth: '210px' }">
-          <span class="mr-10">Words: {{ wordCount }}</span>
-          <span>Sentences: {{ sentenceCount }}</span>
-        </p>
+        <div class="w-full flex items-center justify-between">
+          <p :style="{ minWidth: '210px' }">
+            <span class="mr-10">Words: {{ wordCount }}</span>
+            <span>Sentences: {{ sentenceCount }}</span>
+          </p>
 
-        <v-btn
-          size="x-small"
-          :disabled="answere.length == 0"
-          @click="writeByKeybard"
-        > Write by keyboard</v-btn> 
+          <div class="flex space-x-3">
+            <v-btn
+              size="x-small"
+              :disabled="answere.length == 0"
+              @click="writeByKeybard"
+            >
+              Write by keyboard</v-btn
+            >
+
+            <v-btn size="x-small" @click="settings.active = !settings.active">
+              <font-awesome-icon icon="fa-solid fa-gear" />
+            </v-btn>
+          </div>
+        </div>
+
+        <div
+          class="w-full mt-2 flex items-center space-x-5"
+          v-if="settings.active"
+        >
+          <div class="w-20">
+            <v-text-field label="Score" v-model="settings.score" />
+          </div>
+
+          <div class="w-28">
+            <v-text-field label="Words" v-model="settings.maximumWords" />
+          </div>
+        </div>
       </div>
     </Frameheader>
 
@@ -69,6 +92,11 @@ export default defineComponent({
       isGenerating: false,
       question: "",
       answere: "",
+      settings: {
+        active: false,
+        score: "110",
+        maximumWords: "100",
+      },
     };
   },
 
@@ -107,13 +135,22 @@ export default defineComponent({
 
     async generateAnswere() {
       this.isGenerating = true;
-      const score = "140";
 
-      const prompt = `write esay maximum 100 words for this topic: \n${this.question}`;
+      const sytemCharacter = `
+        you should write maximum ${this.settings.maximumWords} words for this topic. 
+        consider duolingo score of ${this.settings.score}.
+      `;
 
-      this.answere = await window.electronAPI
-        .createCompletion(prompt, "text-curie-001")
-        .then((text) => text.replaceAll("\n", ""));
+      this.answere = await window.electronAPI.createChatCompletion([
+        {
+          role: "system",
+          content: sytemCharacter,
+        },
+        {
+          role: "user",
+          content: this.question,
+        },
+      ]);
 
       this.isGenerating = false;
     },

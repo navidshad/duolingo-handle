@@ -5,12 +5,14 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 /* import specific icons */
+// Seach here: https://fontawesome.com/icons
 import {
 	faEraser, faW, faUserSecret, faArrowsRotate, faLock, faLockOpen,
 	faMicrophoneLines, faHeadphones, 
 	faStopCircle,
 	faLanguage, faMagicWandSparkles,
-	faKeyboard,
+	faKeyboard, faGear,
+	
 } from '@fortawesome/free-solid-svg-icons'
 
 /* add icons to the library */
@@ -19,7 +21,7 @@ library.add(
 	faMicrophoneLines, faHeadphones,
 	faStopCircle,
 	faLanguage, faMagicWandSparkles,
-	faKeyboard,
+	faKeyboard, faGear,
 )
 
 export default {

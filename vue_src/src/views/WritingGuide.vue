@@ -75,7 +75,7 @@
   </FrameBorder>
 </template>
   
-  <script lang="ts">
+<script lang="ts">
 import { extractAnnotationsFromScreen } from "@/helpers/screen";
 import { defineComponent } from "vue";
 

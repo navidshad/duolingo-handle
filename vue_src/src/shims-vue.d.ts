@@ -15,8 +15,10 @@ declare module '*.vue' {
  */
 export default interface ElectronApi {
   sendMessage: (data: BaseEvent) => void,
+  sendMessageByChannel: (channelId: string, data: any) => void,
   onMessage: (callback: (event: any, data: BaseEvent) => void) => void,
-  takeScreenShot: (coordinateBoundOffset?: { x?: number, y?: number }) => string,
+  onMessageByChannel: (channelId: string, callback: (event: any, data: any) => void) => void,
+  takeScreenShot: (options: { coordinateBoundOffset?: { x?: number, y?: number }, customBound?: Rectangle }) => string,
   detectTextPositionsFromImage: (base64: string) => Promise<TextAnnotation[]>,
   detectTextFromImage: (base64: string) => Promise<string>,
   detectTextFromAudio: (base64: string) => Promise<string>,

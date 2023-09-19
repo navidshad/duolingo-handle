@@ -58,8 +58,8 @@ export class TextService {
 		})
 	}
 
-	// https://platform.openai.com/docs/guides/gpt/function-calling
-	private createChatCompletion({ messages = <any>[], model = "gpt-3.5-turbo-0613" }) {
+	// https://platform.openai.com/docs/guides/gpt/chat-completions-api
+	private createChatCompletion({ messages = <any>[], model = "gpt-4" }) {
 		return this.openai.createChatCompletion({
 			model,
 			messages: messages,

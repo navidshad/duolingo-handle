@@ -50,13 +50,11 @@
 </template>
 
 <script lang="ts">
-import { TextAnnotation } from "@/types/vision";
 import { defineComponent } from "vue";
-import { extractAnnotationsFromScreen, extractTextFromScreen } from "@/helpers/screen";
+import { extractTextFromScreen } from "@/helpers/screen";
 
 // @ts-ignore
 import HeaderMixin from "@/mixins/header-hight.js";
-import { fas } from "@fortawesome/free-solid-svg-icons";
 
 export default defineComponent({
   mixins: [HeaderMixin],

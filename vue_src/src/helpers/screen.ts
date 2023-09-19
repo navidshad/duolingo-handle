@@ -44,7 +44,7 @@ export const extractAnnotationsFromScreen = async (coordinateBoundOffset?: {
 	x?: number | undefined;
 	y?: number | undefined;
 } | undefined) => {
-	const base64 = await window.electronAPI.takeScreenShot(coordinateBoundOffset);
+	const base64 = await window.electronAPI.takeScreenShot({ coordinateBoundOffset });
 	return window.electronAPI.detectTextPositionsFromImage(base64);
 }
 
@@ -52,6 +52,11 @@ export const extractTextFromScreen = async (coordinateBoundOffset?: {
 	x?: number | undefined;
 	y?: number | undefined;
 } | undefined) => {
-	const base64 = await window.electronAPI.takeScreenShot(coordinateBoundOffset);
+	const base64 = await window.electronAPI.takeScreenShot({ coordinateBoundOffset });
+	return window.electronAPI.detectTextFromImage(base64);
+}
+
+export const extractTextWithCustomBound = async (bound: Rectangle) => {
+	const base64 = await window.electronAPI.takeScreenShot({ customBound: bound });
 	return window.electronAPI.detectTextFromImage(base64);
 }

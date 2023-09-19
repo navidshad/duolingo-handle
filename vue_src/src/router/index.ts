@@ -32,15 +32,32 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('../views/GapFiller.vue')
   },
   {
+    path: '/conversation',
+    name: 'conversation',
+    component: () => import('../views/Conversation.vue')
+  },
+  {
     path: '/speaking',
     name: 'speaking',
     component: () => import('../views/Speaking.vue')
   },
 ]
 
+const subtoolsRoutes: RouteRecordRaw = {
+  path: '/sub',
+  name: 'subtool',
+  children: [
+    {
+      path: 'capture-text',
+      name: 'capture-text',
+      component: () => import('../views/subtools/CaptureText.vue')
+    }
+  ]
+}
+
 const router = createRouter({
   history: createWebHashHistory(process.env.BASE_URL),
-  routes
+  routes: [...routes, subtoolsRoutes]
 })
 
 export default router

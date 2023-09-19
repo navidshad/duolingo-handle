@@ -18,8 +18,6 @@ app.use(vuetify);
 
 app.mount('#app')
 
-console.log(location.href.toString());
-
 window.electronAPI.onMessage((event: any, data: any) => {
 	if (data.type !== 'system-info') return
 	console.info("System Info");

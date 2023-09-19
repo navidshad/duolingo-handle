@@ -2,32 +2,52 @@
 // https://www.electronjs.org/docs/latest/tutorial/process-model#preload-scripts
 
 import { IpcRendererEvent } from "electron"
-import { BaseEvent } from "../../vue_src/src/types/event"
+import { BaseEvent, RouteMessageEvent } from "../../vue_src/src/types/event"
 import { captureScreenShotBySourceID } from '../../vue_src/src/helpers/screen'
 import { WindowType } from "./services/windows.service"
 
 import { contextBridge, ipcRenderer } from 'electron'
 
-// remove all ports 8080 in bash
-
-``
-
 contextBridge.exposeInMainWorld('electronAPI', {
+    // Send message to main process
+    //
     sendMessage: (data: BaseEvent) => ipcRenderer.send('message', data),
+    sendMessageByChannel: (channelId: string, data: any) => {
+        const event = new RouteMessageEvent({ channelId, data });
+        ipcRenderer.send('message', event);
+    },
+
+    // Receive message from main process
     onMessage: (callback: (event: IpcRendererEvent, data: BaseEvent) => void) => ipcRenderer.on('message', callback),
+    onMessageByChannel: (channelId: string, callback: (data: any) => void) => {
+        ipcRenderer.on(channelId, (event: IpcRendererEvent, data: any) => callback(data))
+    },
 
     getMediaSource: (name = 'Entire screen') => ipcRenderer.invoke('window:get-media-source', name),
     setBound: (type: WindowType, bound: Electron.Rectangle) => ipcRenderer.invoke('window:set-window-bound', { type, bound }),
     getBound: () => ipcRenderer.invoke('window:get-window-bound'),
 
-    async takeScreenShot(coordinateBoundOffset?: { x?: number, y?: number }) {
+    async takeScreenShot({ coordinateBoundOffset, customBound }: {
+        // To capture screenshot from window frame.
+        coordinateBoundOffset?: { x?: number, y?: number }
+        // To capture screenshot with custom bound, regardless of window frame.
+        customBound?: Electron.Rectangle
+    }) {
         let sourceId = await ipcRenderer.invoke('window:get-media-source');
-        let bound = await ipcRenderer.invoke('window:get-window-bound') as Electron.Rectangle;
+        let bound;
 
-        bound.x += coordinateBoundOffset?.x || 0;
-        bound.y += coordinateBoundOffset?.y || 0;
-        bound.height -= coordinateBoundOffset?.y || 0;
-        bound.width -= coordinateBoundOffset?.x || 0;
+        if (!customBound) {
+            bound = await ipcRenderer.invoke('window:get-window-bound') as Electron.Rectangle;
+
+            bound.x += coordinateBoundOffset?.x || 0;
+            bound.y += coordinateBoundOffset?.y || 0;
+            bound.height -= coordinateBoundOffset?.y || 0;
+            bound.width -= coordinateBoundOffset?.x || 0;
+        }
+
+        else if (customBound) {
+            bound = customBound;
+        }
 
         return captureScreenShotBySourceID(sourceId, bound);
     },

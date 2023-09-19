@@ -1,6 +1,6 @@
 import { BrowserWindow, desktopCapturer, ipcMain, screen } from 'electron';
 import { WindowType } from '../../../vue_src/src/types/base';
-import { BaseEvent } from '../../../vue_src/src/types/event';
+import { BaseEvent, OpenSubtoolEvent } from '../../../vue_src/src/types/event';
 import { windowsConfigs, WindowConfig } from '../windows';
 
 export { WindowType } from '../../../vue_src/src/types/base';
@@ -45,7 +45,7 @@ export class WindowsManagerService {
 		const webContents = event.sender
 		const win = BrowserWindow.fromWebContents(webContents)
 
-		
+
 		win.setBounds(bound);
 	}
 
@@ -89,7 +89,47 @@ export class WindowsManagerService {
 		}
 	};
 
-	closeWindow(type: WindowType) {
+	createSubtoolWindow(subtool: OpenSubtoolEvent) {
+		const { initConfig, screenSize } = this.getWindowConfig(subtool.subtoolType);
+
+		// Setup preload script
+		//
+		if (!initConfig.webPreferences) {
+			initConfig.webPreferences = {
+				preload: this.defaultPreloadPath,
+			}
+		} else {
+			initConfig.webPreferences.preload = this.defaultPreloadPath
+		}
+
+		// Create the browser window.
+		const window = new BrowserWindow(initConfig);
+
+		const params = new URLSearchParams();
+		params.append('channelId', subtool.channelId);
+		params.append('props', subtool.props);
+
+		// And load the index.html of the app.
+		window.loadURL(this.entryPagePath + `/#/sub/${subtool.subtoolType}?${params.toString()}`);
+
+		if (screenSize) {
+			const { width, height } = screen.getPrimaryDisplay().workArea
+			window.setBounds({ width, height, x: 0, y: 0 });
+		}
+
+		// Open the DevTools.
+		// window.webContents.openDevTools();
+
+		const hashKey = `${subtool.channelId}`;
+
+		if (!this.windows[hashKey]) {
+			this.windows[hashKey] = window;
+		} else {
+			this.windows[hashKey] = window;
+		}
+	}
+
+	closeWindow(type: string) {
 		if (!this.windows[type]) return;
 
 		this.windows[type].destroy();
@@ -104,11 +144,13 @@ export class WindowsManagerService {
 		win.webContents.send('message', data)
 	}
 
-	onMessage(callback: (data: BaseEvent) => void) {
-		ipcMain.on('message', (event, data: BaseEvent) => {
-			// const webContents = event.sender
-			// const win = BrowserWindow.fromWebContents(webContents)
-			callback(data);
+	sendGlobalMessage(channelId: string, data: any) {
+		BrowserWindow.getAllWindows().forEach(win => {
+			win.webContents.send(channelId, data)
 		})
+	}
+
+	onMessage(callback: (data: BaseEvent) => void) {
+		ipcMain.on('message', (event, data: BaseEvent) => callback(data))
 	}
 }

@@ -1,6 +1,6 @@
 <template>
   <section class="flex justify-center items-center h-screen">
-    <div class="flex justify-center items-center items-start space-x-2">
+    <div class="flex justify-center items-center space-x-2">
       <v-btn
         variant="flat"
         size="x-small"
@@ -83,6 +83,11 @@ export default defineComponent({
           title: "Gap",
         },
         {
+          type: "conversation",
+          icon: "fa fa-microphone-lines",
+          title: "Conversation",
+        },
+        {
           type: "speaking",
           icon: "fa fa-microphone-lines",
           title: "Speaking",
@@ -107,12 +112,13 @@ export default defineComponent({
       this.unlockAll();
 
       if (this.activeTool == "none") {
-        event = { type: "close-tools" };
-      } else {
         event = {
+          type: "close-tools",
+        };
+      } else {
+        event = new RoleEvent({
           toolType: this.activeTool,
-          type: "open-tool",
-        } as RoleEvent;
+        });
       }
 
       window.electronAPI.sendMessage(event);

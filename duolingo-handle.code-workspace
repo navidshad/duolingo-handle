@@ -1,14 +1,17 @@
 {
-	"folders": [
-		{
-			"path": "vue_src"
-		},
-		{
-			"path": "electron"
-		},
-		{
-			"path": "."
-		}
-	],
-	"settings": {}
+  "folders": [
+    {
+      "path": "vue_src"
+    },
+    {
+      "path": "electron"
+    },
+    {
+      "path": "."
+    },
+    {
+      "path": "server"
+    }
+  ],
+  "settings": {}
 }

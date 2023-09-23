@@ -55,6 +55,7 @@ import { extractTextFromScreen } from "@/helpers/screen";
 
 // @ts-ignore
 import HeaderMixin from "@/mixins/header-hight.js";
+import { createChatCompletion } from "@/services/ai";
 
 export default defineComponent({
   mixins: [HeaderMixin],
@@ -96,7 +97,7 @@ export default defineComponent({
           this.isPending = false;
         });
     },
-    
+
     async fillGaps() {
       this.isFilling = true;
 
@@ -106,8 +107,8 @@ export default defineComponent({
         then put corrected words inside a [] like "this is a new [world]."
       `;
 
-      this.filledText = await window.electronAPI
-        .createChatCompletion([
+      this.filledText = await createChatCompletion({
+        message: [
           {
             role: "system",
             content: systemCharecter,
@@ -116,8 +117,8 @@ export default defineComponent({
             role: "user",
             content: this.detectedText,
           },
-        ])
-        .finally(() => (this.isFilling = false));
+        ],
+      }).finally(() => (this.isFilling = false));
     },
 
     addCharActivePositionOfContent(char = "?") {

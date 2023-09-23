@@ -78,6 +78,7 @@ import ChatCardChoice from "@/components/partials/ChatCardChoice.vue";
 import { computed } from "vue";
 import { DialogType } from "@/types/conversation";
 import { CompletionMessage } from "@/types/gpt";
+import { createChatCompletion } from "@/services/ai";
 
 export default defineComponent({
   components: { ChatCard, ChatCardVoice, ChatCardChoice },
@@ -173,8 +174,7 @@ export default defineComponent({
         content: `Summarize the conversation in a paragraph.`,
       });
 
-      window.electronAPI
-        .createChatCompletion(messages)
+      createChatCompletion({ message: messages })
         .then((answer) => {
           this.summary = answer;
         })

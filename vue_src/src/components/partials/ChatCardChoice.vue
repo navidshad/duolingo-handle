@@ -42,6 +42,7 @@
 </template>
 
 <script lang="ts">
+import { createChatCompletion } from "@/services/ai";
 import { DialogType } from "@/types/conversation";
 import { CompletionMessage } from "@/types/gpt";
 import { inject } from "vue";
@@ -138,8 +139,7 @@ export default defineComponent({
         `,
       });
 
-      window.electronAPI
-        .createChatCompletion(messages)
+      createChatCompletion({ message: messages })
         .then((answer) => {
           this.answer = answer;
           this.$emit("onAnswer", answer);

@@ -1,5 +1,7 @@
 const axios = require("axios");
 
+module.exports.httpsClient = axios.default;
+
 module.exports.postData = (url = "", body = {}, headers = {}) => {
   return axios.default
     .post(url, body, {
@@ -9,14 +11,15 @@ module.exports.postData = (url = "", body = {}, headers = {}) => {
       },
     })
     .then((response) => response.data);
+};
 
-  // return fetch(url, {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //       ...headers
-  //     },
-  //     body: JSON.stringify(body)
-  //   })
-  //   .then(response => response.json())
+module.exports.getData = (url = "", headers = {}) => {
+  return axios.default
+    .get(url, {
+      headers: {
+        "Content-Type": "application/json",
+        ...headers,
+      },
+    })
+    .then((response) => response.data);
 };

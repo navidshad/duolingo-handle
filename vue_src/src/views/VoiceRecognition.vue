@@ -30,6 +30,7 @@ import { defineComponent } from "vue";
 
 // @ts-ignore
 import HeaderMixin from "@/mixins/header-hight.js";
+import { translateText } from "@/services/ai";
 
 export default defineComponent({
   mixins: [HeaderMixin],
@@ -51,8 +52,7 @@ export default defineComponent({
 
       if (this.showTranslate && !this.translatedText.length) {
         this.isTranslating = true;
-        window.electronAPI
-          .translateText({ phrase: this.text, lang: "fa" })
+        translateText({ phrase: this.text, lang: "fa" })
           .then(([translated]) => {
             this.translatedText = translated;
           })

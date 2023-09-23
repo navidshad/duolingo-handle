@@ -21,6 +21,7 @@
 import { defineComponent } from "vue";
 import { getAudioStream } from "@/helpers/audio";
 import { blobToBase64 } from "@/helpers/file";
+import { detectTextFromAudio } from "@/services/ai";
 
 export default defineComponent({
   props: {
@@ -38,7 +39,7 @@ export default defineComponent({
   },
 
   mounted() {
-	if (this.startOnMount) this.startRecording();
+    if (this.startOnMount) this.startRecording();
   },
 
   data() {
@@ -92,8 +93,7 @@ export default defineComponent({
       const blob = new Blob(this.chunks, { type: "audio/wav" });
       const base64 = await blobToBase64(blob);
 
-      window.electronAPI
-        .detectTextFromAudio(base64)
+      detectTextFromAudio(base64)
         .then((text: any) => (this.text = text))
         .finally(() => (this.isLoading = false));
     },

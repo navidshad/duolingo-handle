@@ -61,14 +61,15 @@
     </section>
   </FrameBorder>
 </template>
-  
-  <script lang="ts">
+
+<script lang="ts">
 import { extractAnnotationsFromScreen } from "@/helpers/screen";
 import { defineComponent } from "vue";
 
 // @ts-ignore
 import HeaderMixin from "@/mixins/header-hight.js";
 import { sleep } from "@/helpers/promise";
+import { createCompletion } from "@/services/ai";
 
 export default defineComponent({
   mixins: [HeaderMixin],
@@ -129,9 +130,10 @@ export default defineComponent({
 
       const prompt = promptTypes[this.selectedType];
 
-      this.answere = await window.electronAPI
-        .createCompletion(prompt, "text-davinci-003")
-        .then((text) => text.replaceAll("\n", ""));
+      this.answere = await createCompletion({
+        prompt,
+        model: "gpt-4",
+      }).then((text) => text.replaceAll("\n", ""));
 
       this.isGenerating = false;
     },
@@ -143,11 +145,10 @@ export default defineComponent({
   },
 });
 </script>
-  
-  <style scoped>
+
+<style scoped>
 .available-area {
   width: -webkit-fill-available;
   height: -webkit-fill-available;
 }
 </style>
-  

@@ -38,7 +38,9 @@
             'bg-red-600': anotation.isValid == false,
           }"
         >
-          <p v-if="showTranslate" class="text-xs">{{ translated[anotation.word] || anotation.word }}</p>
+          <p v-if="showTranslate" class="text-xs">
+            {{ translated[anotation.word] || anotation.word }}
+          </p>
           <p v-else>{{ anotation.word }}</p>
         </div>
       </div>
@@ -54,6 +56,7 @@ import { extractAnnotationsFromScreen } from "@/helpers/screen";
 
 // @ts-ignore
 import HeaderMixin from "@/mixins/header-hight.js";
+import { checkValidWord, translateText } from "@/services/ai";
 
 export default defineComponent({
   mixins: [HeaderMixin],
@@ -115,9 +118,9 @@ export default defineComponent({
       const tasks: Promise<void>[] = [];
 
       for (const annotation of this.wordAnnotations) {
-        const task = window.electronAPI
-          .checkValidWord(annotation.word)
-          .then((isValid) => (annotation.isValid = isValid));
+        const task = checkValidWord(annotation.word).then(
+          (isValid) => (annotation.isValid = isValid)
+        );
       }
 
       return Promise.allSettled(tasks);
@@ -137,11 +140,12 @@ export default defineComponent({
           )
             continue;
 
-          const task = window.electronAPI
-            .translateText({ phrase: annotation.word, lang: "fa" })
-            .then(([translated]) => {
-              this.translated[annotation.word] = translated;
-            });
+          const task = translateText({
+            phrase: annotation.word,
+            lang: "fa",
+          }).then(([translated]) => {
+            this.translated[annotation.word] = translated;
+          });
 
           tasks.push(task);
         }

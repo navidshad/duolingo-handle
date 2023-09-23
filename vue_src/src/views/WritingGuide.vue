@@ -74,7 +74,7 @@
     </section>
   </FrameBorder>
 </template>
-  
+
 <script lang="ts">
 import { extractAnnotationsFromScreen } from "@/helpers/screen";
 import { defineComponent } from "vue";
@@ -82,6 +82,7 @@ import { defineComponent } from "vue";
 // @ts-ignore
 import HeaderMixin from "@/mixins/header-hight.js";
 import { sleep } from "@/helpers/promise";
+import { createChatCompletion } from "@/services/ai";
 
 export default defineComponent({
   mixins: [HeaderMixin],
@@ -141,16 +142,18 @@ export default defineComponent({
         consider duolingo score of ${this.settings.score}.
       `;
 
-      this.answere = await window.electronAPI.createChatCompletion([
-        {
-          role: "system",
-          content: sytemCharacter,
-        },
-        {
-          role: "user",
-          content: this.question,
-        },
-      ]);
+      this.answere = await createChatCompletion({
+        message: [
+          {
+            role: "system",
+            content: sytemCharacter,
+          },
+          {
+            role: "user",
+            content: this.question,
+          },
+        ],
+      });
 
       this.isGenerating = false;
     },
@@ -162,11 +165,10 @@ export default defineComponent({
   },
 });
 </script>
-  
-  <style scoped>
+
+<style scoped>
 .available-area {
   width: -webkit-fill-available;
   height: -webkit-fill-available;
 }
 </style>
-  

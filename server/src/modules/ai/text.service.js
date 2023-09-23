@@ -1,4 +1,5 @@
 const { OpenAI } = require("openai");
+const { getData } = require("../../helper/http.service");
 
 class TextService {
   constructor() {
@@ -19,14 +20,9 @@ class TextService {
     const url =
       "https://api.dictionaryapi.dev/api/v2/entries/en/" + encodeURI(word);
 
-    return fetch(url)
-      .then((req) => {
-        if (!req.ok) return false;
-        return req.json();
-      })
-      .then((body) => {
-        return Array.isArray(body);
-      });
+    return getData(url).then((body) => {
+      return Array.isArray(body);
+    });
   }
 
   createCompletion({ prompt = "", model = "text-davinci-003" }) {

@@ -1,3 +1,7 @@
+# Steps to deploy the app:
+# - Build the Docker image and push it to Docker Hub
+# - Deploy the Docker image to EC2 by SSH
+
 name: Deploy App UI
 
 on:

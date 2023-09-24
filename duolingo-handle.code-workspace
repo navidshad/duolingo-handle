@@ -1,13 +1,13 @@
 {
   "folders": [
     {
-      "path": "vue_src"
+      "path": "ui_app"
     },
     {
-      "path": "electron"
+      "path": "electron_app"
     },
     {
-      "path": "server"
+      "path": "server_app"
     },
     {
       "path": "."

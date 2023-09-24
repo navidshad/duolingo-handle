@@ -91,3 +91,6 @@ src/build
 
 # Electron-Forge
 out/
+
+vision_test.js
+.env*

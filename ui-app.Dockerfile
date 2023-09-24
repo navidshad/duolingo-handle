@@ -6,11 +6,11 @@ FROM node:18-alpine3.17 as build-stage
 
 WORKDIR /app
 
-COPY vue_src/package.json ./
-COPY vue_src/yarn.lock ./
+COPY ui_app/package.json ./
+COPY ui_app/yarn.lock ./
 RUN yarn install
 
-COPY vue_src .
+COPY ui_app .
 RUN yarn build
 
 # -------------------------------------

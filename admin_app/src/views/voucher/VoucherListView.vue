@@ -1,0 +1,5 @@
+<template>
+  <div>All Vouchers</div>
+</template>
+
+<script setup lang="ts"></script>

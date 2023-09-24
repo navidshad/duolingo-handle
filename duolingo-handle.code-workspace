@@ -10,6 +10,9 @@
       "path": "server_app"
     },
     {
+      "path": "admin_app"
+    },
+    {
       "path": "."
     }
   ],

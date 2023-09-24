@@ -1,4 +1,5 @@
 import './assets/main.css'
+import './plugins/modular-rest'
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'

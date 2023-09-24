@@ -1,3 +1,4 @@
+import { authentication } from '@modular-rest/client'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
@@ -37,6 +38,30 @@ const router = createRouter({
       ]
     }
   ]
+})
+
+router.beforeEach(async (to, from, next) => {
+  const publicPages = ['/login']
+  const authRequired = !publicPages.includes(to.path)
+
+  // Logout if path is login
+  // because we want to login with new session.
+  if (to.path === '/login') {
+    authentication.logout()
+  }
+
+  // Try to login with last session
+  // if authRequired is true
+  if (authRequired && !authentication.isLogin) {
+    await authentication.loginWithLastSession()
+  }
+
+  // Otherwise, redirect to login page
+  if (authRequired && !authentication.isLogin) {
+    return next('/login')
+  }
+
+  next()
 })
 
 export default router

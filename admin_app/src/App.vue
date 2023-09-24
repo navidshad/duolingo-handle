@@ -2,8 +2,9 @@
 import { computed } from 'vue'
 import { useRoute, RouterView } from 'vue-router'
 
+const route = useRoute()
+
 const isNotLoginPage = computed(() => {
-  const route = useRoute()
   return route.name !== 'login'
 })
 </script>
@@ -17,7 +18,7 @@ const isNotLoginPage = computed(() => {
 
       <template v-slot:append>
         <div class="pa-2">
-          <v-btn block> Logout </v-btn>
+          <v-btn block to="/login"> Logout </v-btn>
         </div>
       </template>
     </v-navigation-drawer>

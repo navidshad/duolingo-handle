@@ -43,7 +43,7 @@
 <script lang="ts">
 import { defineComponent, inject } from "vue";
 import { ToolType } from "@/types/base";
-import { BaseEvent, RoleEvent, SetIgnoreMouseEvents } from "@/types/event";
+import { BaseEvent, OpenToolEvent, SetIgnoreMouseEvents } from "@/types/event";
 
 export default defineComponent({
   name: "toolsbox",
@@ -116,7 +116,7 @@ export default defineComponent({
           type: "close-tools",
         };
       } else {
-        event = new RoleEvent({
+        event = new OpenToolEvent({
           toolType: this.activeTool,
         });
       }

@@ -7,10 +7,10 @@
       "path": "electron"
     },
     {
-      "path": "."
+      "path": "server"
     },
     {
-      "path": "server"
+      "path": "."
     }
   ],
   "settings": {

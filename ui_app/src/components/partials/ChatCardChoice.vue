@@ -54,7 +54,7 @@ export default defineComponent({
       diaglogs: inject<DialogType[]>("diaglogs", []),
       getDialogsSummary: inject<(index: number) => string>(
         "getDialogsSummary",
-        (index: number) => ""
+        (index: number) => "",
       ),
     };
   },

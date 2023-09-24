@@ -14,13 +14,13 @@ export default defineComponent({
       window.electronAPI.sendMessage(
         new OpenWindowEvent({
           windowType: "tools-box",
-        })
+        }),
       );
 
       window.electronAPI.sendMessage(
         new CloseToolEvent({
           id: "login",
-        })
+        }),
       );
     },
   },

@@ -28,7 +28,7 @@ export class WindowsManagerService {
 
   private async onAskForMediaSourceId(
     event: Electron.IpcMainInvokeEvent,
-    name = "Entire screen"
+    name = "Entire screen",
   ) {
     // const webContents = event.sender;
     // const win = BrowserWindow.fromWebContents(webContents);
@@ -52,7 +52,7 @@ export class WindowsManagerService {
 
   private onSetBound(
     event: Electron.IpcMainInvokeEvent,
-    { bound }: { type: WindowType; bound: Electron.Rectangle }
+    { bound }: { type: WindowType; bound: Electron.Rectangle },
   ) {
     const webContents = event.sender;
     const win = BrowserWindow.fromWebContents(webContents);
@@ -103,7 +103,7 @@ export class WindowsManagerService {
 
   createSubtoolWindow(subtool: OpenSubtoolEvent) {
     const { initConfig, screenSize } = this.getWindowConfig(
-      subtool.subtoolType
+      subtool.subtoolType,
     );
 
     // Setup preload script
@@ -125,7 +125,7 @@ export class WindowsManagerService {
 
     // And load the index.html of the app.
     window.loadURL(
-      this.entryPagePath + `/#/sub/${subtool.subtoolType}?${params.toString()}`
+      this.entryPagePath + `/#/sub/${subtool.subtoolType}?${params.toString()}`,
     );
 
     if (screenSize) {

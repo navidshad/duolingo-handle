@@ -32,7 +32,7 @@ const googleCloudService = new GoogleCloud(process.env.GOOGLE_CLOUD_API_KEY);
 const textService = new TextService();
 const windowsManagerService = new WindowsManagerService(
   process.env.BASE_URL,
-  MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY
+  MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
 );
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
@@ -130,7 +130,7 @@ windowsManagerService.onMessage((data) => {
     const routeMessageEvent = data as RouteMessageEvent;
     windowsManagerService.sendGlobalMessage(
       routeMessageEvent.channelId,
-      routeMessageEvent.data
+      routeMessageEvent.data,
     );
   }
 });
@@ -143,7 +143,7 @@ function closeAllTools() {
 
 function onSetIgnoreMouseEvent(event: SetIgnoreMouseEvents) {
   windowsManagerService.windows[event.toolType].setIgnoreMouseEvents(
-    event.value
+    event.value,
   );
   windowsManagerService.sendMessage(event.toolType as WindowType, event);
 }

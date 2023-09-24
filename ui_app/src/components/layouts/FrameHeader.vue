@@ -15,8 +15,9 @@
       }"
     >
       <!-- Title -->
-      <div class="text-white font-bold select-none"
-      :style="{minWidth: '150px'}"
+      <div
+        class="text-white font-bold select-none"
+        :style="{ minWidth: '150px' }"
       >
         <span>{{ title || "" }}</span>
       </div>
@@ -38,7 +39,7 @@
         <slot name="right-actions"></slot>
       </div>
     </section>
-    
+
     <!-- Sub content -->
     <slot />
   </div>
@@ -52,7 +53,7 @@ export default defineComponent({
     return {
       sendLockSignal: inject("sendLockSignal") as (
         type: string,
-        isLocked: boolean
+        isLocked: boolean,
       ) => void,
     };
   },

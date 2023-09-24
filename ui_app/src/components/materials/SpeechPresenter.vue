@@ -78,5 +78,4 @@ export default defineComponent({
 });
 </script>
 
-<style>
-</style>
+<style></style>

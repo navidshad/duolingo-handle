@@ -11,7 +11,7 @@ export const extractAnnotationsFromScreen = async (
         x?: number | undefined;
         y?: number | undefined;
       }
-    | undefined
+    | undefined,
 ) => {
   const base64 = await window.electronAPI.takeScreenShot({
     coordinateBoundOffset,
@@ -25,7 +25,7 @@ export const extractTextFromScreen = async (
         x?: number | undefined;
         y?: number | undefined;
       }
-    | undefined
+    | undefined,
 ) => {
   const base64 = await window.electronAPI.takeScreenShot({
     coordinateBoundOffset,

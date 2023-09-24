@@ -124,7 +124,7 @@ export default defineComponent({
     addCharActivePositionOfContent(char = "?") {
       // Get the textarea element
       const textarea = (this.$refs.content as HTMLElement).querySelector(
-        "textarea"
+        "textarea",
       ) as HTMLTextAreaElement;
 
       // Get the cursor position
@@ -134,7 +134,7 @@ export default defineComponent({
       const textBeforeCursor = textarea.value.substring(0, cursorPosition);
       const textAfterCursor = textarea.value.substring(
         cursorPosition,
-        textarea.value.length
+        textarea.value.length,
       );
 
       this.detectedText = textBeforeCursor + char + textAfterCursor;

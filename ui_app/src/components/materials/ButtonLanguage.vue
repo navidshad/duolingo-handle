@@ -1,6 +1,6 @@
 <template>
-  <v-btn icon="fa-solid fa-language" size="x-small" >
-	<v-icon :color="isActive ? 'primary' : ''" />
+  <v-btn icon="fa-solid fa-language" size="x-small">
+    <v-icon :color="isActive ? 'primary' : ''" />
   </v-btn>
 </template>
 
@@ -14,5 +14,4 @@ export default defineComponent({
 });
 </script>
 
-<style>
-</style>
+<style></style>

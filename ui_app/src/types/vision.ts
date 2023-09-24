@@ -1,14 +1,14 @@
 export interface TextAnnotation {
-	locale: string
-	description: string
-	boundingPoly: BoundingPoly
+  locale: string;
+  description: string;
+  boundingPoly: BoundingPoly;
 }
 
 export interface BoundingPoly {
-	vertices: Vertex[]
+  vertices: Vertex[];
 }
 
 export interface Vertex {
-	x: number
-	y: number
+  x: number;
+  y: number;
 }

@@ -19,7 +19,7 @@ export default interface ElectronApi {
   onMessage: (callback: (event: any, data: BaseEvent) => void) => void;
   onMessageByChannel: (
     channelId: string,
-    callback: (event: any, data: any) => void
+    callback: (event: any, data: any) => void,
   ) => void;
   takeScreenShot: (options: {
     coordinateBoundOffset?: { x?: number; y?: number };

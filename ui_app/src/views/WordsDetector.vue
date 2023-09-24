@@ -119,7 +119,7 @@ export default defineComponent({
 
       for (const annotation of this.wordAnnotations) {
         const task = checkValidWord(annotation.word).then(
-          (isValid) => (annotation.isValid = isValid)
+          (isValid) => (annotation.isValid = isValid),
         );
       }
 

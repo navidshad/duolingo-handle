@@ -55,7 +55,6 @@ export default defineComponent({
     onMouseMove({ clientX, clientY }: MouseEvent) {
       if (!this.isTrackingMouse) return;
 
-      
       const width = Math.abs(this.mousePageP1.x - clientX);
       const height = Math.abs(this.mousePageP1.y - clientY);
 
@@ -99,5 +98,4 @@ export default defineComponent({
 });
 </script>
 
-<style>
-</style>
+<style></style>

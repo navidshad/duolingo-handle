@@ -20,7 +20,7 @@
     <div class="absolute w-full h-full bg-black opacity-50" />
   </section>
 </template>
-  
+
 <script lang="ts">
 import { WindowType } from "@/types/base";
 import { defineComponent } from "vue";
@@ -29,7 +29,7 @@ import { extractTextWithCustomBound } from "@/helpers/screen";
 
 type Coordinate = { x: number; y: number };
 
-// TODO:  Add ability to select multiple areas, 
+// TODO:  Add ability to select multiple areas,
 //        and pass an array of areas to the parent component.
 
 export default defineComponent({

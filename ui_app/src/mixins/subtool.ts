@@ -18,7 +18,7 @@ export default defineComponent({
   methods: {
     close() {
       window.electronAPI.sendMessage(
-        new CloseToolEvent({ id: this.channelId })
+        new CloseToolEvent({ id: this.channelId }),
       );
     },
 

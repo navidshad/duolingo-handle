@@ -52,7 +52,7 @@ export default defineComponent({
     return {
       sendLockSignal: inject("sendLockSignal") as (
         type: string,
-        isLocked: boolean
+        isLocked: boolean,
       ) => void,
     };
   },

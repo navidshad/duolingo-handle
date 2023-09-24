@@ -12,7 +12,7 @@ const app = createApp(App).use(router);
 
 // Register components
 Object.keys(components).forEach((key) =>
-  app.component(key, (components as any)[key])
+  app.component(key, (components as any)[key]),
 );
 
 app.use(fontawesome);

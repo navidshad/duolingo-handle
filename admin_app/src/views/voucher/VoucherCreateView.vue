@@ -52,25 +52,27 @@ async function createVoucher(event: SubmitEventPromise) {
 </script>
 
 <template>
-  <v-card min-width="500px">
-    <v-form ref="formEl" validate-on="submit lazy" @submit.prevent="createVoucher">
-      <v-card-title>
-        <h3 class="text-h5">Create Voucher</h3>
-      </v-card-title>
+  <v-main class="d-flex align-center justify-center">
+    <v-card min-width="500px">
+      <v-form ref="formEl" validate-on="submit lazy" @submit.prevent="createVoucher">
+        <v-card-title>
+          <h3 class="text-h5">Create Voucher</h3>
+        </v-card-title>
 
-      <v-card-text>
-        <v-text-field
-          v-model="formData.email"
-          :rules="emailRules"
-          label="Email"
-          outlined
-          required
-        />
-      </v-card-text>
+        <v-card-text>
+          <v-text-field
+            v-model="formData.email"
+            :rules="emailRules"
+            label="Email"
+            outlined
+            required
+          />
+        </v-card-text>
 
-      <v-card-actions>
-        <v-btn color="primary" type="submit" :loading="isLoading"> Create </v-btn>
-      </v-card-actions>
-    </v-form>
-  </v-card>
+        <v-card-actions>
+          <v-btn color="primary" type="submit" :loading="isLoading"> Create </v-btn>
+        </v-card-actions>
+      </v-form>
+    </v-card>
+  </v-main>
 </template>

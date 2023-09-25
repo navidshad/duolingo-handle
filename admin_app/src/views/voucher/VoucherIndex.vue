@@ -9,7 +9,5 @@ import { RouterView } from 'vue-router'
     </v-list>
   </v-navigation-drawer>
 
-  <v-main class="d-flex align-center justify-center">
-    <RouterView />
-  </v-main>
+  <RouterView />
 </template>

@@ -200,10 +200,10 @@
   resolved "https://registry.yarnpkg.com/@jridgewell/sourcemap-codec/-/sourcemap-codec-1.4.15.tgz#d7c6e6755c78567a951e04ab52ef0fd26de59f32"
   integrity sha512-eF2rxCRulEKXHTRiDrDy6erMYWqNw4LPdQ8UQA4huuxaQsVeRPFl2oM8oDGxMFhJUWZf9McpLtJasDDZb/Bpeg==
 
-"@modular-rest/client@^1.2.15":
-  version "1.2.15"
-  resolved "https://registry.yarnpkg.com/@modular-rest/client/-/client-1.2.15.tgz#8be22db8ce856711d69f66bc4fb072c0cebb7679"
-  integrity sha512-m9zBfKbG7B0TOjEwduJ7nIiLN3kooDMy7ncJFDtTzuNArsA6p2uWk5Fu5AoGYZVqYTe4b4ZdMnVM3of9SLsfOw==
+"@modular-rest/client@^1.2.18":
+  version "1.2.18"
+  resolved "https://registry.yarnpkg.com/@modular-rest/client/-/client-1.2.18.tgz#1f3bac039a57fb0f6e55a9edcb4ef7c6a7ea16ea"
+  integrity sha512-wW/X2IFoXNqP9IC5jRjghq7zR6ZsvaGKksWJmmXLEUmt/5vM55HMhVTE+2sVYXt9epBZH5DdDAG5lo4QDhJXuw==
   dependencies:
     axios "^0.21.0"
     ts-bus "^2.3.1"

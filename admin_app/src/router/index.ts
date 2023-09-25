@@ -53,7 +53,9 @@ router.beforeEach(async (to, from, next) => {
   // Try to login with last session
   // if authRequired is true
   if (authRequired && !authentication.isLogin) {
-    await authentication.loginWithLastSession()
+    await authentication.loginWithLastSession().catch(() => {
+      // No problem, we will redirect to login page
+    })
   }
 
   // Otherwise, redirect to login page

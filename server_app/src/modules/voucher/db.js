@@ -7,15 +7,25 @@ const {
   DatabaseTrigger,
 } = require("@modular-rest/server");
 
+const examVoucherSchema = new Schema({
+  remainingExams: { type: Number, default: 4 },
+  // https://www.npmjs.com/package/node-machine-id
+  machineId: { type: String },
+});
+
+const voucherSchema = new Schema({
+  email: { type: String, required: true, unique: true },
+  examVouchers: {
+    type: [examVoucherSchema],
+    default: [{ remainingExams: 4 }],
+  },
+});
+
 module.exports = [
   new CollectionDefinition({
-    db: "flower",
-    collection: "wildflowers",
-    schema: new Schema({
-      name: String,
-      description: String,
-      image: Schemas.file,
-    }),
+    db: "exam",
+    collection: "voucher",
+    schema: voucherSchema,
     permissions: [
       new Permission({
         type: PermissionTypes.god_access,
@@ -25,11 +35,6 @@ module.exports = [
       new Permission({
         type: PermissionTypes.anonymous_access,
         read: true,
-      }),
-    ],
-    trigger: [
-      new DatabaseTrigger("insert", (query, _queryResult) => {
-        console.log("inserted", query);
       }),
     ],
   }),

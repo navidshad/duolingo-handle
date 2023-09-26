@@ -1,7 +1,8 @@
 let Router = require("koa-router");
 
-const { reply, getCollection } = require("@modular-rest/server");
+const { reply } = require("@modular-rest/server");
 
+const { checkVoucherMiddleWare } = require("../../middleware/voucher-cecker");
 const { visionAndSpeechService } = require("./vision-speech.service");
 const { textService } = require("./text.service");
 
@@ -21,24 +22,10 @@ function handle_error(ctx, err) {
   });
 }
 
-async function check_token(ctx, next) {
-  await next();
-  return;
-
-  if (!ctx.request.header.voucher_token) {
-    ctx.code = 401;
-    ctx.body = reply.create("e", {
-      message: "Voucher token is required",
-    });
-  } else {
-    await next();
-  }
-}
-
 //
 // Vision and Speech
 //
-router.post("/detect-text-positions", check_token, async (ctx) => {
+router.post("/detect-text-positions", checkVoucherMiddleWare, async (ctx) => {
   const { base64Content } = ctx.request.body;
 
   await visionAndSpeechService
@@ -47,7 +34,7 @@ router.post("/detect-text-positions", check_token, async (ctx) => {
     .catch((err) => handle_error(ctx, err));
 });
 
-router.post("/detect-text", check_token, async (ctx) => {
+router.post("/detect-text", checkVoucherMiddleWare, async (ctx) => {
   const { base64Content } = ctx.request.body;
 
   await visionAndSpeechService
@@ -56,7 +43,7 @@ router.post("/detect-text", check_token, async (ctx) => {
     .catch((err) => handle_error(ctx, err));
 });
 
-router.post("/detect-text-from-audio", check_token, async (ctx) => {
+router.post("/detect-text-from-audio", checkVoucherMiddleWare, async (ctx) => {
   const { base64Content } = ctx.request.body;
 
   await visionAndSpeechService
@@ -65,7 +52,7 @@ router.post("/detect-text-from-audio", check_token, async (ctx) => {
     .catch((err) => handle_error(ctx, err));
 });
 
-router.post("/translate-text", check_token, async (ctx) => {
+router.post("/translate-text", checkVoucherMiddleWare, async (ctx) => {
   const { phrase, lang } = ctx.request.body;
 
   await visionAndSpeechService
@@ -77,7 +64,7 @@ router.post("/translate-text", check_token, async (ctx) => {
 //
 // Text
 //
-router.post("/validate-word", check_token, async (ctx) => {
+router.post("/validate-word", checkVoucherMiddleWare, async (ctx) => {
   const { word } = ctx.request.body;
 
   await textService
@@ -86,7 +73,7 @@ router.post("/validate-word", check_token, async (ctx) => {
     .catch((err) => handle_error(ctx, err));
 });
 
-router.post("/create-completion", check_token, async (ctx) => {
+router.post("/create-completion", checkVoucherMiddleWare, async (ctx) => {
   const { prompt, model } = ctx.request.body;
 
   await textService
@@ -95,7 +82,7 @@ router.post("/create-completion", check_token, async (ctx) => {
     .catch((err) => handle_error(ctx, err));
 });
 
-router.post("/create-chat-completion", check_token, async (ctx) => {
+router.post("/create-chat-completion", checkVoucherMiddleWare, async (ctx) => {
   const { messages, model } = ctx.request.body;
 
   await textService

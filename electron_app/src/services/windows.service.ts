@@ -1,14 +1,14 @@
 import { BrowserWindow, desktopCapturer, ipcMain, screen } from "electron";
-import { WindowType } from "../../../vue_src/src/types/base";
-import { BaseEvent, OpenSubtoolEvent } from "../../../vue_src/src/types/event";
+import { WindowType } from "../../../ui_app/src/types/base";
+import { BaseEvent, OpenSubtoolEvent } from "../../../ui_app/src/types/event";
 import { windowsConfigs, WindowConfig } from "../windows";
 
-export { WindowType } from "../../../vue_src/src/types/base";
+export { WindowType } from "../../../ui_app/src/types/base";
 export {
   BaseEvent,
   OpenToolEvent,
   SetIgnoreMouseEvents,
-} from "../../../vue_src/src/types/event";
+} from "../../../ui_app/src/types/event";
 
 export class WindowsManagerService {
   entryPagePath: string;
@@ -28,7 +28,7 @@ export class WindowsManagerService {
 
   private async onAskForMediaSourceId(
     event: Electron.IpcMainInvokeEvent,
-    name = "Entire screen",
+    name = "Entire screen"
   ) {
     // const webContents = event.sender;
     // const win = BrowserWindow.fromWebContents(webContents);
@@ -52,7 +52,7 @@ export class WindowsManagerService {
 
   private onSetBound(
     event: Electron.IpcMainInvokeEvent,
-    { bound }: { type: WindowType; bound: Electron.Rectangle },
+    { bound }: { type: WindowType; bound: Electron.Rectangle }
   ) {
     const webContents = event.sender;
     const win = BrowserWindow.fromWebContents(webContents);
@@ -103,7 +103,7 @@ export class WindowsManagerService {
 
   createSubtoolWindow(subtool: OpenSubtoolEvent) {
     const { initConfig, screenSize } = this.getWindowConfig(
-      subtool.subtoolType,
+      subtool.subtoolType
     );
 
     // Setup preload script
@@ -125,7 +125,7 @@ export class WindowsManagerService {
 
     // And load the index.html of the app.
     window.loadURL(
-      this.entryPagePath + `/#/sub/${subtool.subtoolType}?${params.toString()}`,
+      this.entryPagePath + `/#/sub/${subtool.subtoolType}?${params.toString()}`
     );
 
     if (screenSize) {

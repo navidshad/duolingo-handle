@@ -1,4 +1,4 @@
-# vue_src
+# ui_app
 
 ## Project setup
 

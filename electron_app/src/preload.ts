@@ -7,12 +7,12 @@ import {
   contextBridge,
   ipcRenderer,
 } from "electron";
-import { BaseEvent, RouteMessageEvent } from "../../vue_src/src/types/event";
+import { BaseEvent, RouteMessageEvent } from "../../ui_app/src/types/event";
 import { WindowType } from "./services/windows.service";
 
 export const captureScreenShotBySourceID = (
   sourceId: string,
-  bound: Rectangle,
+  bound: Rectangle
 ) => {
   const canvas = document.createElement("canvas");
   const context = canvas.getContext("2d") as CanvasRenderingContext2D;
@@ -49,7 +49,7 @@ export const captureScreenShotBySourceID = (
           0,
           0,
           bound.width,
-          bound.height,
+          bound.height
         );
 
         const frame = canvas.toDataURL("image/png").split("base64,")[1];
@@ -76,7 +76,7 @@ contextBridge.exposeInMainWorld("electronAPI", {
     ipcRenderer.on("message", callback),
   onMessageByChannel: (channelId: string, callback: (data: any) => void) => {
     ipcRenderer.on(channelId, (event: IpcRendererEvent, data: any) =>
-      callback(data),
+      callback(data)
     );
   },
 
@@ -100,7 +100,7 @@ contextBridge.exposeInMainWorld("electronAPI", {
 
     if (!customBound) {
       bound = (await ipcRenderer.invoke(
-        "window:get-window-bound",
+        "window:get-window-bound"
       )) as Electron.Rectangle;
 
       bound.x += coordinateBoundOffset?.x || 0;

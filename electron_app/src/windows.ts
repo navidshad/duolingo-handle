@@ -1,4 +1,4 @@
-import { WindowType } from "../../vue_src/src/types/base";
+import { WindowType } from "../../ui_app/src/types/base";
 
 export interface WindowConfig {
   type: WindowType;

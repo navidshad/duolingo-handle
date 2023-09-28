@@ -19,19 +19,19 @@ export default interface ElectronApi {
   onMessage: (callback: (event: any, data: BaseEvent) => void) => void;
   onMessageByChannel: (
     channelId: string,
-    callback: (event: any, data: any) => void,
+    callback: (event: any, data: any) => void
   ) => void;
+
+  // Store
+  //
+  writeInStore: (key: string, value: string) => void;
+  readFromStore: (key: string) => Promise<string>;
+
   takeScreenShot: (options: {
     coordinateBoundOffset?: { x?: number; y?: number };
     customBound?: Rectangle;
   }) => string;
-  // detectTextPositionsFromImage: (base64: string) => Promise<TextAnnotation[]>,
-  // detectTextFromImage: (base64: string) => Promise<string>,
-  // detectTextFromAudio: (base64: string) => Promise<string>,
-  // translateText: (data: { phrase: string, lang: string }) => Promise<string[]>,
-  // checkValidWord: (word: string) => Promise<boolean>,
-  // createCompletion: (prompt: string, model?: string) => Promise<string>,
-  // createChatCompletion: (message: CompletionMessage[], model?: string) => Promise<string>,
+
   writeByKeyboard: (string: string) => void;
   getMediaSource: (sourceName?: string) => Promise<string>;
   setBound: (type: WindowType, bound: Rectangle) => void;

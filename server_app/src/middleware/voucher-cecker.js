@@ -1,7 +1,5 @@
 const { getCollection, reply } = require("@modular-rest/server");
 
-const voucherModel = getCollection("exam", "voucher");
-
 module.exports.checkVoucherMiddleWare = async (ctx, next) => {
   const voucherid = ctx.headers.voucher;
 
@@ -10,9 +8,11 @@ module.exports.checkVoucherMiddleWare = async (ctx, next) => {
     return;
   }
 
+  const voucherModel = getCollection("exam", "voucher");
+
   const voucherDoc = await voucherModel.findOne({ _id: voucherid }).exec();
 
-  if (!voucherDoc) {
+  if (!voucherDoc?.id) {
     ctx.throw(401, reply.create("f", "invalid voucher"));
     return;
   }

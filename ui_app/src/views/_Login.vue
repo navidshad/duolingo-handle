@@ -5,8 +5,15 @@ import { defineComponent } from "vue";
 export default defineComponent({
   name: "Login",
 
+  data() {
+    return {
+      token: "",
+    };
+  },
+
   methods: {
     login() {
+      window.electronAPI.writeInStore("voucher", this.token);
       this.goToApp();
     },
 
@@ -14,13 +21,13 @@ export default defineComponent({
       window.electronAPI.sendMessage(
         new OpenWindowEvent({
           windowType: "tools-box",
-        }),
+        })
       );
 
       window.electronAPI.sendMessage(
         new CloseToolEvent({
           id: "login",
-        }),
+        })
       );
     },
   },
@@ -32,7 +39,11 @@ export default defineComponent({
     class="w-screen h-screen flex flex-col justify-center items-center space-x-2"
   >
     <div class="w-96">
-      <v-text-field label="Token" placeholder="Enter your token" />
+      <v-text-field
+        v-model="token"
+        label="Token"
+        placeholder="Enter your token"
+      />
     </div>
 
     <v-btn @click="login" color="primary">Login</v-btn>

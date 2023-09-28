@@ -72,6 +72,7 @@ contextBridge.exposeInMainWorld("electronAPI", {
   },
 
   // Receive message from main process
+  //
   onMessage: (callback: (event: IpcRendererEvent, data: BaseEvent) => void) =>
     ipcRenderer.on("message", callback),
   onMessageByChannel: (channelId: string, callback: (data: any) => void) => {
@@ -80,12 +81,23 @@ contextBridge.exposeInMainWorld("electronAPI", {
     );
   },
 
+  // Window
+  //
   getMediaSource: (name = "Entire screen") =>
     ipcRenderer.invoke("window:get-media-source", name),
   setBound: (type: WindowType, bound: Electron.Rectangle) =>
     ipcRenderer.invoke("window:set-window-bound", { type, bound }),
   getBound: () => ipcRenderer.invoke("window:get-window-bound"),
 
+  // Store
+  //
+  writeInStore: (key: string, value: string) =>
+    ipcRenderer.send("store:write", { key, value }),
+  readFromStore: (key: string) => ipcRenderer.invoke("store:read", key),
+
+  //
+  // Tools
+  //
   async takeScreenShot({
     coordinateBoundOffset,
     customBound,

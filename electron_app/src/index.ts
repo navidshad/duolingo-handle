@@ -1,13 +1,18 @@
 import { app, BrowserWindow } from "electron";
+import { GoogleCloud } from "./services/google-cloud.service";
+import { TextService } from "./services/text.service";
+import { isDev } from "./statics";
+import { config } from "dotenv";
+import path from "path";
+import { StoragService } from "./services/storage.service";
+
 import {
   WindowsManagerService,
   OpenToolEvent,
   WindowType,
   SetIgnoreMouseEvents,
 } from "./services/windows.service";
-import { GoogleCloud } from "./services/google-cloud.service";
-import { TextService } from "./services/text.service";
-import { isDev } from "./statics";
+
 import {
   BaseEvent,
   CloseToolEvent,
@@ -15,8 +20,6 @@ import {
   OpenWindowEvent,
   RouteMessageEvent,
 } from "../../ui_app/src/types/event";
-import { config } from "dotenv";
-import path from "path";
 
 // Load environment variables from .env file
 const envFileName = isDev() ? ".env" : ".env.production";
@@ -28,8 +31,11 @@ config({ path: path.join(__dirname, envFileName) });
 // declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
 
+// Initialize services
 const googleCloudService = new GoogleCloud(process.env.GOOGLE_CLOUD_API_KEY);
 const textService = new TextService();
+const storagService = new StoragService();
+
 const windowsManagerService = new WindowsManagerService(
   process.env.BASE_URL,
   MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY

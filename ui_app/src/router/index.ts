@@ -4,47 +4,47 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/create-bound",
     name: "create-bound",
-    component: () => import("../views/_CreateBound.vue"),
+    component: () => import("../views/CreateBound.vue"),
   },
   {
     path: "/login",
     name: "login",
-    component: () => import("../views/_Login.vue"),
+    component: () => import("../views/Login.vue"),
   },
   {
     path: "/tools-box",
     name: "tools-box",
-    component: () => import("../views/_ToolsBox.vue"),
+    component: () => import("../views/ToolBox.vue"),
   },
   {
     path: "/words-detector",
     name: "words-detector",
-    component: () => import("../views/WordsDetector.vue"),
+    component: () => import("../views/tools/WordsDetector.vue"),
   },
   {
     path: "/writing-guide",
     name: "writing-guide",
-    component: () => import("../views/WritingGuide.vue"),
+    component: () => import("../views/tools/WritingGuide.vue"),
   },
   {
     path: "/voice-recognition",
     name: "voice-recognition",
-    component: () => import("../views/VoiceRecognition.vue"),
+    component: () => import("../views/tools/VoiceRecognition.vue"),
   },
   {
     path: "/gap-filler",
     name: "gap-filler",
-    component: () => import("../views/GapFiller.vue"),
+    component: () => import("../views/tools/GapFiller.vue"),
   },
   {
     path: "/conversation",
     name: "conversation",
-    component: () => import("../views/Conversation.vue"),
+    component: () => import("../views/tools/Conversation.vue"),
   },
   {
     path: "/speaking",
     name: "speaking",
-    component: () => import("../views/Speaking.vue"),
+    component: () => import("../views/tools/Speaking.vue"),
   },
 ];
 

@@ -1,6 +1,6 @@
 <template>
-  <section class="flex justify-center items-center h-screen">
-    <div class="flex justify-center items-center space-x-2">
+  <div class="w-screen h-screen px-2 py-1 flex flex-col">
+    <div class="flex-1">
       <v-btn
         variant="flat"
         size="x-small"
@@ -10,34 +10,30 @@
       >
         None
       </v-btn>
-
-      <div
-        class="flex w-full justify-between"
-        v-for="(tool, i) of tools"
-        :key="i"
-      >
-        <v-btn
-          variant="outlined"
-          :prepend-icon="tool.icon"
-          size="x-small"
-          @click="activeTool = tool.type"
-          :color="activeTool == tool.type ? 'primary' : ''"
-        >
-          {{ tool.title }}
-        </v-btn>
-
-        <v-btn
-          size="x-small"
-          :disabled="activeTool !== tool.type"
-          @click="toggleLock(tool.type)"
-        >
-          <v-icon
-            :icon="lockMap[tool.type] ? 'fa-lock' : 'fa fa-lock-open'"
-          ></v-icon>
-        </v-btn>
-      </div>
     </div>
-  </section>
+
+    <div v-for="toolset in tools" class="flex space-x-1 h-2/5">
+      <v-card
+        class="flex-grow-1 h-auto mb-1"
+        v-for="(tool, i) of toolset"
+        :key="i"
+        @click="activeTool = tool.type"
+        :color="activeTool == tool.type ? 'primary' : ''"
+      >
+        <v-card-text class="card flex flex-col justify-between items-center">
+          <lord-icon
+            class="scale-[1.5] mb-2"
+            trigger="hover"
+            target=".card"
+            :src="tool.lordIcon"
+          />
+          <div class="text-[8px] scale-[1.3]">
+            {{ tool.title }}
+          </div>
+        </v-card-text>
+      </v-card>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -52,7 +48,7 @@ export default defineComponent({
     return {
       sendLockSignal: inject("sendLockSignal") as (
         type: string,
-        isLocked: boolean,
+        isLocked: boolean
       ) => void,
     };
   },
@@ -62,41 +58,56 @@ export default defineComponent({
       activeTool: "none",
       lockMap: {},
       tools: [
-        {
-          type: "words-detector",
-          icon: "fa fa-w",
-          title: "Word",
-        },
-        {
-          type: "writing-guide",
-          icon: "fa fa-w",
-          title: "Writing",
-        },
-        {
-          type: "voice-recognition",
-          icon: "fa fa-headphones",
-          title: "Voice",
-        },
-        {
-          type: "gap-filler",
-          icon: "fa fa-microphone-lines",
-          title: "Gap",
-        },
-        {
-          type: "conversation",
-          icon: "fa fa-microphone-lines",
-          title: "Conversation",
-        },
-        {
-          type: "speaking",
-          icon: "fa fa-microphone-lines",
-          title: "Speaking",
-        },
+        [
+          {
+            type: "words-detector",
+            icon: "fa fa-w",
+            lordIcon: "/lord-icons/searching-glasses.json",
+            title: "Word",
+          },
+          {
+            type: "speaking",
+            icon: "fa fa-microphone-lines",
+            lordIcon: "/lord-icons/lecturer-female.json",
+            title: "Speaking",
+          },
+          {
+            type: "writing-guide",
+            icon: "fa fa-w",
+            lordIcon: "/lord-icons/writing-machine.json",
+            title: "Writing",
+          },
+        ],
+        [
+          {
+            type: "voice-recognition",
+            icon: "fa fa-headphones",
+            lordIcon: "/lord-icons/subwoofer.json",
+            title: "Voice",
+          },
+          {
+            type: "conversation",
+            icon: "fa fa-microphone-lines",
+            lordIcon: "/lord-icons/support-service.json",
+            title: "Conversation",
+          },
+          {
+            type: "gap-filler",
+            icon: "fa fa-microphone-lines",
+            lordIcon: "/lord-icons/origami.json",
+            title: "Gap Filler",
+          },
+        ],
       ],
     } as {
       activeTool: ToolType;
       lockMap: { [key: string]: boolean };
-      tools: { type: ToolType; icon: string; title: string }[];
+      tools: {
+        type: ToolType;
+        icon: string;
+        lordIcon: string;
+        title: string;
+      }[][];
     };
   },
 
@@ -109,7 +120,6 @@ export default defineComponent({
   methods: {
     onToolsSelected() {
       let event!: BaseEvent;
-      this.unlockAll();
 
       if (this.activeTool == "none") {
         event = {
@@ -124,16 +134,16 @@ export default defineComponent({
       window.electronAPI.sendMessage(event);
     },
 
-    toggleLock(type: ToolType) {
-      const isLock = !!this.lockMap[type];
-      this.lockMap[type] = !isLock;
+    // toggleLock(type: ToolType) {
+    //   const isLock = !!this.lockMap[type];
+    //   this.lockMap[type] = !isLock;
 
-      this.sendLockSignal(type, this.lockMap[type]);
-    },
+    //   this.sendLockSignal(type, this.lockMap[type]);
+    // },
 
-    unlockAll() {
-      this.tools.forEach((tool) => (this.lockMap[tool.type] = false));
-    },
+    // unlockAll() {
+    //   // this.tools.forEach((tool) => (this.lockMap[tool.type] = false));
+    // },
   },
 });
 </script>

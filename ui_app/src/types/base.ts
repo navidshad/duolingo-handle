@@ -13,7 +13,17 @@ export type ToolType =
 export type SubtoolType = "capture-text";
 
 // An Electron window frame.
-export type WindowType = "login" | "tools-box" | ToolType | SubtoolType;
+export type WindowType =
+  | "login"
+  | "choose-exam-type"
+  | "tools-box"
+  | ToolType
+  | SubtoolType;
+
+// The type of running mode
+// exam: the user is doing an real exam.
+// practice: the user is practicing only.
+export type IntentionMode = "exam" | "practice";
 
 export interface Rectangle {
   width: number;

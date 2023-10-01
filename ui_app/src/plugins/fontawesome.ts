@@ -9,6 +9,16 @@ import { fas } from "@fortawesome/free-solid-svg-icons";
 
 library.add(fas);
 
+/**
+ * Example
+ *
+ * Props:
+ * icon="fa-solid fa-stop-circle"
+ *
+ * Tag:
+ * <font-awesome-icon icon="fa-solid fa-stop-circle" />
+ */
+
 export default {
   install(app: any) {
     app.component("font-awesome-icon", FontAwesomeIcon);

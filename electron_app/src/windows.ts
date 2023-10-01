@@ -28,7 +28,17 @@ export const windowsConfigs: WindowConfig[] = [
     initConfig: {
       height: 400,
       width: 600,
-      title: "Login With Token",
+      title: "Duolingo Handle",
+      alwaysOnTop: true,
+      resizable: true,
+    },
+  },
+  {
+    type: "choose-exam-type",
+    initConfig: {
+      height: 400,
+      width: 600,
+      title: "Duolingo Handle",
       alwaysOnTop: true,
       resizable: true,
     },

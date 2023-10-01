@@ -12,6 +12,11 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("../views/Login.vue"),
   },
   {
+    path: "/choose-exam-type",
+    name: "choose-exam-type",
+    component: () => import("../views/ChooseExamType.vue"),
+  },
+  {
     path: "/tools-box",
     name: "tools-box",
     component: () => import("../views/ToolBox.vue"),

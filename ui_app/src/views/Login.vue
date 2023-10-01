@@ -14,22 +14,22 @@ export default defineComponent({
   methods: {
     login() {
       window.electronAPI.writeInStore("voucher", this.token);
-      this.goToApp();
+      this.$router.push("/choose-exam-type");
     },
 
-    goToApp() {
-      window.electronAPI.sendMessage(
-        new OpenWindowEvent({
-          windowType: "tools-box",
-        })
-      );
+    // goToApp() {
+    //   window.electronAPI.sendMessage(
+    //     new OpenWindowEvent({
+    //       windowType: "tools-box",
+    //     })
+    //   );
 
-      window.electronAPI.sendMessage(
-        new CloseToolEvent({
-          id: "login",
-        })
-      );
-    },
+    //   window.electronAPI.sendMessage(
+    //     new CloseToolEvent({
+    //       id: "login",
+    //     })
+    //   );
+    // },
   },
 });
 </script>

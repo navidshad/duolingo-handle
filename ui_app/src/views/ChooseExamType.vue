@@ -6,9 +6,9 @@ import { defineComponent } from "vue";
 export default defineComponent({
   data() {
     return {
-      runtimeModes: <{ type: IntentionMode; icon: string[] }[]>[
-        { type: "practice", icon: ["fas", "ice-cream"] },
-        { type: "exam", icon: ["fas", "face-grin-beam"] },
+      runtimeModes: <{ type: IntentionMode; lordIcon: string }[]>[
+        { type: "practice", lordIcon: "/lord-icons/karate.json" },
+        { type: "exam", lordIcon: "/lord-icons/business-card.json" },
       ],
     };
   },
@@ -45,12 +45,19 @@ export default defineComponent({
         :key="i"
         width="150"
         height="200"
-        class="d-flex flex-col justify-center items-center hover:shadow-lg cursor-pointer"
+        class="card d-flex flex-col justify-center items-center hover:shadow-lg cursor-pointer"
         @click="onSelectMode(mode.type)"
       >
-        <font-awesome-icon :icon="mode.icon" size="4x" class="mb-6" />
+        <lord-icon
+          class="scale-[3] mb-10"
+          trigger="hover"
+          target=".card"
+          :src="mode.lordIcon"
+        />
+
         <h3>{{ mode.type.toUpperCase() }}</h3>
       </v-card>
     </section>
   </div>
 </template>
+@/plugins/index

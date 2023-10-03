@@ -32,11 +32,11 @@ jobs:
 
       # Build the Docker image
       - name: Build the Docker image
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/duolingo-handle:${ env.IMAGE_TAG } -f server.Dockerfile .
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/duolingo-handle:${{ env.IMAGE_TAG }} -f server.Dockerfile .
 
       # Push the Docker image to Docker Hub
       - name: Push the Docker image to Docker Hub
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/duolingo-handle:${ env.IMAGE_TAG }
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/duolingo-handle:${{ env.IMAGE_TAG }}
 
   deploy:
     runs-on: ubuntu-latest

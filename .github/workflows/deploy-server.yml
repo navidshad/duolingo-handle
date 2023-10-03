@@ -44,12 +44,14 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Read Docker Compose File
-        id: read-compose
-        run: |
-          # read and compress json file
-          COMPOSE_CONTENT=$(cat ./docker-compose.json | jq -c .)
-          echo "::set-output name=compose-content::${COMPOSE_CONTENT}"
+      - name: Copy docker-compose file to EC2
+        uses: garygrossgarten/github-action-scp@release
+        with:
+          local: ./docker-compose.yaml
+          remote: ./docker-compose.yaml
+          host: ${{ secrets.EC2_HOST }}
+          username: ec2-user
+          privateKey: ${{ secrets.EC2_KEY }}
 
       # Deploy the Docker image to EC2 by SSH
       - name: Deploy the Docker image to EC2 by SSH
@@ -59,8 +61,6 @@ jobs:
           username: ec2-user
           key: ${{ secrets.EC2_KEY }}
           script: |
-            # Create docker compose File and print it
-            echo "${{ steps.read-compose.outputs.compose-content }}" > docker-compose.json
             # Remove the previous version of the app, if exists
             docker-compose down
             # Remove all images starts with "SERVER-"
@@ -72,4 +72,4 @@ jobs:
             export GOOGLE_CLOUD_API_KEY=${{ secrets.GOOGLE_CLOUD_API_KEY }}
             export OPENAI_KEY=${{ secrets.OPENAI_KEY }}
             # Up the app
-            docker-compose -f docker-compose.json up -d
+            docker-compose up -d

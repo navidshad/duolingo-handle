@@ -1,4 +1,4 @@
-# simple docker file to build a vue app
+# Simple docker file to build a vue app
 # and serve it with nginx
 
 # -------------------------------------

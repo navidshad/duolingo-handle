@@ -65,7 +65,7 @@ jobs:
             # Remove all images starts with "SERVER-"
             docker rmi $(docker images -q --filter "reference=SERVER-*")
             # Set env variables
-            export SERVER_IMAGE_NAME=${{ IMAGE_TAG }}
+            export SERVER_IMAGE_NAME=${{ env.IMAGE_TAG }}
             export SERVER_ADMIN_EMAIL=${{ variables.SERVER_ADMIN_EMAIL }}
             export SERVER_ADMIN_PASSWORD=${{ variables.SERVER_ADMIN_PASSWORD }}
             export GOOGLE_CLOUD_API_KEY=${{ secrets.GOOGLE_CLOUD_API_KEY }}

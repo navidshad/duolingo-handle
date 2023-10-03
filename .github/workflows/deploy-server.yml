@@ -47,7 +47,7 @@ jobs:
       - name: Read Docker Compose File
         id: read-compose
         run: |
-          COMPOSE_CONTENT=$(cat ./docker-compose.yml)
+          COMPOSE_CONTENT=$(cat ./docker-compose.yaml)
           echo "::set-output name=compose-content::$COMPOSE_CONTENT"
 
       # Deploy the Docker image to EC2 by SSH

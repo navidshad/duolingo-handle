@@ -51,7 +51,7 @@ jobs:
           remote: ./docker-compose.yaml
           host: ${{ secrets.EC2_HOST }}
           username: ec2-user
-          privateKey: ${{ secrets.EC2_KEY }}
+          passphrase: ${{ secrets.EC2_KEY }}
 
       # Deploy the Docker image to EC2 by SSH
       - name: Deploy the Docker image to EC2 by SSH

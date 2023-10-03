@@ -9,10 +9,14 @@ services:
       - ./data:/data/db
 
   server:
-    image: "server:latest"
+    image: "${SERVER_IMAGE_NAME:-duolingo-server}"
+    restart: always
     ports:
       - "8081:81"
     environment:
-      - "SPRING_PROFILES_ACTIVE=dev"
+      - "ADMIN_EMAIL=${SERVER_ADMIN_EMAIL}"
+      - "ADMIN_PASSWORD=${SERVER_ADMIN_PASSWORD}"
+      - "GOOGLE_CLOUD_API_KEY=${GOOGLE_CLOUD_API_KEY}"
+      - "OPENAI_KEY=${OPENAI_KEY}"
     depends_on:
       - "mongo"

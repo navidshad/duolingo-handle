@@ -42,6 +42,14 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
+      - uses: actions/checkout@v3
+
+      - name: Read Docker Compose File
+        id: read-compose
+        run: |
+          COMPOSE_CONTENT=$(cat ./docker-compose.yml)
+          echo "::set-output name=compose-content::$COMPOSE_CONTENT"
+
       # Deploy the Docker image to EC2 by SSH
       - name: Deploy the Docker image to EC2 by SSH
         uses: appleboy/ssh-action@master
@@ -50,16 +58,17 @@ jobs:
           username: ec2-user
           key: ${{ secrets.EC2_KEY }}
           script: |
-            # Set the environment variables for the Docker image
-            export LOCAL_UI_CONTAINER=duolingo-handle-ui
-            export LOCAL_UI_IMAGE=current-ui
-            # Login to Docker Hub
-            docker login -u ${{ secrets.DOCKER_USERNAME }} -p '${{ secrets.DOCKER_PASSWORD }}' && docker pull ${{ secrets.DOCKER_USERNAME }}/duolingo-handle:${IMAGE_TAG}
-            # Stop and remove the old Docker container
-            docker stop $LOCAL_UI_CONTAINER || true
-            docker rm $LOCAL_UI_CONTAINER || true
-            docker rmi ${{ secrets.DOCKER_USERNAME }}/duolingo-handle:$LOCAL_UI_IMAGE || true
-            # Download and tag the Docker image
-            docker tag ${{ secrets.DOCKER_USERNAME }}/duolingo-handle:${IMAGE_TAG} ${{ secrets.DOCKER_USERNAME }}/duolingo-handle:$LOCAL_UI_IMAGE
-            # Run the Docker container in the background
-            docker run -d --restart=always --name $LOCAL_UI_CONTAINER -p 80:80 ${{ secrets.DOCKER_USERNAME }}/duolingo-handle:$LOCAL_UI_IMAGE
+            # Create docker compose File
+            echo "${{ steps.read-compose.outputs.compose-content }}" > docker-compose.yml
+            # Remove the previous version of the app, if exists
+            docker-compose down
+            # Remove all images starts with "SERVER-"
+            docker rmi $(docker images -q --filter "reference=SERVER-*")
+            # Set env variables
+            export SERVER_IMAGE_NAME=${{ IMAGE_TAG }}
+            export SERVER_ADMIN_EMAIL=${{ variables.SERVER_ADMIN_EMAIL }}
+            export SERVER_ADMIN_PASSWORD=${{ variables.SERVER_ADMIN_PASSWORD }}
+            export GOOGLE_CLOUD_API_KEY=${{ secrets.GOOGLE_CLOUD_API_KEY }}
+            export OPENAI_KEY=${{ secrets.OPENAI_KEY }}
+            # Up the app
+            docker-compose up -d

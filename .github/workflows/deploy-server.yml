@@ -63,7 +63,7 @@ jobs:
             # Remove the previous version of the app, if exists
             docker-compose down
             # Remove all images starts with "SERVER-"
-            docker rmi $(docker images -q --filter "reference=SERVER-*")
+            docker rmi $(docker images -q --filter "reference=SERVER-*") &> /dev/null
             # Set env variables
             export SERVER_IMAGE_NAME=${{ env.IMAGE_TAG }}
             export SERVER_ADMIN_EMAIL=${{ env.SERVER_ADMIN_EMAIL }}

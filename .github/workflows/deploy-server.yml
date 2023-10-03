@@ -48,7 +48,7 @@ jobs:
         id: read-compose
         run: |
           COMPOSE_CONTENT=$(cat ./docker-compose.json)
-          echo "::set-output name=compose-content::$COMPOSE_CONTENT"
+          echo "::set-output name=compose-content::${COMPOSE_CONTENT}"
 
       # Deploy the Docker image to EC2 by SSH
       - name: Deploy the Docker image to EC2 by SSH

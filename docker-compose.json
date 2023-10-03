@@ -1,0 +1,29 @@
+{
+	"services": {
+		"mongodb": {
+			"image": "mongo",
+			"ports": [
+				"27017:27017"
+			],
+			"volumes": [
+				"./data:/data/db"
+			]
+		},
+		"server": {
+			"image": "navidshad/duolingo-handle:${SERVER_IMAGE_NAME:-duolingo-server}",
+			"restart": "always",
+			"ports": [
+				"8081:81"
+			],
+			"environment": [
+				"ADMIN_EMAIL=${SERVER_ADMIN_EMAIL}",
+				"ADMIN_PASSWORD=${SERVER_ADMIN_PASSWORD}",
+				"GOOGLE_CLOUD_API_KEY=${GOOGLE_CLOUD_API_KEY}",
+				"OPENAI_KEY=${OPENAI_KEY}"
+			],
+			"depends_on": [
+				"mongodb"
+			]
+		}
+	}
+}

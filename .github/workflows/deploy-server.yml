@@ -45,13 +45,13 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Copy docker-compose file to EC2
-        uses: garygrossgarten/github-action-scp@release
+        uses: appleboy/scp-action@v0.1.4
         with:
-          local: ./docker-compose.yaml
-          remote: ./docker-compose.yaml
+          source: ./docker-compose.yaml
+          target: ./docker-compose.yaml
           host: ${{ secrets.EC2_HOST }}
           username: ec2-user
-          passphrase: ${{ secrets.EC2_KEY }}
+          key: ${{ secrets.EC2_KEY }}
 
       # Deploy the Docker image to EC2 by SSH
       - name: Deploy the Docker image to EC2 by SSH

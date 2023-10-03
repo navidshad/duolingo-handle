@@ -11,9 +11,9 @@ services:
     ports:
       - "8081:81"
     environment:
-      - "ADMIN_EMAIL=${SERVER_ADMIN_EMAIL}"
-      - "ADMIN_PASSWORD=${SERVER_ADMIN_PASSWORD}"
-      - "GOOGLE_CLOUD_API_KEY=${GOOGLE_CLOUD_API_KEY}"
-      - "OPENAI_KEY=${OPENAI_KEY}"
+      - ADMIN_EMAIL=${SERVER_ADMIN_EMAIL}
+      - ADMIN_PASSWORD=${SERVER_ADMIN_PASSWORD}
+      - GOOGLE_CLOUD_API_KEY=${GOOGLE_CLOUD_API_KEY}
+      - OPENAI_KEY=${OPENAI_KEY}
     depends_on:
       - "mongodb"

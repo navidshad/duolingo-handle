@@ -1,14 +1,22 @@
 {
-	"folders": [
-		{
-			"path": "vue_src"
-		},
-		{
-			"path": "electron"
-		},
-		{
-			"path": "."
-		}
-	],
-	"settings": {}
+  "folders": [
+    {
+      "path": "ui_app"
+    },
+    {
+      "path": "electron_app"
+    },
+    {
+      "path": "server_app"
+    },
+    {
+      "path": "admin_app"
+    },
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    "compile-hero.disable-compile-files-on-did-save-code": true
+  }
 }

@@ -58,8 +58,9 @@ jobs:
           username: ec2-user
           key: ${{ secrets.EC2_KEY }}
           script: |
-            # Create docker compose File
+            # Create docker compose File and print it
             echo "${{ steps.read-compose.outputs.compose-content }}" > docker-compose.yml
+            cat docker-compose.yml
             # Remove the previous version of the app, if exists
             docker-compose down
             # Remove all images starts with "SERVER-"

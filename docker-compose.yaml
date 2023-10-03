@@ -1,13 +1,10 @@
-version: "3"
-
 services:
-  mongo:
+  mongodb:
     image: mongo
     ports:
       - "27017:27017"
     volumes:
       - ./data:/data/db
-
   server:
     image: "${SERVER_IMAGE_NAME:-duolingo-server}"
     restart: always
@@ -19,4 +16,4 @@ services:
       - "GOOGLE_CLOUD_API_KEY=${GOOGLE_CLOUD_API_KEY}"
       - "OPENAI_KEY=${OPENAI_KEY}"
     depends_on:
-      - "mongo"
+      - "mongodb"

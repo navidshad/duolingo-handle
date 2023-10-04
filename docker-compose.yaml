@@ -1,5 +1,5 @@
 services:
-  mongo:
+  mongodb:
     image: mongo:latest
     ports:
       - "27017:27017"
@@ -22,4 +22,4 @@ services:
       - GOOGLE_CLOUD_API_KEY=${GOOGLE_CLOUD_API_KEY}
       - OPENAI_KEY=${OPENAI_KEY}
     depends_on:
-      - "mongo"
+      - "mongodb"

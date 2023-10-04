@@ -2,10 +2,10 @@
 FROM node:18
 
 # Install python
-RUN apk add --no-cache python3
+RUN apt-get update && apt-get install -y python3 python3-pip
 
-# Install make and build tools
-RUN apk add --no-cache make g++ libc-dev
+# Install make and build tools make g++ libc-dev
+RUN apt-get install -y build-essential
 
 WORKDIR /app
 COPY ./server_app/package.json ./server_app/yarn.lock ./

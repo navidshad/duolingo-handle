@@ -14,7 +14,7 @@ const app = createRest({
   modulesPath: path.join(__dirname, "modules"),
   staticPath: path.join(__dirname, "assets"),
   mongo: {
-    mongoBaseAddress: "mongodb://localhost:27017",
+    mongoBaseAddress: "mongodb://mongo:27017",
     dbPrefix: "duolingo_",
   },
   onBeforeInit: (koaApp) => {

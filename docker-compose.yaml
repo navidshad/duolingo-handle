@@ -1,12 +1,18 @@
 services:
-  mongodb:
-    image: mongo
+  mongo:
+    image: mongo:latest
     ports:
       - "27017:27017"
     volumes:
       - ./data:/data/db
   server:
     image: navidshad/duolingo-handle:${SERVER_IMAGE_NAME:-duolingo-server}
+    
+    # build from server.Dockerfile
+    # build:
+    #   context: .
+    #   dockerfile: server.Dockerfile
+    #   no_cache: true
     restart: always
     ports:
       - "81:8081"
@@ -16,4 +22,4 @@ services:
       - GOOGLE_CLOUD_API_KEY=${GOOGLE_CLOUD_API_KEY}
       - OPENAI_KEY=${OPENAI_KEY}
     depends_on:
-      - "mongodb"
+      - "mongo"

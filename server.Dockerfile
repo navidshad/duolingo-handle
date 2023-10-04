@@ -1,5 +1,5 @@
-# Write a simple docker file that runs a node server
-FROM node:18-alpine
+# Write a simple docker file that runs a node server for arm64
+FROM node:18
 
 # Install python
 RUN apk add --no-cache python3

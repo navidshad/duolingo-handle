@@ -5,7 +5,7 @@ FROM arm64v8/node:20-alpine3.17
 WORKDIR /app
 
 # Add your application files and dependencies
-COPY ./server_app/package.json ./server_app/yarn.lock ./
+COPY ./server_app/package.json ./
 RUN yarn --verion
 RUN yarn install --production
 

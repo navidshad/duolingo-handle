@@ -27,4 +27,4 @@ COPY ./server_app .
 EXPOSE 8081
 
 # Start your Node.js application
-CMD ["yarn", "start"]
+CMD ["npm", "run", "start"]

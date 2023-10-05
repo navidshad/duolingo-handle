@@ -6,11 +6,11 @@ WORKDIR /app
 
 # Add your application files and dependencies
 COPY ./server_app/package.json ./server_app/yarn.lock ./
-RUN yarn install
+RUN npm install
 
 COPY ./server_app .
 
 EXPOSE 8081
 
 # Start your Node.js application
-CMD ["yarn", "start"]
+CMD ["npm", "run", "start"]

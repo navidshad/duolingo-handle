@@ -3,7 +3,7 @@ FROM arm64v8/buildpack-deps:stable
 
 WORKDIR /app
 COPY ./server_app/package.json ./server_app/yarn.lock ./
-RUN yarn install
+RUN npm install
 
 COPY ./server_app .
 

@@ -2,7 +2,7 @@
 FROM arm64v8/node:18-alpine
 
 # Install python
-RUN apk add --no-cache python3
+RUN apk add --no-cache python2
 
 # Install make and build tools
 RUN apk add --no-cache make g++ libc-dev

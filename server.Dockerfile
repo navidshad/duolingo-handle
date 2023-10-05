@@ -6,7 +6,7 @@ WORKDIR /app
 
 # Add your application files and dependencies
 COPY ./server_app/package.json ./server_app/yarn.lock ./
-RUN npm install
+RUN NODE_ENV=development npm i
 
 COPY ./server_app .
 

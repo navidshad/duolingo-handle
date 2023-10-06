@@ -6,7 +6,6 @@ WORKDIR /app
 
 # Add your application files and dependencies
 COPY ./server_app/package.json ./
-RUN npm --verion
 RUN npm install --production
 
 COPY ./server_app .

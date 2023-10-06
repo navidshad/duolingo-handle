@@ -1,5 +1,5 @@
 # Use a base image that supports ARM64
-FROM arm64v8/node:20-alpine3.17
+FROM node:18
 
 # Set the working directory
 WORKDIR /app

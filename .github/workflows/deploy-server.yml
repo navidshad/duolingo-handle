@@ -71,6 +71,6 @@ jobs:
             # Remove the previous version of the app, if exists
             docker-compose down
             # Remove all stoped images
-            docker system prune -a
+            docker system prune -a --force
             # Up the app
             docker-compose up -d

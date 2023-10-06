@@ -20,7 +20,7 @@ RUN rm -rf /admin
 
 # Production stage
 FROM arm64v8/node:18-alpine as production-stage
-COPY --from=build-stage /app /app
+COPY --from=build-server-stage /app /app
 EXPOSE 8081
 WORKDIR /app
 CMD ["npm", "run", "start"]

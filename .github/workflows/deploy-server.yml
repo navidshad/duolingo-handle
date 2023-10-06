@@ -56,6 +56,12 @@ jobs:
       # Deploy the Docker image to EC2 by SSH
       - name: Deploy the Docker image to EC2 by SSH
         uses: appleboy/ssh-action@master
+        env:
+          SERVER_IMAGE_NAME: ${{ env.IMAGE_TAG }}
+          SERVER_ADMIN_EMAIL: ${{ secrets.SERVER_ADMIN_EMAIL }}
+          SERVER_ADMIN_PASSWORD: ${{ secrets.SERVER_ADMIN_PASSWORD }}
+          GOOGLE_CLOUD_API_KEY: ${{ secrets.GOOGLE_CLOUD_API_KEY }}
+          OPENAI_KEY: ${{ secrets.OPENAI_KEY }}
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ec2-user
@@ -63,13 +69,7 @@ jobs:
           script: |
             # Remove the previous version of the app, if exists
             docker-compose down
-            # Remove all images starts with "SERVER-"
-            docker rmi $(docker images -q --filter "reference=SERVER-*") &> /dev/null
-            # Set env variables
-            export SERVER_IMAGE_NAME=${{ env.IMAGE_TAG }}
-            export SERVER_ADMIN_EMAIL=${{ env.SERVER_ADMIN_EMAIL }}
-            export SERVER_ADMIN_PASSWORD=${{ env.SERVER_ADMIN_PASSWORD }}
-            export GOOGLE_CLOUD_API_KEY=${{ secrets.GOOGLE_CLOUD_API_KEY }}
-            export OPENAI_KEY=${{ secrets.OPENAI_KEY }}
+            # Remove all stoped images
+            docker system prune -a
             # Up the app
             docker-compose up -d

@@ -58,14 +58,15 @@ jobs:
         uses: appleboy/ssh-action@master
         env:
           SERVER_IMAGE_NAME: ${{ env.IMAGE_TAG }}
-          SERVER_ADMIN_EMAIL: ${{ secrets.SERVER_ADMIN_EMAIL }}
-          SERVER_ADMIN_PASSWORD: ${{ secrets.SERVER_ADMIN_PASSWORD }}
+          SERVER_ADMIN_EMAIL: ${{ env.SERVER_ADMIN_EMAIL }}
+          SERVER_ADMIN_PASSWORD: ${{ env.SERVER_ADMIN_PASSWORD }}
           GOOGLE_CLOUD_API_KEY: ${{ secrets.GOOGLE_CLOUD_API_KEY }}
           OPENAI_KEY: ${{ secrets.OPENAI_KEY }}
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ec2-user
           key: ${{ secrets.EC2_KEY }}
+          envs: SERVER_IMAGE_NAME, SERVER_ADMIN_EMAIL, SERVER_ADMIN_PASSWORD, GOOGLE_CLOUD_API_KEY, OPENAI_KEY
           script: |
             # Remove the previous version of the app, if exists
             docker-compose down

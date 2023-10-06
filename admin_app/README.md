@@ -1,6 +1,7 @@
 # admin_app
 
-This template should help get you started developing with Vue 3 in Vite.
+Admin dashboard of duolingo hand system.
+Login: http://ec2-3-121-232-41.eu-central-1.compute.amazonaws.com:81
 
 ## Recommended IDE Setup
 

@@ -12,9 +12,12 @@ require("dotenv").config({
 const app = createRest({
   port: 8081,
   modulesPath: path.join(__dirname, "modules"),
-  staticPath: path.join(__dirname, "assets"),
+  static: {
+    rootDir: path.join(__dirname, "public"),
+    rootPath: "/",
+  },
   mongo: {
-    mongoBaseAddress: "mongodb://mongo:27017",
+    mongoBaseAddress: "mongodb://localhost:27017",
     dbPrefix: "duolingo_",
   },
   onBeforeInit: (koaApp) => {

@@ -1,14 +1,23 @@
 # Use a base image that supports ARM64
 FROM node:20-alpine3.17 as build-stage
 
-# Set the working directory
-WORKDIR /app
+# Buld admin app
+WORKDIR /admin
+COPY ./admin_app/package.json ./
+RUN npm install
+COPY ./admin_app .
+RUN npm run build
 
-# Add your application files and dependencies
+# Setup server app
+WORKDIR /app
 COPY ./server_app/package.json ./
 RUN npm install
-
 COPY ./server_app .
+
+# Copy admin app to server app
+WORKDIR /
+COPY --from=build-stage /admin/dist ./app/public
+RUN rm -rf /admin
 
 # Production stage
 FROM arm64v8/node:18-alpine as production-stage

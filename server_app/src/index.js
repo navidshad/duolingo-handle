@@ -16,7 +16,7 @@ const app = createRest({
   modulesPath: path.join(__dirname, "modules"),
   static: {
     rootDir: path.join(__dirname, "public"),
-    rootPath: "/",
+    rootPath: "/admin",
     log: true,
   },
   mongo: {

@@ -50,16 +50,20 @@ jobs:
           username: ec2-user
           key: ${{ secrets.EC2_KEY }}
           script: |
+            # Login to Docker Hub
+            docker login -u ${{ secrets.DOCKER_USERNAME }} -p '${{ secrets.DOCKER_PASSWORD }}' && docker pull ${{ secrets.DOCKER_USERNAME }}/duolingo-handle:${IMAGE_TAG}
+            
             # Set the environment variables for the Docker image
             export LOCAL_UI_CONTAINER=duolingo-handle-ui
             export LOCAL_UI_IMAGE=current-ui
-            # Login to Docker Hub
-            docker login -u ${{ secrets.DOCKER_USERNAME }} -p '${{ secrets.DOCKER_PASSWORD }}' && docker pull ${{ secrets.DOCKER_USERNAME }}/duolingo-handle:${IMAGE_TAG}
+            
             # Stop and remove the old Docker container
             docker stop $LOCAL_UI_CONTAINER || true
-            docker rm $LOCAL_UI_CONTAINER || true
-            docker rmi ${{ secrets.DOCKER_USERNAME }}/duolingo-handle:$LOCAL_UI_IMAGE || true
+            docker rm --force $LOCAL_UI_CONTAINER || true
+            docker rmi --force ${{ secrets.DOCKER_USERNAME }}/duolingo-handle:$LOCAL_UI_IMAGE || true
+            
             # Download and tag the Docker image
             docker tag ${{ secrets.DOCKER_USERNAME }}/duolingo-handle:${IMAGE_TAG} ${{ secrets.DOCKER_USERNAME }}/duolingo-handle:$LOCAL_UI_IMAGE
+            
             # Run the Docker container in the background
             docker run -d --restart=always --name $LOCAL_UI_CONTAINER -p 80:80 ${{ secrets.DOCKER_USERNAME }}/duolingo-handle:$LOCAL_UI_IMAGE

@@ -1,5 +1,5 @@
-import { TextAnnotation } from "@/types/vision";
-import { CompletionMessage } from "@/types/gpt";
+import type { TextAnnotation } from "@/types/vision";
+import type { CompletionMessage } from "@/types/gpt";
 import { httpClient } from "@/plugins/axios";
 
 const voucher = null;

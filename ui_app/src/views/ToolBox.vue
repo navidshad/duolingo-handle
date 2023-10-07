@@ -38,8 +38,8 @@
 
 <script lang="ts">
 import { defineComponent, inject } from "vue";
-import { ToolType } from "@/types/base";
-import { BaseEvent, OpenToolEvent, SetIgnoreMouseEvents } from "@/types/event";
+import type { ToolType } from "@/types/base";
+import { type BaseEvent, OpenToolEvent } from "@/types/event";
 
 export default defineComponent({
   name: "toolsbox",

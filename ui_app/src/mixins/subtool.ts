@@ -1,6 +1,6 @@
 import { defineComponent } from "vue";
 import { CloseToolEvent } from "@/types/event";
-import { ToolType } from "@/types/base";
+import type { ToolType } from "@/types/base";
 
 export default defineComponent({
   computed: {
@@ -18,7 +18,7 @@ export default defineComponent({
   methods: {
     close() {
       window.electronAPI.sendMessage(
-        new CloseToolEvent({ id: this.channelId }),
+        new CloseToolEvent({ id: this.channelId })
       );
     },
 

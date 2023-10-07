@@ -1,5 +1,4 @@
 <script lang="ts">
-import { CloseToolEvent, OpenWindowEvent } from "@/types/event";
 import { defineComponent } from "vue";
 
 export default defineComponent({

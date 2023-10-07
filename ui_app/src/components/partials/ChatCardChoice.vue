@@ -43,8 +43,8 @@
 
 <script lang="ts">
 import { createChatCompletion } from "@/services/ai";
-import { DialogType } from "@/types/conversation";
-import { CompletionMessage } from "@/types/gpt";
+import type { DialogType } from "@/types/conversation";
+import type { CompletionMessage } from "@/types/gpt";
 import { inject } from "vue";
 import { defineComponent } from "vue";
 
@@ -54,7 +54,7 @@ export default defineComponent({
       diaglogs: inject<DialogType[]>("diaglogs", []),
       getDialogsSummary: inject<(index: number) => string>(
         "getDialogsSummary",
-        (index: number) => "",
+        (index: number) => ""
       ),
     };
   },

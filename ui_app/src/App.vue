@@ -6,8 +6,8 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { WindowType } from "./types/base";
-import { SetIgnoreMouseEvents } from "./types/event";
+import type { WindowType } from "./types/base";
+import type { SetIgnoreMouseEvents } from "./types/event";
 
 export default defineComponent({
   provide() {

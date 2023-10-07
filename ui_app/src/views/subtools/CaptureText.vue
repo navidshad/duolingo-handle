@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts">
-import { WindowType } from "@/types/base";
+import type { WindowType } from "@/types/base";
 import { defineComponent } from "vue";
 import subtoolMixin from "@/mixins/subtool";
 import { extractTextWithCustomBound } from "@/helpers/screen";

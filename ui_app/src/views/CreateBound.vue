@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts">
-import { WindowType } from "@/types/base";
+import type { WindowType } from "@/types/base";
 import { defineComponent } from "vue";
 
 type Coordinate = { x: number; y: number };

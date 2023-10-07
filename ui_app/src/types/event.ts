@@ -1,4 +1,4 @@
-import { SubtoolType, ToolType, WindowType } from "./base";
+import type { SubtoolType, ToolType, WindowType } from "./base";
 
 export type EventType =
   | "system-info"

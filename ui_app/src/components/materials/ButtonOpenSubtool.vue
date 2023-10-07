@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts">
-import { SubtoolType } from "@/types/base";
+import type { SubtoolType } from "@/types/base";
 import { OpenSubtoolEvent } from "@/types/event";
 import { defineComponent } from "vue";
 

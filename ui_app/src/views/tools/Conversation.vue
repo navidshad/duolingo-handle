@@ -76,8 +76,8 @@ import ChatCard from "@/components/materials/ChatCard.vue";
 import ChatCardVoice from "@/components/partials/ChatCardVoice.vue";
 import ChatCardChoice from "@/components/partials/ChatCardChoice.vue";
 import { computed } from "vue";
-import { DialogType } from "@/types/conversation";
-import { CompletionMessage } from "@/types/gpt";
+import type { DialogType } from "@/types/conversation";
+import type { CompletionMessage } from "@/types/gpt";
 import { createChatCompletion } from "@/services/ai";
 
 export default defineComponent({

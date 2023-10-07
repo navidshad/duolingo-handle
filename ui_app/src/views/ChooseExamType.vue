@@ -1,5 +1,5 @@
 <script lang="ts">
-import { IntentionMode } from "@/types/base";
+import type { IntentionMode } from "@/types/base";
 import { CloseToolEvent, OpenWindowEvent } from "@/types/event";
 import { defineComponent } from "vue";
 

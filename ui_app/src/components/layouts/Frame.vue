@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts">
-import { BaseEvent, SetIgnoreMouseEvents } from "@/types/event";
+import type { BaseEvent, SetIgnoreMouseEvents } from "@/types/event";
 import { defineComponent } from "vue";
 
 export default defineComponent({

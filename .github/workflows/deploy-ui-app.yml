@@ -64,6 +64,9 @@ jobs:
             
             # Download and tag the Docker image
             docker tag ${{ secrets.DOCKER_USERNAME }}/duolingo-handle:${{ env.IMAGE_TAG }} ${{ secrets.DOCKER_USERNAME }}/duolingo-handle:$LOCAL_UI_IMAGE
-            
+            # Remove downloaded Docker image because it's not needed anymore
+            docker rmi ${{ secrets.DOCKER_USERNAME }}/duolingo-handle:${{ env.IMAGE_TAG }}
+
             # Run the Docker container in the background
             docker run -d --restart=always --name $LOCAL_UI_CONTAINER -p 80:80 ${{ secrets.DOCKER_USERNAME }}/duolingo-handle:$LOCAL_UI_IMAGE
+

@@ -7,6 +7,8 @@ require("dotenv").config({
   path: path.resolve(__dirname, "../.env"),
 });
 
+console.log("public dir", path.join(__dirname, "public"));
+
 // Create the rest server
 // The createRest function returns a promise
 const app = createRest({
@@ -15,6 +17,7 @@ const app = createRest({
   static: {
     rootDir: path.join(__dirname, "public"),
     rootPath: "/",
+    log: true,
   },
   mongo: {
     mongoBaseAddress: "mongodb://mongo:27017",

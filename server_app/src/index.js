@@ -15,8 +15,7 @@ const app = createRest({
   port: 8081,
   modulesPath: path.join(__dirname, "modules"),
   static: {
-    rootDir: path.join(__dirname, "public"),
-    rootPath: "/admin",
+    rootDir: "public",
     log: true,
   },
   mongo: {

@@ -137,6 +137,9 @@ export default defineComponent({
         .then((text) => {
           this.emitByChannel({ text });
         })
+        .catch((error) => {
+          this.emitByChannel({ text: error });
+        })
         .finally(() => {
           this.isPending = false;
           this.close();

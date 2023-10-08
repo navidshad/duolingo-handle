@@ -126,12 +126,14 @@ export default defineComponent({
       // @ts-ignore
       let headerHight = (this.$refs.header.$el as HTMLDivElement).clientHeight;
 
-      const [an1] = await extractAnnotationsFromScreen({ y: headerHight });
-      this.question = an1.description;
-
-      this.generateAnswere().finally(() => {
-        this.isPending = false;
-      });
+      await extractAnnotationsFromScreen({ y: headerHight })
+        .then(([an1]) => {
+          this.question = an1.description;
+          return this.generateAnswere();
+        })
+        .finally(() => {
+          this.isPending = false;
+        });
     },
 
     async generateAnswere() {

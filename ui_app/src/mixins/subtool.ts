@@ -23,6 +23,7 @@ export default defineComponent({
     },
 
     emitByChannel(data: any) {
+      debugger;
       window.electronAPI.sendMessageByChannel(this.channelId, data);
     },
   },

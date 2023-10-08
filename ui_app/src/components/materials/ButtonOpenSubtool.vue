@@ -58,6 +58,7 @@ export default defineComponent({
       const _this = this;
       window.electronAPI.onMessageByChannel(this.channelId, (data) => {
         _this.isPending = false;
+        debugger;
         _this.$emit("onData", data);
       });
     },

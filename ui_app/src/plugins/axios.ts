@@ -1,5 +1,6 @@
 "use strict";
 import axios from "axios";
+import { useToast } from "vue-toastification";
 
 // @ts-ignore
 const _axios = axios.create({
@@ -25,7 +26,13 @@ _axios.interceptors.response.use(
   },
   function (error) {
     // Do something with response error
-    return Promise.reject(error);
+    useToast().error(error.response.data);
+
+    if (error.response?.data) {
+      return Promise.reject(error.response.data);
+    } else {
+      return Promise.reject(error);
+    }
   }
 );
 

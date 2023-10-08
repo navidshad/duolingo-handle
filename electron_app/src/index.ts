@@ -1,5 +1,4 @@
 import { app, BrowserWindow } from "electron";
-import { GoogleCloud } from "./services/google-cloud.service";
 import { TextService } from "./services/text.service";
 import { isDev } from "./statics";
 import { config } from "dotenv";
@@ -32,7 +31,6 @@ config({ path: path.join(__dirname, envFileName) });
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
 
 // Initialize services
-const googleCloudService = new GoogleCloud(process.env.GOOGLE_CLOUD_API_KEY);
 const textService = new TextService();
 const storagService = new StoragService();
 

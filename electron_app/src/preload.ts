@@ -18,6 +18,7 @@ export const captureScreenShotBySourceID = (
   const context = canvas.getContext("2d") as CanvasRenderingContext2D;
   const video = document.createElement("video");
 
+  // eslint-disable-next-line no-async-promise-executor
   return new Promise(async (resolve, reject) => {
     try {
       const captureStream = await navigator.mediaDevices.getUserMedia({
@@ -126,21 +127,6 @@ contextBridge.exposeInMainWorld("electronAPI", {
     return captureScreenShotBySourceID(sourceId, bound);
   },
 
-  detectTextPositionsFromImage: (base64: Text) =>
-    ipcRenderer.invoke("gcloud:detect-text-positions", base64),
-  detectTextFromImage: (base64: Text) =>
-    ipcRenderer.invoke("gcloud:detect-text", base64),
-  detectTextFromAudio: (base64: string) =>
-    ipcRenderer.invoke("gcloud:detect-text-from-audio", base64),
-  translateText: (data: { phrase: string; lang: string }) =>
-    ipcRenderer.invoke("gcloud:translate-text", data),
-
-  checkValidWord: (word: string) =>
-    ipcRenderer.invoke("text:validate-word", word),
-  createCompletion: (prompt: string, model: string) =>
-    ipcRenderer.invoke("text:create-completion", { prompt, model }),
-  createChatCompletion: (messages: [], model: string) =>
-    ipcRenderer.invoke("text:create-chat-completion", { messages, model }),
   writeByKeyboard: (string: string) =>
     ipcRenderer.invoke("text:write-by-keyboard", string),
 });

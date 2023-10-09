@@ -26,13 +26,17 @@ _axios.interceptors.response.use(
   },
   function (error) {
     // Do something with response error
-    useToast().error(error.response.data);
+    let errorMsg = "";
 
-    if (error.response?.data) {
-      return Promise.reject(error.response.data);
-    } else {
-      return Promise.reject(error);
-    }
+    if (typeof error.response?.data == "string")
+      errorMsg = error.response?.data;
+    else if (error.response?.data.message)
+      errorMsg = error.response?.data.message;
+    else errorMsg = "Something went wrong!";
+
+    useToast().error(errorMsg);
+
+    return Promise.reject(errorMsg);
   }
 );
 

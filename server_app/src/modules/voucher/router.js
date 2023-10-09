@@ -2,27 +2,33 @@ let Router = require("koa-router");
 
 const { reply, getCollection } = require("@modular-rest/server");
 
-let name = "flower";
+let name = "voucher";
 let backup = new Router();
 
-backup.get("/", async (ctx) => {
-  ctx.body = reply.create("s", {
-    message: "Your student module is working!",
-  });
-});
+backup.post("/check", async (ctx) => {
+  const { voucher } = ctx.request.body || {};
 
-backup.get("/list", async (ctx) => {
-  try {
-    let collection = getCollection("flower", "wildflowers");
-    let result = await collection.find({}).exec();
-
-    ctx.body = reply.create("s", {
-      data: result,
-    });
-  } catch (err) {
-    ctx.code = 500;
+  if (!voucher) {
+    ctx.status = 400;
     ctx.body = reply.create("e", {
-      message: err.message || "Something went wrong",
+      message: "Please provide a voucher",
+    });
+  }
+
+  let collection = getCollection("exam", "voucher");
+  const voucherDoc = await collection
+    .find({ _id: voucher })
+    .exec()
+    .catch((err) => null);
+
+  if (!voucherDoc) {
+    ctx.status = 404;
+    ctx.body = reply.create("e", {
+      message: "Voucher invalid",
+    });
+  } else {
+    ctx.body = reply.create("s", {
+      data: voucherDoc,
     });
   }
 });

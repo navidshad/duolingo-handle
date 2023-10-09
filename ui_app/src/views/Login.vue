@@ -1,5 +1,7 @@
 <script lang="ts">
+import { httpClient } from "@/plugins/axios";
 import { defineComponent } from "vue";
+import { useToast } from "vue-toastification";
 
 export default defineComponent({
   name: "Login",
@@ -7,7 +9,17 @@ export default defineComponent({
   data() {
     return {
       token: "",
+      isPending: false,
     };
+  },
+
+  mounted() {
+    window.electronAPI.readFromStore("voucher").then((voucher) => {
+      debugger;
+      if (voucher) {
+        this.token = voucher;
+      }
+    });
   },
 
   methods: {
@@ -16,19 +28,16 @@ export default defineComponent({
       this.$router.push("/choose-exam-type");
     },
 
-    // goToApp() {
-    //   window.electronAPI.sendMessage(
-    //     new OpenWindowEvent({
-    //       windowType: "tools-box",
-    //     })
-    //   );
+    async checkVoucher() {
+      this.isPending = true;
 
-    //   window.electronAPI.sendMessage(
-    //     new CloseToolEvent({
-    //       id: "login",
-    //     })
-    //   );
-    // },
+      await httpClient
+        .post("/voucher/check", { voucher: this.token })
+        .then((response) => this.login())
+        .finally(() => {
+          this.isPending = false;
+        });
+    },
   },
 });
 </script>
@@ -45,6 +54,8 @@ export default defineComponent({
       />
     </div>
 
-    <v-btn @click="login" color="primary">Login</v-btn>
+    <v-btn :loading="isPending" @click="checkVoucher" color="primary"
+      >Login</v-btn
+    >
   </section>
 </template>

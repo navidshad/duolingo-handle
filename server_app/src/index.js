@@ -19,7 +19,7 @@ const app = createRest({
     log: true,
   },
   mongo: {
-    mongoBaseAddress: "mongodb://mongo:27017",
+    mongoBaseAddress: process.env.MONGO_BASE_ADDRESS || "mongodb://mongo:27017",
     dbPrefix: "duolingo_",
   },
   onBeforeInit: (koaApp) => {

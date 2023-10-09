@@ -9,7 +9,10 @@
       "request": "launch",
       "name": "Server",
       "skipFiles": ["<node_internals>/**"],
-      "program": "${workspaceFolder}/src/index.js"
+      "program": "${workspaceFolder}/src/index.js",
+      "env": {
+        "MONGO_BASE_ADDRESS": "mongodb://localhost:27017"
+      }
     }
   ]
 }

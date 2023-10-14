@@ -22,20 +22,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Copy nginx conf file to EC2
+      - name: Copy nginx files to EC2
         uses: appleboy/scp-action@v0.1.4
         with:
-          source: "nginx.conf"
+          source: "nginx.conf,nginx_runner.sh"
           target: ./nginx/
-          host: ${{ secrets.EC2_HOST }}
-          username: ec2-user
-          key: ${{ secrets.EC2_KEY }}
-      
-      - name: Copy nginx_runner script to EC2
-        uses: appleboy/scp-action@v0.1.4
-        with:
-          source: "nginx_runner.sh"
-          target: .
           host: ${{ secrets.EC2_HOST }}
           username: ec2-user
           key: ${{ secrets.EC2_KEY }}

@@ -2,8 +2,7 @@
 
 # This script is used to run nginx in a docker container
 
-$NGINX_CONTAINER_NAME = "nginx"
-$IS_NGINX_RUNNING = $(docker ps -a | grep $NGINX_CONTAINER_NAME)
+NGINX_CONTAINER_NAME = "nginx"
 
 docker stop $NGINX_CONTAINER_NAME >/dev/null
 docker rm $NGINX_CONTAINER_NAME >/dev/null

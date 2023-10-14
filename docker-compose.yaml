@@ -1,18 +1,26 @@
 services:
+  nginx:
+    image: navidshad/duolingo-handle:${NGINX_IMAGE_NAME}
+    ports:
+      - "80:80"
+    restart: always
+
+  exam-ui:
+    image: navidshad/duolingo-handle:${EXAM_UI_IMAGE_NAME:-duolingo-handle-ui:latest}
+    ports:
+      - "8080:8080"
+    restart: always
+
   mongo:
     image: mongo:latest
     ports:
       - "27017:27017"
     volumes:
       - ./data:/data/db
+    restart: always
+
   server:
     image: navidshad/duolingo-handle:${SERVER_IMAGE_NAME:-duolingo-handle:latest}
-
-    # build from server.Dockerfile
-    # build:
-    #   context: .
-    #   dockerfile: server.Dockerfile
-    #   no_cache: true
     restart: always
     ports:
       - "8081:8081"

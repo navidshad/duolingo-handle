@@ -5,7 +5,7 @@ services:
       - "80:80"
     restart: always
 
-  exam-ui:
+  examui:
     image: navidshad/duolingo-handle:${EXAM_UI_IMAGE_NAME:-duolingo-handle-ui:latest}
     ports:
       - "8080:80"

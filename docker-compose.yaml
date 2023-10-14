@@ -1,10 +1,4 @@
 services:
-  nginx:
-    image: navidshad/duolingo-handle:${NGINX_IMAGE_NAME}
-    ports:
-      - "80:80"
-    restart: always
-
   examui:
     image: navidshad/duolingo-handle:${EXAM_UI_IMAGE_NAME:-duolingo-handle-ui:latest}
     ports:
@@ -31,3 +25,12 @@ services:
       - OPENAI_KEY=${OPENAI_KEY}
     depends_on:
       - "mongo"
+
+  nginx:
+    image: navidshad/duolingo-handle:${NGINX_IMAGE_NAME}
+    ports:
+      - "80:80"
+    restart: always
+    depends_on:
+      - "examui"
+      - "server"

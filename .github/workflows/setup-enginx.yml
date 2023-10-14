@@ -40,5 +40,5 @@ jobs:
           key: ${{ secrets.EC2_KEY }}
           script: |
            chmod +x nginx_runner.sh
-	   ./nginx_runner.sh
+           ./nginx_runner.sh
 

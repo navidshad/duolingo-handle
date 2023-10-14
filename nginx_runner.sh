@@ -2,6 +2,11 @@
 
 # This script is used to run nginx in a docker container
 
+# install "grep" if it is not installed
+if ! [ -x "$(command -v grep)" ]; then
+	sudo yum install -y grep
+fi
+
 $NGINX_CONTAINER_NAME = "nginx"
 $IS_NGINX_RUNNING = $(docker ps -a | grep $NGINX_CONTAINER_NAME)
 

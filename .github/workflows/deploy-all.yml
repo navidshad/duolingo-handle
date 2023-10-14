@@ -81,4 +81,4 @@ jobs:
             # Remove all stoped images
             docker system prune -a --force
             # Up the app
-            docker-compose up -d
+            docker-compose up --remove-orphans -d

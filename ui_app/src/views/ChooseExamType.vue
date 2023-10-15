@@ -7,8 +7,8 @@ export default defineComponent({
   data() {
     return {
       runtimeModes: <{ type: IntentionMode; lordIcon: string }[]>[
-        { type: "practice", lordIcon: "/lord-icons/karate.json" },
-        { type: "exam", lordIcon: "/lord-icons/business-card.json" },
+        { type: "practice", lordIcon: "lord-icons/karate.json" },
+        { type: "exam", lordIcon: "lord-icons/business-card.json" },
       ],
     };
   },

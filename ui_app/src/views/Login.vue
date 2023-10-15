@@ -15,7 +15,6 @@ export default defineComponent({
 
   mounted() {
     window.electronAPI.readFromStore("voucher").then((voucher) => {
-      debugger;
       if (voucher) {
         this.token = voucher;
       }

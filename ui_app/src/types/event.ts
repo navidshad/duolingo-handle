@@ -8,7 +8,9 @@ export type EventType =
   | "open-window"
   | "close-tools"
   | "close-tool"
-  | "set-ignore-mouse-event";
+  | "set-ignore-mouse-event"
+  | "set-exam-type"
+  | "time-tick";
 
 export interface BaseEvent {
   type: EventType;
@@ -108,4 +110,38 @@ export class RouteMessageEvent implements BaseEvent {
 export interface SetIgnoreMouseEvents extends BaseEvent {
   value: boolean;
   toolType: ToolType;
+}
+
+// To set which type of exam to take.
+// it affects on the total time user can take the exam. practice exam has less time.
+export class SetExamTypeEvent implements BaseEvent {
+  type: EventType;
+  examType: "exam" | "practice";
+
+  static instanceof(obj: BaseEvent) {
+    return obj.type === "set-exam-type";
+  }
+
+  constructor({ examType }: { examType: "exam" | "practice" }) {
+    this.type = "set-exam-type";
+    this.examType = examType;
+  }
+}
+
+// To sends remaining time to active window.
+// it is used to show the remaining time to user.
+export class TimeTickEvent implements BaseEvent {
+  type: EventType;
+  total: number;
+  remains: number;
+
+  static instanceof(obj: BaseEvent) {
+    return obj.type === "time-tick";
+  }
+
+  constructor(time: { total: number; remains: number }) {
+    this.type = "time-tick";
+    this.total = time.total;
+    this.remains = time.remains;
+  }
 }

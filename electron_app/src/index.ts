@@ -5,18 +5,15 @@ import { config } from "dotenv";
 import path from "path";
 import { StoragService } from "./services/storage.service";
 
-import {
-  WindowsManagerService,
-  OpenToolEvent,
-  WindowType,
-  SetIgnoreMouseEvents,
-} from "./services/windows.service";
+import { WindowsManagerService, WindowType } from "./services/windows.service";
 
 import {
+  SetIgnoreMouseEvents,
   BaseEvent,
   CloseToolEvent,
   OpenSubtoolEvent,
   OpenWindowEvent,
+  OpenToolEvent,
   RouteMessageEvent,
 } from "../../ui_app/src/types/event";
 

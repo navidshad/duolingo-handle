@@ -4,11 +4,6 @@ import { BaseEvent, OpenSubtoolEvent } from "../../../ui_app/src/types/event";
 import { windowsConfigs, WindowConfig } from "../windows";
 
 export { WindowType } from "../../../ui_app/src/types/base";
-export {
-  BaseEvent,
-  OpenToolEvent,
-  SetIgnoreMouseEvents,
-} from "../../../ui_app/src/types/event";
 
 export class WindowsManagerService {
   entryPagePath: string;

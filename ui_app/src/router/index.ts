@@ -26,6 +26,11 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("../views/ToolBox.vue"),
   },
   {
+    path: "/timeup",
+    name: "timeup",
+    component: () => import("../views/TimeUp.vue"),
+  },
+  {
     path: "/words-detector",
     name: "words-detector",
     component: () => import("../views/tools/WordsDetector.vue"),

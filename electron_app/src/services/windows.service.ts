@@ -6,12 +6,15 @@ import { windowsConfigs, WindowConfig } from "../windows";
 export { WindowType } from "../../../ui_app/src/types/base";
 
 export class WindowsManagerService {
+  private static instance: WindowsManagerService;
   entryPagePath: string;
   defaultPreloadPath: string;
 
   windows: { [key: string]: BrowserWindow } = {};
 
   constructor(entryPagePath: string, defaultPreloadPath: string) {
+    WindowsManagerService.instance = this;
+
     this.entryPagePath = entryPagePath;
     this.defaultPreloadPath = defaultPreloadPath;
 
@@ -19,6 +22,10 @@ export class WindowsManagerService {
     ipcMain.handle("window:get-media-source", this.onAskForMediaSourceId);
     ipcMain.handle("window:get-window-bound", this.onAskForBound);
     ipcMain.handle("window:set-window-bound", this.onSetBound);
+  }
+
+  static getInstance() {
+    return this.instance;
   }
 
   private async onAskForMediaSourceId(

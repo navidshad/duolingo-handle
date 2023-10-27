@@ -1,6 +1,7 @@
 import type { SubtoolType, ToolType, WindowType } from "./base";
 
 export type EventType =
+  | "exit"
   | "system-info"
   | "routeMesage"
   | "open-subtool"
@@ -141,5 +142,17 @@ export class TimeTickEvent implements BaseEvent {
   constructor(time: { remains: number }) {
     this.type = "time-tick";
     this.remains = time.remains;
+  }
+}
+
+export class ExitEvent implements BaseEvent {
+  type: EventType;
+
+  static instanceof(obj: BaseEvent): obj is ExitEvent {
+    return obj.type === "exit";
+  }
+
+  constructor() {
+    this.type = "exit";
   }
 }

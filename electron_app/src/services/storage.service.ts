@@ -1,12 +1,12 @@
 import { ipcMain } from "electron";
 import Store from "electron-store";
 
-export class StoragService {
-  private static instance: StoragService;
-  private store: Store;
+export class StorageService {
+  private static instance: StorageService;
+  store: Store;
 
   constructor() {
-    StoragService.instance = this;
+    StorageService.instance = this;
 
     this.store = new Store();
 

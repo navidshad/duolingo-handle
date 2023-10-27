@@ -82,6 +82,10 @@ contextBridge.exposeInMainWorld("electronAPI", {
     );
   },
 
+  // Timer
+  //
+  startTimer: () => ipcRenderer.invoke("time:start"),
+
   // Window
   //
   getMediaSource: (name = "Entire screen") =>

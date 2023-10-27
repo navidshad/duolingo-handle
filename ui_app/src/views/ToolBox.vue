@@ -51,6 +51,10 @@ export default defineComponent({
     TimeCounter,
   },
 
+  mounted() {
+    window.electronAPI.startTimer();
+  },
+
   setup() {
     return {
       sendLockSignal: inject("sendLockSignal") as (

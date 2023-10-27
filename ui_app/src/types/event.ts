@@ -118,7 +118,7 @@ export class SetExamTypeEvent implements BaseEvent {
   type: EventType;
   examType: "exam" | "practice";
 
-  static instanceof(obj: BaseEvent) {
+  static instanceof(obj: BaseEvent): obj is SetExamTypeEvent {
     return obj.type === "set-exam-type";
   }
 
@@ -132,16 +132,14 @@ export class SetExamTypeEvent implements BaseEvent {
 // it is used to show the remaining time to user.
 export class TimeTickEvent implements BaseEvent {
   type: EventType;
-  total: number;
   remains: number;
 
-  static instanceof(obj: BaseEvent) {
+  static instanceof(obj: BaseEvent): obj is TimeTickEvent {
     return obj.type === "time-tick";
   }
 
-  constructor(time: { total: number; remains: number }) {
+  constructor(time: { remains: number }) {
     this.type = "time-tick";
-    this.total = time.total;
     this.remains = time.remains;
   }
 }

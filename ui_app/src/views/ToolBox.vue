@@ -1,6 +1,6 @@
 <template>
   <div class="w-screen h-screen px-2 py-1 flex flex-col">
-    <div class="flex-1">
+    <div class="flex-1 flex justify-between">
       <v-btn
         variant="flat"
         size="x-small"
@@ -10,6 +10,8 @@
       >
         None
       </v-btn>
+
+      <time-counter />
     </div>
 
     <div v-for="toolset in tools" class="flex space-x-1 h-2/5">
@@ -40,9 +42,14 @@
 import { defineComponent, inject } from "vue";
 import type { ToolType } from "@/types/base";
 import { type BaseEvent, OpenToolEvent } from "@/types/event";
+import TimeCounter from "@/components/partials/TimeCounter.vue";
 
 export default defineComponent({
   name: "toolsbox",
+
+  components: {
+    TimeCounter,
+  },
 
   setup() {
     return {

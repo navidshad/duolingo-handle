@@ -8,6 +8,9 @@ async function check(voucherId) {
   return collection
     .findOne({ _id: voucherId })
     .exec()
+    .catch((err) => {
+      return null;
+    })
     .then((voucherDoc) => {
       if (!voucherDoc) {
         return Promise.reject("Voucher invalid");

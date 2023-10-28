@@ -10,6 +10,7 @@ export default defineComponent({
     return {
       token: "",
       isPending: false,
+      totalRemainingExams: 0,
     };
   },
 
@@ -24,7 +25,9 @@ export default defineComponent({
   methods: {
     login() {
       window.electronAPI.writeInStore("voucher", this.token);
-      this.$router.push("/choose-exam-type");
+      this.$router.push(
+        "/choose-exam-type?totalRemainingExams=" + this.totalRemainingExams
+      );
     },
 
     async checkVoucher() {
@@ -32,7 +35,10 @@ export default defineComponent({
 
       await httpClient
         .post("/voucher/check", { voucher: this.token })
-        .then((response) => this.login())
+        .then((data: any) => {
+          this.totalRemainingExams = data.totalRemainingExams as number;
+          this.login();
+        })
         .finally(() => {
           this.isPending = false;
         });

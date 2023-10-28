@@ -1,11 +1,11 @@
-let Router = require("koa-router");
-
-const { reply, getCollection } = require("@modular-rest/server");
+const Router = require("koa-router");
+const { reply } = require("@modular-rest/server");
+const { check, redeem } = require("./service");
 
 let name = "voucher";
-let backup = new Router();
+let voucher = new Router();
 
-backup.post("/check", async (ctx) => {
+voucher.post("/check", async (ctx) => {
   const { voucher } = ctx.request.body || {};
 
   if (!voucher) {
@@ -15,23 +15,37 @@ backup.post("/check", async (ctx) => {
     });
   }
 
-  let collection = getCollection("exam", "voucher");
-  const voucherDoc = await collection
-    .find({ _id: voucher })
-    .exec()
-    .catch((err) => null);
+  await check(voucher)
+    .then((totalRemainingExams) => {
+      ctx.body = reply.create("s", {
+        data: { totalRemainingExams },
+      });
+    })
+    .catch((err) => {
+      ctx.status = 404;
+      ctx.body = reply.create("e", {
+        message: "Voucher invalid",
+      });
+    });
+});
 
-  if (!voucherDoc) {
+voucher.post("/redeem", async (ctx) => {
+  const { voucher } = ctx.request.body || {};
+
+  try {
+    await redeem(voucher).then(({ totalRemainingExams, voucherUsed }) => {
+      ctx.body = reply.create("s", {
+        data: { totalRemainingExams, voucherUsed },
+      });
+    });
+  } catch (err) {
     ctx.status = 404;
     ctx.body = reply.create("e", {
-      message: "Voucher invalid",
-    });
-  } else {
-    ctx.body = reply.create("s", {
-      data: voucherDoc,
+      message:
+        "Something went wrong. Please contact support duolingo.handle@gmail.com",
     });
   }
 });
 
 module.exports.name = name;
-module.exports.main = backup;
+module.exports.main = voucher;

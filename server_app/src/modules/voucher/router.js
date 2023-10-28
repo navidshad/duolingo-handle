@@ -24,7 +24,7 @@ voucher.post("/check", async (ctx) => {
     .catch((err) => {
       ctx.status = 404;
       ctx.body = reply.create("e", {
-        message: "Voucher invalid",
+        message: err || "Voucher invalid",
       });
     });
 });
@@ -41,8 +41,7 @@ voucher.post("/redeem", async (ctx) => {
   } catch (err) {
     ctx.status = 404;
     ctx.body = reply.create("e", {
-      message:
-        "Something went wrong. Please contact support duolingo.handle@gmail.com",
+      message: err + ", Please contact with customer support.",
     });
   }
 });

@@ -19,10 +19,11 @@ async function check(voucherId) {
         totalRemainingExams += examVoucher.remainingExams;
       }
 
+      if (totalRemainingExams <= 0) {
+        return Promise.reject("Voucher fully redeemed");
+      }
+
       return Promise.resolve(totalRemainingExams);
-    })
-    .catch((err) => {
-      return Promise.reject("Voucher invalid");
     });
 }
 
@@ -32,7 +33,7 @@ async function redeem(voucherId) {
   try {
     await check(voucherId);
   } catch (err) {
-    return Promise.reject("Voucher invalid");
+    return Promise.reject(err);
   }
 
   const voucher = await collection.findOne({ _id: voucherId }).exec();

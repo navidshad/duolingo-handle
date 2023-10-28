@@ -25,7 +25,12 @@ export default defineComponent({
   methods: {
     async prepareToContinue() {
       if (this.type === "exam") {
-        await this.redeem();
+        try {
+          await this.redeem();
+        } catch (error) {
+          this.isRedeeming = false;
+          return;
+        }
       }
 
       this.startToolBox();

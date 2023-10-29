@@ -15,7 +15,6 @@ import {
   OpenWindowEvent,
   OpenToolEvent,
   RouteMessageEvent,
-  TimeTickEvent,
   ExitEvent,
 } from "../../ui_app/src/types/event";
 import { TimeService } from "./services/time.service";

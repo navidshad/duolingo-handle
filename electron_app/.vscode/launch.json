@@ -13,6 +13,20 @@
         "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/electron-forge-vscode-win.cmd"
       },
       "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Electron Main Prod",
+      "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/electron-forge-vscode-nix",
+      "windows": {
+        "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/electron-forge-vscode-win.cmd"
+      },
+      "cwd": "${workspaceFolder}",
+      "env": {
+        "FORCE_PROD": "true",
+        "BASE_URL": "https://exam-handler.online/client-app"
+      }
     }
   ]
 }

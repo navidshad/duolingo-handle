@@ -168,7 +168,7 @@ export default defineComponent({
       `;
 
       this.answere = await createChatCompletion({
-        message: [
+        messages: [
           {
             role: "system",
             content: sytemCharacter,

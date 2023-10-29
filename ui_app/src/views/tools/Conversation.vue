@@ -174,7 +174,7 @@ export default defineComponent({
         content: `Summarize the conversation in a paragraph.`,
       });
 
-      createChatCompletion({ message: messages })
+      createChatCompletion({ messages })
         .then((answer) => {
           this.summary = answer;
         })

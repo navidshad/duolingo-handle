@@ -145,7 +145,7 @@ export default defineComponent({
         `,
       });
 
-      createChatCompletion({ message: messages })
+      createChatCompletion({ messages })
         .then((answer) => {
           this.answer = answer;
           this.$emit("onAnswer", answer);

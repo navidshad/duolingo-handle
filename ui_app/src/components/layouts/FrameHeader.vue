@@ -25,6 +25,7 @@
       <!-- Action Buttons -->
       <div class="flex justify-between items-center space-x-1">
         <v-btn
+          v-if="locked !== null"
           class="mx-4"
           size="x-small"
           icon
@@ -77,7 +78,10 @@ export default defineComponent({
 
   props: {
     title: String,
-    locked: Boolean,
+    locked: {
+      type: Boolean,
+      default: null,
+    },
   },
 });
 </script>

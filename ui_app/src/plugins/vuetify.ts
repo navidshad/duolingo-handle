@@ -13,7 +13,7 @@ export const vuetify = createVuetify({
       light: {
         colors: {
           primary: "#5BB318",
-          secondary: "#EAE509",
+          secondary: "#2192FF",
           accent: "#7DCE13",
         },
       },

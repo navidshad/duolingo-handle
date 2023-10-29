@@ -1,6 +1,9 @@
 <template>
   <select
-    class="border-solid border-2 border-gray-900 rounded-md px-2"
+    :class="[
+      'border-solid border-2 border-gray-500 rounded-md px-2',
+      'focus:outline-none focus:border-primary',
+    ]"
     v-model="selectedItem"
   >
     <option v-for="(item, i) in items" :key="i" :value="item">

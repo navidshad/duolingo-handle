@@ -2,6 +2,7 @@
   <v-btn
     :size="size"
     icon="fa-solid fa-microphone-lines"
+    variant="text"
     v-if="!isRecording"
     :loading="isLoading"
     @click="startRecording"
@@ -10,6 +11,7 @@
   <v-btn
     :size="size"
     icon="fa-solid fa-stop-circle"
+    variant="text"
     v-else
     @click="stopRecording"
   >

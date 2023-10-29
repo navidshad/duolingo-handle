@@ -2,7 +2,7 @@
   <div
     class="w-screen h-screen border-2 overflow-hidden"
     :class="{
-      'border-orange-400': !locked,
+      'border-white': !locked,
       'border-gray-400': locked,
     }"
   >
@@ -15,6 +15,12 @@ import type { BaseEvent, SetIgnoreMouseEvents } from "@/types/event";
 import { defineComponent } from "vue";
 
 export default defineComponent({
+  props: {
+    title: {
+      type: String,
+      default: "",
+    },
+  },
   data() {
     return {
       locked: false,

@@ -8,6 +8,17 @@ import * as directives from "vuetify/directives";
 export const vuetify = createVuetify({
   components,
   directives,
+  theme: {
+    themes: {
+      light: {
+        colors: {
+          primary: "#5BB318",
+          secondary: "#2192FF",
+          accent: "#7DCE13",
+        },
+      },
+    },
+  },
   icons: {
     defaultSet: "fa",
     aliases,

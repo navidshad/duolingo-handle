@@ -1,6 +1,6 @@
 <template>
-  <FrameBorder v-slot="{ locked }" class="bg-white">
-    <Frameheader ref="header" title="Voice Recognition" :locked="locked">
+  <FrameBorder class="bg-white">
+    <Frameheader ref="header" title="Voice Recognition">
       <template #actions>
         <button-record-voice
           size="small"

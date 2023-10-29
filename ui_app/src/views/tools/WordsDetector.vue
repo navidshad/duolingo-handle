@@ -5,6 +5,7 @@
         <v-btn
           size="x-small"
           icon="fa fa-user-secret"
+          variant="text"
           :loading="isPending"
           @click="detect"
         />
@@ -16,7 +17,12 @@
           @click="toggleTranslate"
         />
 
-        <v-btn size="x-small" icon="fa fa-eraser" @click="clear" />
+        <v-btn
+          size="x-small"
+          icon="fa fa-eraser"
+          variant="text"
+          @click="clear"
+        />
       </template>
     </Frameheader>
     <section class="h-full w-full relative">

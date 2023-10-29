@@ -1,6 +1,6 @@
 <template>
-  <FrameBorder v-slot="{ locked }" class="bg-white">
-    <Frameheader ref="header" title="Conversation" :locked="locked">
+  <FrameBorder class="bg-white">
+    <Frameheader ref="header" title="Conversation">
       <template #actions> </template>
     </Frameheader>
 

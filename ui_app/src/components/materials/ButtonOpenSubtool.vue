@@ -1,5 +1,11 @@
 <template>
-  <v-btn :size="size" :icon="icon" :loading="isPending" @click="openSubtool" />
+  <v-btn
+    :size="size"
+    variant="text"
+    :icon="icon"
+    :loading="isPending"
+    @click="openSubtool"
+  />
 </template>
 
 <script lang="ts">

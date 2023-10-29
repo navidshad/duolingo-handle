@@ -13,6 +13,7 @@
       <v-btn
         class="my-2"
         size="small"
+        variant="text"
         icon="fa fa-remove"
         @click="$emit('remove')"
       />

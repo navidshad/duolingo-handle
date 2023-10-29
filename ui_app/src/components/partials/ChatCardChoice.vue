@@ -16,7 +16,12 @@
       </div>
 
       <div>
-        <v-btn :loading="isFinding" class="m-2" color="primary" @click="find"
+        <v-btn
+          :loading="isFinding"
+          variant="text"
+          class="m-2"
+          color="primary"
+          @click="find"
           >Find</v-btn
         >
       </div>
@@ -34,6 +39,7 @@
       <v-btn
         class="my-2"
         size="small"
+        variant="text"
         icon="fa fa-remove"
         @click="$emit('remove')"
       />

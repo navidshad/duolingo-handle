@@ -1,7 +1,7 @@
 <template>
   <select
     :class="[
-      'border-solid border-2 border-gray-500 rounded-md px-2',
+      'border-solid border-[1.5px] border-gray-500 rounded-md px-2',
       'focus:outline-none focus:border-primary',
     ]"
     v-model="selectedItem"

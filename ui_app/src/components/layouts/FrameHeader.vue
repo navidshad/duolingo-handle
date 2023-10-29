@@ -1,27 +1,26 @@
 <template>
   <div>
-    <div
-      class="header w-screen h-4 -mt-1 cursor-pointer"
-      :class="{
-        'bg-white': !locked,
-        'bg-gray-400': locked,
-      }"
-    />
     <section
-      class="flex justify-between items-center w-screen h-12 p-2 pr-3 overflow-x-auto"
+      class="header w-screen h-5 py-3 flex items-center justify-center -mt-1 cursor-pointer border-b-[1px]"
       :class="{
         'bg-white': !locked,
         'bg-gray-400': locked,
       }"
     >
       <!-- Title -->
-      <div
-        class="text-gray-700 font-bold select-none"
-        :style="{ minWidth: '150px' }"
-      >
+      <div class="text-gray-700 text-sm select-none">
         <span>{{ title || "" }}</span>
       </div>
+    </section>
 
+    <section
+      class="flex justify-between items-center w-screen h-10 p-2 pr-3 overflow-x-auto"
+      :class="{
+        'bg-white': !locked,
+        'bg-gray-400': locked,
+      }"
+    >
+      <div class="flex-1"></div>
       <!-- Action Buttons -->
       <div class="flex justify-between items-center space-x-1">
         <v-btn

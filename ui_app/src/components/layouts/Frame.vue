@@ -15,6 +15,12 @@ import type { BaseEvent, SetIgnoreMouseEvents } from "@/types/event";
 import { defineComponent } from "vue";
 
 export default defineComponent({
+  props: {
+    title: {
+      type: String,
+      default: "",
+    },
+  },
   data() {
     return {
       locked: false,

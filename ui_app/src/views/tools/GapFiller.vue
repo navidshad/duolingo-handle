@@ -82,6 +82,7 @@ export default defineComponent({
   methods: {
     clear() {
       this.filledText = "";
+      this.detectedText = "";
     },
 
     async detect() {
@@ -109,13 +110,13 @@ export default defineComponent({
       this.isFilling = true;
 
       const systemCharecter = `
-        fill empty positions where marked by "?". 
-        for example "this is a new wo???" is "this is a new world". 
+        fill empty positions where marked by questionmark "?". 
+        Example: currect form of "this is a new wo???" is "this is a new world".
         then put corrected words inside a [] like "this is a new [world]."
       `;
 
       this.filledText = await createChatCompletion({
-        message: [
+        messages: [
           {
             role: "system",
             content: systemCharecter,

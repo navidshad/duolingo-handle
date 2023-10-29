@@ -93,7 +93,7 @@ export async function createCompletion(data: {
 }
 
 export async function createChatCompletion(data: {
-  message: CompletionMessage[];
+  messages: CompletionMessage[];
   model?: string;
 }) {
   const url = "/ai/create-chat-completion";

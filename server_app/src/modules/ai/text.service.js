@@ -26,8 +26,8 @@ class TextService {
   }
 
   createCompletion({ prompt = "", model = "text-davinci-003" }) {
-    return this.openai
-      .createCompletion({
+    return this.openai.completions
+      .create({
         model,
         prompt,
         temperature: 0.5,
@@ -41,13 +41,13 @@ class TextService {
 
   // https://platform.openai.com/docs/guides/gpt/chat-completions-api
   createChatCompletion({ messages = [], model = "gpt-4" }) {
-    return this.openai
-      .createChatCompletion({
+    return this.openai.chat.completions
+      .create({
         model,
         messages: messages,
       })
-      .then((res) => {
-        const [c1] = res.data.choices;
+      .then((data) => {
+        const [c1] = data.choices;
         return c1.message.content;
       });
   }

@@ -3,20 +3,20 @@
     <div
       class="header w-screen h-4 -mt-1 cursor-pointer"
       :class="{
-        'bg-orange-600': !locked,
+        'bg-white': !locked,
         'bg-gray-400': locked,
       }"
     />
     <section
       class="flex justify-between items-center w-screen h-12 p-2 pr-3 overflow-x-auto"
       :class="{
-        'bg-orange-400': !locked,
+        'bg-white': !locked,
         'bg-gray-400': locked,
       }"
     >
       <!-- Title -->
       <div
-        class="text-white font-bold select-none"
+        class="text-gray-700 font-bold select-none"
         :style="{ minWidth: '150px' }"
       >
         <span>{{ title || "" }}</span>
@@ -27,10 +27,15 @@
         <v-btn
           class="mx-4"
           size="x-small"
-          :icon="locked ? 'fa-lock' : 'fa fa-lock-open'"
+          icon
+          variant="text"
           :disabled="locked"
           @click="sendLockSignal(windowType, true)"
-        />
+        >
+          <v-icon color="accent">{{
+            locked ? "fa-lock" : "fa fa-lock-open"
+          }}</v-icon>
+        </v-btn>
 
         <slot name="actions"></slot>
       </div>
@@ -53,7 +58,7 @@ export default defineComponent({
     return {
       sendLockSignal: inject("sendLockSignal") as (
         type: string,
-        isLocked: boolean,
+        isLocked: boolean
       ) => void,
     };
   },

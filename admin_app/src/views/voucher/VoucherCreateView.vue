@@ -4,7 +4,9 @@ import type { VoucherType } from './types/voucher.type'
 import type { SubmitEventPromise } from 'vuetify'
 import { dataProvider } from '@modular-rest/client'
 import { COLLECTIONS, DB } from '@/static/database'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
 const formEl = ref<HTMLFormElement>()
 const formData = ref<VoucherType>({
   email: ''
@@ -77,6 +79,7 @@ async function createVoucher(event: SubmitEventPromise) {
   await event
 
   isLoading.value = false
+  router.push({ name: 'voucher-list' })
 }
 </script>
 

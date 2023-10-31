@@ -15,7 +15,7 @@ COPY ./server_app .
 
 # Copy admin app to server app
 WORKDIR /
-COPY --from=build-admin-stage /admin/dist ./app/public
+COPY --from=build-admin-stage /admin/dist ./app/public/admin
 RUN rm -rf /admin
 
 # Production stage

@@ -36,14 +36,43 @@ async function createVoucher(event: SubmitEventPromise) {
 
   resetValidation()
 
-  await dataProvider
-    .insertOne({
+  try {
+    const alreadyExist = await dataProvider.findOne<VoucherType>({
       database: DB.exam,
       collection: COLLECTIONS.voucher,
-      doc: formData.value
+      query: {
+        email: formData.value.email
+      }
     })
-    .then((res) => {})
-    .catch((res) => (error.value = res.error))
+
+    // If already exist then update
+    //
+    if (alreadyExist) {
+      if (!alreadyExist.examVouchers) alreadyExist.examVouchers = []
+
+      alreadyExist.examVouchers.push({
+        remainingExams: 4
+      })
+
+      await dataProvider.updateOne({
+        database: DB.exam,
+        collection: COLLECTIONS.voucher,
+        query: { _id: alreadyExist._id },
+        update: alreadyExist
+      })
+    }
+    // Else create new one
+    //
+    else {
+      await dataProvider.insertOne({
+        database: DB.exam,
+        collection: COLLECTIONS.voucher,
+        doc: formData.value
+      })
+    }
+  } catch (err) {
+    error.value = error as any
+  }
 
   await event
 

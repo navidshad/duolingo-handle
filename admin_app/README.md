@@ -1,7 +1,7 @@
 # admin_app
 
 Admin dashboard of duolingo hand system.
-Login: http://ec2-3-121-232-41.eu-central-1.compute.amazonaws.com:81
+Login: https://exam-handler.online/admin
 
 ## Recommended IDE Setup
 

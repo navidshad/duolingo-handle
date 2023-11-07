@@ -16,9 +16,11 @@ jobs:
           node-version: 18
 
       - name: Install dependencies
+        working-directory: ./electron_app
         run: yarn
 
       - name: Build Mac App
+        working-directory: ./electron_app
         run: yarn build:mac
 
   build-windows:
@@ -31,7 +33,9 @@ jobs:
           node-version: 18
 
       - name: Install dependencies
+        working-directory: ./electron_app
         run: yarn
 
       - name: Build Windows App
+        working-directory: ./electron_app
         run: yarn build:win

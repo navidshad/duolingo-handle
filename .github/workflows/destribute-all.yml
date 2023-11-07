@@ -7,12 +7,12 @@ on:
 
 jobs:
   build-mac:
-    runs-on: macos-latest
+    runs-on: macos-11
     steps:
       - uses: actions/checkout@v2
 
-      - name: Install python3
-        run: brew install python
+    #   - name: Install python
+    #     run: brew install python
 
       - name: Install Node.js
         uses: actions/setup-node@v1

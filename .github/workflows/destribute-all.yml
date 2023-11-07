@@ -11,9 +11,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Install python
-        run: |
-          pip3 install setuptools
+      - name: Install python setuptools
+        run: pip3 install setuptools
 
       - name: Install Node.js
         uses: actions/setup-node@v1
@@ -26,7 +25,7 @@ jobs:
 
       - name: Build Mac App
         working-directory: ./electron_app
-        run: yarn mak:mac
+        run: yarn make:mac
 
   # build-windows:
   #   runs-on: windows-latest
@@ -43,4 +42,4 @@ jobs:
 
   #     - name: Build Windows App
   #       working-directory: ./electron_app
-  #       run: yarn mak:win
+  #       run: yarn make:win

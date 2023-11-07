@@ -11,8 +11,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-    #   - name: Install python
-    #     run: brew install python
+      - name: Install python
+        run: brew reinstall python
 
       - name: Install Node.js
         uses: actions/setup-node@v1

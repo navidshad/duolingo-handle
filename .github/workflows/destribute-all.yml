@@ -27,9 +27,11 @@ jobs:
         working-directory: ./electron_app
         run: |
           echo "BASE_URL=$UI_APP_URL" >> .env.production
+          echo "BASE_URL=$UI_APP_URL" >> .env
           npm run make:mac
 
   build-windows:
+    needs: build-mac
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2
@@ -47,4 +49,5 @@ jobs:
         working-directory: ./electron_app
         run: |
           echo "BASE_URL=$UI_APP_URL" >> .env.production
+          echo "BASE_URL=$UI_APP_URL" >> .env
           yarn make:windows

@@ -8,7 +8,7 @@ export class TimeService {
   private static instance: TimeService;
 
   remainingTime = 0;
-  interval: NodeJS.Timer = null;
+  interval: any = null;
 
   constructor() {
     TimeService.instance = this;

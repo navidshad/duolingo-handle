@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-mac:
+  build-mac-arm:
     runs-on: macos-12
     steps:
       - uses: actions/checkout@v2
@@ -28,11 +28,10 @@ jobs:
         run: |
           echo "BASE_URL=$UI_APP_URL" >> .env.production
           echo "BASE_URL=$UI_APP_URL" >> .env
-          npm run make:mac
+          npm run make
 
   build-windows:
-    needs: build-mac
-    runs-on: windows-latest
+    runs-on: windows-2022
     steps:
       - uses: actions/checkout@v2
 
@@ -50,4 +49,4 @@ jobs:
         run: |
           echo "BASE_URL=$UI_APP_URL" >> .env.production
           echo "BASE_URL=$UI_APP_URL" >> .env
-          yarn make:windows
+          yarn make

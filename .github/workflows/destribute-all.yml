@@ -24,7 +24,8 @@ jobs:
         run: yarn
 
       - name: Build Mac App
-        run: yarn make:mac
+        working-directory: ./electron_app
+        run: npm run make:mac
 
   # build-windows:
   #   runs-on: windows-latest

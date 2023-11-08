@@ -29,8 +29,8 @@ jobs:
           echo "BASE_URL=$UI_APP_URL" >> .env.production
           echo "BASE_URL=$UI_APP_URL" >> .env
           npm run make
-          ls out/make/zip/darwin/arm64
-
+          ls -R out/make
+  
   build-windows:
     needs: build-mac-arm
     runs-on: windows-2022
@@ -52,4 +52,4 @@ jobs:
           echo "BASE_URL=$UI_APP_URL" >> .env.production
           echo "BASE_URL=$UI_APP_URL" >> .env
           yarn make
-          ls out/make/zip/win32/x64
+          dir /s /b out/make

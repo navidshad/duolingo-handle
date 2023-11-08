@@ -27,6 +27,7 @@ jobs:
         working-directory: ./electron_app
         run: |
           echo "BASE_URL=$UI_APP_URL" >> .env.production
+          echo "BASE_URL=$UI_APP_URL" >> .env
           npm run make:mac
 
   # build-windows:

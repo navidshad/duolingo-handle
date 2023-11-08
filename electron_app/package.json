@@ -8,7 +8,7 @@
     "start": "electron-forge start --env isDev=true",
     "package": "electron-forge package",
     "make": "electron-forge make",
-    "make:mac": "electron-forge make --platform=darwin --arch=arm64 --out=out/mac",
+    "make:mac": "DEBUG=electron-rebuild electron-forge make --platform=darwin --arch=arm64 --out=out/mac",
     "make:win": "electron-forge make --platform=win32 --arch=ia32 --out=out/win",
     "publish": "electron-forge publish",
     "lint": "eslint --ext .ts,.tsx ."

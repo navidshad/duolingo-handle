@@ -6,29 +6,28 @@ on:
   workflow_dispatch:
 
 jobs:
-  # build-mac:
-  #   runs-on: macos-12
-  #   steps:
-  #     - uses: actions/checkout@v2
+  build-mac:
+    runs-on: macos-12
+    steps:
+      - uses: actions/checkout@v2
 
-  #     - name: Install python setuptools
-  #       run: pip3 install setuptools
+      - name: Install python setuptools
+        run: pip3 install setuptools
 
-  #     - name: Install Node.js
-  #       uses: actions/setup-node@v1
-  #       with:
-  #         node-version: 16.20.1
+      - name: Install Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16.20.1
 
-  #     - name: Install dependencies
-  #       working-directory: ./electron_app
-  #       run: yarn
+      - name: Install dependencies
+        working-directory: ./electron_app
+        run: yarn
 
-  #     - name: Build Mac App
-  #       working-directory: ./electron_app
-  #       run: |
-  #         echo "BASE_URL=$UI_APP_URL" >> .env.production
-  #         echo "BASE_URL=$UI_APP_URL" >> .env
-  #         npm run make:mac
+      - name: Build Mac App
+        working-directory: ./electron_app
+        run: |
+          echo "BASE_URL=$UI_APP_URL" >> .env.production
+          npm run make:mac
 
   build-windows:
     runs-on: windows-latest
@@ -48,5 +47,4 @@ jobs:
         working-directory: ./electron_app
         run: |
           echo "BASE_URL=$UI_APP_URL" >> .env.production
-          echo "BASE_URL=$UI_APP_URL" >> .env
-          yarn make:win
+          yarn make:windows

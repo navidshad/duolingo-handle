@@ -26,8 +26,8 @@ jobs:
       - name: Build Mac App
         working-directory: ./electron_app
         run: |
-          echo "BASE_URL=$UI_APP_URL" >> .env.production
-          echo "BASE_URL=$UI_APP_URL" >> .env
+          echo "BASE_URL=${{ env.UI_APP_URL }}" >> .env.production
+          echo "BASE_URL=${{ env.UI_APP_URL }}" >> .env
           npm run make
           ls -R out/make
 
@@ -38,6 +38,7 @@ jobs:
           path: |
             electron_app/out/make
             electron_app/.env.production
+            electron_app/.env
           retention-days: 30
 
   build-windows:

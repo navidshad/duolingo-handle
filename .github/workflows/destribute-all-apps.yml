@@ -35,7 +35,9 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: mac-app
-          path: electron_app/out/make
+          path: |
+            electron_app/out/make
+            electron_app/.env.production
           retention-days: 30
 
   build-windows:

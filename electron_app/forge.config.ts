@@ -7,6 +7,7 @@ import { WebpackPlugin } from "@electron-forge/plugin-webpack";
 
 import { mainConfig } from "./webpack.main.config";
 import { rendererConfig } from "./webpack.renderer.config";
+import { join } from "path";
 
 const config: ForgeConfig = {
   packagerConfig: {},
@@ -28,7 +29,7 @@ const config: ForgeConfig = {
             // js: './src/public/renderer.ts',
             name: "main_window",
             preload: {
-              js: "./src/preload.ts",
+              js: join(__dirname, "/src/preload.ts"),
             },
           },
         ],

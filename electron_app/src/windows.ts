@@ -46,7 +46,7 @@ export const windowsConfigs: WindowConfig[] = [
   {
     type: "tools-box",
     initConfig: {
-      height: 230,
+      height: 250,
       width: 220,
       title: "Tools Box",
       alwaysOnTop: true,

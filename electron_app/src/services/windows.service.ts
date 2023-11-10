@@ -80,6 +80,9 @@ export class WindowsManagerService {
       initConfig.webPreferences.preload = this.defaultPreloadPath;
     }
 
+    // Setup auto hide menu bar
+    initConfig.autoHideMenuBar = true;
+
     // Create the browser window.
     const window = new BrowserWindow(initConfig);
 

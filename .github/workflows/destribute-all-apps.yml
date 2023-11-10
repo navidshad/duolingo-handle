@@ -95,7 +95,7 @@ jobs:
 
       - name: Check downloaded files
         run: |
-          ls -R download
+          ls -R
 
       - name: Copy Client App Files to EC2
         uses: appleboy/scp-action@v0.1.4

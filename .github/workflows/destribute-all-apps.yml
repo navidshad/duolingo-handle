@@ -29,7 +29,18 @@ jobs:
           echo "BASE_URL=${{ vars.UI_APP_URL }}" >> .env.production
           echo "BASE_URL=${{ vars.UI_APP_URL }}" >> .env
           npm run make
-          ls -R out/make
+          ZIP_FILE=$(find . -type f -name "*.zip" | head -n 1)
+          cp $ZIP_FILE out/duolingo-mac-arm64.zip
+          ls -R out
+
+      # - name: Copy Mac-App file to EC2
+      #   uses: appleboy/scp-action@v0.1.4
+      #   with:
+      #     source: docker-compose.yaml
+      #     target: .
+      #     host: ${{ secrets.EC2_HOST }}
+      #     username: ec2-user
+      #     key: ${{ secrets.EC2_KEY }}
 
       - name: Upload Mac App Artifact
         uses: actions/upload-artifact@v2
@@ -62,7 +73,9 @@ jobs:
           echo "BASE_URL=${{ vars.UI_APP_URL }}" >> .env.production
           echo "BASE_URL=${{ vars.UI_APP_URL }}" >> .env
           yarn make
-          Get-ChildItem -Path out/make -Recurse | Select-Object -ExpandProperty FullName
+          $ZipFile = Get-ChildItem -Recurse -Filter "*.zip" | Select-Object -First 1
+          Copy-Item $ZipFile.FullName out/duolingo-windows.zip
+          Get-ChildItem -Path out -Recurse | Select-Object -ExpandProperty FullName
 
       - name: Upload Windows App Artifact
         uses: actions/upload-artifact@v2

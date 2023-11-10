@@ -29,8 +29,9 @@ jobs:
           echo "BASE_URL=${{ vars.UI_APP_URL }}" >> .env.production
           echo "BASE_URL=${{ vars.UI_APP_URL }}" >> .env
           npm run make
-          ZIP_FILE=$(find . -type f -name "*.zip" | head -n 1)
+          ZIP_FILE=$(find ./out/make -type f -name "*.zip" | head -n 1)
           echo "ZIP file: $ZIP_FILE"
+          mkdir -p ./out
           cp $ZIP_FILE ./out/duolingo-mac-arm64.zip
           ls -R out
 

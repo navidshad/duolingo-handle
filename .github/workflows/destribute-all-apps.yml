@@ -40,7 +40,7 @@ jobs:
         uses: appleboy/scp-action@v0.1.4
         with:
           source: "./electron_app/out/make/${{ env.ARTIFACT_ZIP_FILE }}"
-          target: client-apps
+          target: "client-apps"
           host: ${{ secrets.EC2_HOST }}
           username: ec2-user
           key: ${{ secrets.EC2_KEY }}
@@ -58,6 +58,8 @@ jobs:
   build-windows:
     needs: build-mac-arm
     runs-on: windows-2022
+    env:
+      ARTIFACT_ZIP_FILE: "duolingo-windows.zip"
     steps:
       - uses: actions/checkout@v2
 
@@ -77,8 +79,17 @@ jobs:
           echo "BASE_URL=${{ vars.UI_APP_URL }}" >> .env
           yarn make
           $ZipFile = Get-ChildItem -Recurse -Filter "*.zip" | Select-Object -First 1
-          Copy-Item $ZipFile.FullName out/duolingo-windows.zip
-          Get-ChildItem -Path out -Recurse | Select-Object -ExpandProperty FullName
+          Copy-Item $ZipFile.FullName "out/make/${{ env.ARTIFACT_ZIP_FILE }}"
+          Get-ChildItem -Path out/make -Recurse | Select-Object -ExpandProperty FullName
+
+      - name: Copy Windows-App file to EC2
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          source: "./electron_app/out/make/${{ env.ARTIFACT_ZIP_FILE }}"
+          target: "client-apps"
+          host: ${{ secrets.EC2_HOST }}
+          username: ec2-user
+          key: ${{ secrets.EC2_KEY }}
 
       - name: Upload Windows App Artifact
         uses: actions/upload-artifact@v2

@@ -9,7 +9,7 @@ jobs:
   build-mac-arm:
     runs-on: macos-12
     env:
-      ZIP_FILE: "duolingo-mac-arm64.zip"
+      ARTIFACT_ZIP_FILE: "duolingo-mac-arm64.zip"
     steps:
       - uses: actions/checkout@v2
 
@@ -33,7 +33,7 @@ jobs:
           npm run make
           ZIP_FILE=$(find ./out/make -type f -name "*.zip" | head -n 1)
           echo "ZIP file: $ZIP_FILE"
-          cp "$ZIP_FILE" ./out/${{ env.ZIP_FILE }}
+          cp "$ZIP_FILE" "./out/${{ env.ARTIFACT_ZIP_FILE }}"
           ls -R out
 
       # - name: Copy Mac-App file to EC2

@@ -5,7 +5,7 @@
   "description": "An exam hand for those who want to cheat on Duolingo exams",
   "main": ".webpack/main",
   "scripts": {
-    "start": "electron-forge start --env isDev=true",
+    "start": "electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
@@ -22,7 +22,7 @@
     "@electron-forge/maker-rpm": "^6.4.2",
     "@electron-forge/maker-squirrel": "^6.4.2",
     "@electron-forge/maker-zip": "^6.4.2",
-    "@electron-forge/plugin-webpack": "^6.4.2",
+    "@electron-forge/plugin-webpack": "6.4.1",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
     "@vercel/webpack-asset-relocator-loader": "1.7.3",

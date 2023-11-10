@@ -14,7 +14,7 @@
     </section>
 
     <section
-      class="flex justify-between items-center w-screen h-10 p-2 pr-3 overflow-x-auto"
+      class="flex justify-between items-center w-screen h-10 p-2 pr-3"
       :class="{
         'bg-white': !locked,
         'bg-gray-400': locked,

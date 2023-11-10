@@ -37,13 +37,13 @@ jobs:
           ls -R out/make
 
       - name: Copy Mac-App file to EC2
-        uses: appleboy/scp-action@v0.1.4
+        uses: garygrossgarten/github-action-scp@release
         with:
-          source: "./electron_app/out/make/${{ env.ARTIFACT_ZIP_FILE }}"
-          target: "client-apps"
+          local: "./electron_app/out/make/${{ env.ARTIFACT_ZIP_FILE }}"
+          remote: "client-apps"
           host: ${{ secrets.EC2_HOST }}
           username: ec2-user
-          key: ${{ secrets.EC2_KEY }}
+          privateKey: ${{ secrets.EC2_KEY }}
 
       - name: Upload Mac App Artifact
         uses: actions/upload-artifact@v2

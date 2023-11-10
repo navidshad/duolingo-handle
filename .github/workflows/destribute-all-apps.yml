@@ -85,13 +85,13 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: mac-app
-          path: download
+          path: .
 
       - name: Download Windows App Artifact
         uses: actions/download-artifact@v2
         with:
           name: windows-app
-          path: download
+          path: .
 
       - name: Check downloaded files
         run: |
@@ -100,7 +100,7 @@ jobs:
       - name: Copy Client App Files to EC2
         uses: appleboy/scp-action@v0.1.4
         with:
-          source: "download/${{ env.MAC_ARTIFACT_ZIP_FILE }},download/${{ env.WIN_ARTIFACT_ZIP_FILE}}"
+          source: "${{ env.MAC_ARTIFACT_ZIP_FILE }},${{ env.WIN_ARTIFACT_ZIP_FILE}}"
           target: ./client-apps
           host: ${{ secrets.EC2_HOST }}
           username: ec2-user

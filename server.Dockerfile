@@ -1,17 +1,26 @@
-# Write a simple docker file that runs a node server
-FROM node:18-alpine
+# Use a base image that supports ARM64
+FROM node:20-alpine3.17 as build-admin-stage
+WORKDIR /admin
+COPY ./admin_app/package.json ./
+RUN npm install
+COPY ./admin_app .
+RUN npm run build
 
-# Install python
-RUN apk add --no-cache python3
-
-# Install make and build tools
-RUN apk add --no-cache make g++ libc-dev
-
+# Setup server app
+FROM node:20-alpine3.17 as build-server-stage
 WORKDIR /app
-COPY ./server_app/package.json ./server_app/yarn.lock ./
-RUN yarn install
-
+COPY ./server_app/package.json ./
+RUN npm install
 COPY ./server_app .
 
+# Copy admin app to server app
+WORKDIR /
+COPY --from=build-admin-stage /admin/dist ./app/public/admin
+RUN rm -rf /admin
+
+# Production stage
+FROM arm64v8/node:18-alpine as production-stage
+COPY --from=build-server-stage /app /app
 EXPOSE 8081
-CMD ["yarn", "start"]
+WORKDIR /app
+CMD ["npm", "run", "start"]

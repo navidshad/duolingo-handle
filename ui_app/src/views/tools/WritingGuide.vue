@@ -1,10 +1,11 @@
 <template>
-  <FrameBorder v-slot="{ locked }">
-    <Frameheader ref="header" title="Writing Guide" :locked="locked">
+  <FrameBorder>
+    <Frameheader ref="header" title="Writing Guide">
       <template #right-actions>
         <v-btn
           size="x-small"
           icon="fa fa-user-secret"
+          variant="text"
           :loading="isPending"
           @click="detect"
         />
@@ -12,19 +13,29 @@
         <v-btn
           size="x-small"
           icon="fa fa-arrows-rotate"
+          variant="text"
           :disabled="question.length == 0"
           :loading="isGenerating"
           @click="generateAnswere"
         />
 
-        <v-btn size="x-small" icon="fa fa-eraser" @click="clear" />
+        <v-btn
+          size="x-small"
+          icon="fa fa-eraser"
+          variant="text"
+          @click="clear"
+        />
       </template>
 
       <div
-        class="py-2 px-2 flex flex-col items-center justify-between bg-white border-b-2 overflow-x-auto"
+        class="pt-2 px-2 flex flex-col items-center justify-between bg-white overflow-x-auto"
+        :class="[
+          { 'border-b-2': settings.active },
+          { 'py-2': !settings.active },
+        ]"
       >
-        <div class="w-full flex items-center justify-between">
-          <p :style="{ minWidth: '210px' }">
+        <div class="w-full flex flex-1 items-center justify-between">
+          <p :style="{ minWidth: '210px' }" class="text-xs">
             <span class="mr-10">Words: {{ wordCount }}</span>
             <span>Sentences: {{ sentenceCount }}</span>
           </p>
@@ -38,7 +49,11 @@
               Write by keyboard</v-btn
             >
 
-            <v-btn size="x-small" @click="settings.active = !settings.active">
+            <v-btn
+              size="x-small"
+              variant="text"
+              @click="settings.active = !settings.active"
+            >
               <font-awesome-icon icon="fa-solid fa-gear" />
             </v-btn>
           </div>
@@ -49,11 +64,19 @@
           v-if="settings.active"
         >
           <div class="w-20">
-            <v-text-field label="Score" v-model="settings.score" />
+            <v-text-field
+              label="Score"
+              type="number"
+              v-model="settings.score"
+            />
           </div>
 
           <div class="w-28">
-            <v-text-field label="Words" v-model="settings.maximumWords" />
+            <v-text-field
+              label="Words"
+              type="number"
+              v-model="settings.maximumWords"
+            />
           </div>
         </div>
       </div>
@@ -126,12 +149,14 @@ export default defineComponent({
       // @ts-ignore
       let headerHight = (this.$refs.header.$el as HTMLDivElement).clientHeight;
 
-      const [an1] = await extractAnnotationsFromScreen({ y: headerHight });
-      this.question = an1.description;
-
-      this.generateAnswere().finally(() => {
-        this.isPending = false;
-      });
+      await extractAnnotationsFromScreen({ y: headerHight })
+        .then(([an1]) => {
+          this.question = an1.description;
+          return this.generateAnswere();
+        })
+        .finally(() => {
+          this.isPending = false;
+        });
     },
 
     async generateAnswere() {
@@ -143,7 +168,7 @@ export default defineComponent({
       `;
 
       this.answere = await createChatCompletion({
-        message: [
+        messages: [
           {
             role: "system",
             content: sytemCharacter,

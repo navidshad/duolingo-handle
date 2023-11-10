@@ -1,10 +1,11 @@
 <template>
-  <FrameBorder v-slot="{ locked }">
-    <Frameheader ref="header" title="Speaking Guide" :locked="locked">
+  <FrameBorder>
+    <Frameheader ref="header" title="Speaking Guide">
       <template #right-actions>
         <v-btn
           size="x-small"
           icon="fa fa-user-secret"
+          variant="text"
           :loading="isPending"
           @click="detect"
         />
@@ -12,12 +13,18 @@
         <v-btn
           size="x-small"
           icon="fa fa-arrows-rotate"
+          variant="text"
           :disabled="question.length == 0"
           :loading="isGenerating"
           @click="generateAnswere"
         />
 
-        <v-btn size="x-small" icon="fa fa-eraser" @click="clear" />
+        <v-btn
+          size="x-small"
+          icon="fa fa-eraser"
+          variant="text"
+          @click="clear"
+        />
       </template>
 
       <template #actions>
@@ -27,7 +34,7 @@
       <div
         class="px-2 flex items-center justify-between h-8 bg-white border-b-2 overflow-x-auto"
       >
-        <p :style="{ minWidth: '210px' }">
+        <p :style="{ minWidth: '210px' }" class="text-xs">
           <span class="mr-10">Words: {{ wordCount }}</span>
           <span>Sentences: {{ sentenceCount }}</span>
         </p>
@@ -79,8 +86,8 @@ export default defineComponent({
       isPending: false,
       isGenerating: false,
       isSpeeking: false,
-      types: ["speaking", "writing"],
-      selectedType: "speaking",
+      types: ["90s", "3mins"],
+      selectedType: "90s",
       question: "",
       answere: "",
     };
@@ -111,24 +118,21 @@ export default defineComponent({
       // @ts-ignore
       let headerHight = (this.$refs.header.$el as HTMLDivElement).clientHeight;
 
-      const [an1] = await extractAnnotationsFromScreen({ y: headerHight });
-      this.question = an1.description;
-
-      this.generateAnswere().finally(() => {
-        this.isPending = false;
-      });
+      await extractAnnotationsFromScreen({ y: headerHight })
+        .then(([an1]) => {
+          this.question = an1.description;
+          return this.generateAnswere();
+        })
+        .finally(() => {
+          this.isPending = false;
+        });
     },
 
     async generateAnswere() {
       this.isGenerating = true;
       const score = "140";
 
-      const promptTypes = <{ [key: string]: string }>{
-        writing: `write esay maximum 100 words for this topic: \n${this.question}`,
-        speaking: `I have to speek for 2.5 mins, give me a speech text about this: \n${this.question}`,
-      };
-
-      const prompt = promptTypes[this.selectedType];
+      const prompt = `I have to speek for ${this.selectedType} mins, give me a speech text about this: \n${this.question}`;
 
       this.answere = await createCompletion({
         prompt,

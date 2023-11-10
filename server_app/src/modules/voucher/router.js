@@ -1,31 +1,50 @@
-let Router = require("koa-router");
+const Router = require("koa-router");
+const { reply } = require("@modular-rest/server");
+const { check, redeem } = require("./service");
 
-const { reply, getCollection } = require("@modular-rest/server");
+let name = "voucher";
+let voucher = new Router();
 
-let name = "flower";
-let backup = new Router();
+voucher.post("/check", async (ctx) => {
+  const { voucher } = ctx.request.body || {};
 
-backup.get("/", async (ctx) => {
-  ctx.body = reply.create("s", {
-    message: "Your student module is working!",
-  });
+  if (!voucher) {
+    ctx.status = 400;
+    ctx.body = reply.create("e", {
+      message: "Please provide a voucher",
+    });
+  }
+
+  await check(voucher)
+    .then((totalRemainingExams) => {
+      ctx.body = reply.create("s", {
+        data: { totalRemainingExams },
+      });
+    })
+    .catch((err) => {
+      ctx.status = 404;
+      ctx.body = reply.create("e", {
+        message: err || "Voucher invalid",
+      });
+    });
 });
 
-backup.get("/list", async (ctx) => {
-  try {
-    let collection = getCollection("flower", "wildflowers");
-    let result = await collection.find({}).exec();
+voucher.post("/redeem", async (ctx) => {
+  const { voucher } = ctx.request.body || {};
 
-    ctx.body = reply.create("s", {
-      data: result,
+  try {
+    await redeem(voucher).then(({ totalRemainingExams, voucherUsed }) => {
+      ctx.body = reply.create("s", {
+        data: { totalRemainingExams, voucherUsed },
+      });
     });
   } catch (err) {
-    ctx.code = 500;
+    ctx.status = 404;
     ctx.body = reply.create("e", {
-      message: err.message || "Something went wrong",
+      message: err + ", Please contact with customer support.",
     });
   }
 });
 
 module.exports.name = name;
-module.exports.main = backup;
+module.exports.main = voucher;

@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts">
-import { WindowType } from "@/types/base";
+import type { WindowType } from "@/types/base";
 import { defineComponent } from "vue";
 import subtoolMixin from "@/mixins/subtool";
 import { extractTextWithCustomBound } from "@/helpers/screen";
@@ -136,6 +136,9 @@ export default defineComponent({
         })
         .then((text) => {
           this.emitByChannel({ text });
+        })
+        .catch((error) => {
+          this.emitByChannel({ text: error });
         })
         .finally(() => {
           this.isPending = false;

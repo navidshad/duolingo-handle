@@ -1,6 +1,7 @@
-import { SubtoolType, ToolType, WindowType } from "./base";
+import type { SubtoolType, ToolType, WindowType } from "./base";
 
 export type EventType =
+  | "exit"
   | "system-info"
   | "routeMesage"
   | "open-subtool"
@@ -8,7 +9,9 @@ export type EventType =
   | "open-window"
   | "close-tools"
   | "close-tool"
-  | "set-ignore-mouse-event";
+  | "set-ignore-mouse-event"
+  | "set-exam-type"
+  | "time-tick";
 
 export interface BaseEvent {
   type: EventType;
@@ -108,4 +111,48 @@ export class RouteMessageEvent implements BaseEvent {
 export interface SetIgnoreMouseEvents extends BaseEvent {
   value: boolean;
   toolType: ToolType;
+}
+
+// To set which type of exam to take.
+// it affects on the total time user can take the exam. practice exam has less time.
+export class SetExamTypeEvent implements BaseEvent {
+  type: EventType;
+  examType: "exam" | "practice";
+
+  static instanceof(obj: BaseEvent): obj is SetExamTypeEvent {
+    return obj.type === "set-exam-type";
+  }
+
+  constructor({ examType }: { examType: "exam" | "practice" }) {
+    this.type = "set-exam-type";
+    this.examType = examType;
+  }
+}
+
+// To sends remaining time to active window.
+// it is used to show the remaining time to user.
+export class TimeTickEvent implements BaseEvent {
+  type: EventType;
+  remains: number;
+
+  static instanceof(obj: BaseEvent): obj is TimeTickEvent {
+    return obj.type === "time-tick";
+  }
+
+  constructor(time: { remains: number }) {
+    this.type = "time-tick";
+    this.remains = time.remains;
+  }
+}
+
+export class ExitEvent implements BaseEvent {
+  type: EventType;
+
+  static instanceof(obj: BaseEvent): obj is ExitEvent {
+    return obj.type === "exit";
+  }
+
+  constructor() {
+    this.type = "exit";
+  }
 }

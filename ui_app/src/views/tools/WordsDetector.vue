@@ -5,6 +5,7 @@
         <v-btn
           size="x-small"
           icon="fa fa-user-secret"
+          variant="text"
           :loading="isPending"
           @click="detect"
         />
@@ -16,7 +17,12 @@
           @click="toggleTranslate"
         />
 
-        <v-btn size="x-small" icon="fa fa-eraser" @click="clear" />
+        <v-btn
+          size="x-small"
+          icon="fa fa-eraser"
+          variant="text"
+          @click="clear"
+        />
       </template>
     </Frameheader>
     <section class="h-full w-full relative">
@@ -49,8 +55,8 @@
 </template>
 
 <script lang="ts">
-import { Rectangle } from "@/types/base";
-import { TextAnnotation } from "@/types/vision";
+import type { Rectangle } from "@/types/base";
+import type { TextAnnotation } from "@/types/vision";
 import { defineComponent } from "vue";
 import { extractAnnotationsFromScreen } from "@/helpers/screen";
 
@@ -119,7 +125,7 @@ export default defineComponent({
 
       for (const annotation of this.wordAnnotations) {
         const task = checkValidWord(annotation.word).then(
-          (isValid) => (annotation.isValid = isValid),
+          (isValid) => (annotation.isValid = isValid)
         );
       }
 

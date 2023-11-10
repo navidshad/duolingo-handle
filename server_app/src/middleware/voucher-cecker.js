@@ -10,7 +10,14 @@ module.exports.checkVoucherMiddleWare = async (ctx, next) => {
 
   const voucherModel = getCollection("exam", "voucher");
 
-  const voucherDoc = await voucherModel.findOne({ _id: voucherid }).exec();
+  let voucherDoc = null;
+
+  try {
+    voucherDoc = await voucherModel.findOne({ _id: voucherid }).exec();
+  } catch (error) {
+    ctx.throw(401, reply.create("f", "invalid voucher"));
+    return;
+  }
 
   if (!voucherDoc?.id) {
     ctx.throw(401, reply.create("f", "invalid voucher"));

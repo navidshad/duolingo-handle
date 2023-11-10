@@ -1,6 +1,6 @@
 <template>
-  <FrameBorder v-slot="{ locked }" class="bg-white">
-    <Frameheader ref="header" title="Conversation" :locked="locked">
+  <FrameBorder class="bg-white">
+    <Frameheader ref="header" title="Conversation">
       <template #actions> </template>
     </Frameheader>
 
@@ -76,8 +76,8 @@ import ChatCard from "@/components/materials/ChatCard.vue";
 import ChatCardVoice from "@/components/partials/ChatCardVoice.vue";
 import ChatCardChoice from "@/components/partials/ChatCardChoice.vue";
 import { computed } from "vue";
-import { DialogType } from "@/types/conversation";
-import { CompletionMessage } from "@/types/gpt";
+import type { DialogType } from "@/types/conversation";
+import type { CompletionMessage } from "@/types/gpt";
 import { createChatCompletion } from "@/services/ai";
 
 export default defineComponent({
@@ -174,7 +174,7 @@ export default defineComponent({
         content: `Summarize the conversation in a paragraph.`,
       });
 
-      createChatCompletion({ message: messages })
+      createChatCompletion({ messages })
         .then((answer) => {
           this.summary = answer;
         })

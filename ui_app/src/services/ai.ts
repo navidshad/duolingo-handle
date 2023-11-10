@@ -1,5 +1,5 @@
-import { TextAnnotation } from "@/types/vision";
-import { CompletionMessage } from "@/types/gpt";
+import type { TextAnnotation } from "@/types/vision";
+import type { CompletionMessage } from "@/types/gpt";
 import { httpClient } from "@/plugins/axios";
 
 const voucher = null;
@@ -93,7 +93,7 @@ export async function createCompletion(data: {
 }
 
 export async function createChatCompletion(data: {
-  message: CompletionMessage[];
+  messages: CompletionMessage[];
   model?: string;
 }) {
   const url = "/ai/create-chat-completion";

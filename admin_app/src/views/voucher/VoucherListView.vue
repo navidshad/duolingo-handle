@@ -19,7 +19,14 @@ onMounted(() => {
       height="200px"
     >
       <v-card-title>{{ voucher.email }}</v-card-title>
-      <v-card-text>{{ voucher._id }}</v-card-text>
+      <v-card-text>
+        <span>{{ voucher._id }}</span>
+        <div v-for="(exam, i) of voucher.examVouchers" :key="i">
+          <span
+            >Voucher <span>{{ i + 1 }}</span> Remaining Exams: {{ exam.remainingExams }}</span
+          >
+        </div>
+      </v-card-text>
     </v-card>
   </v-main>
 </template>

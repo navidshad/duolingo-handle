@@ -1,7 +1,7 @@
 export interface ExamVoucher {
-  _id: string
+  _id?: string
   remainingExams: number
-  machineId: string
+  machineId?: string
 }
 
 export interface VoucherType {

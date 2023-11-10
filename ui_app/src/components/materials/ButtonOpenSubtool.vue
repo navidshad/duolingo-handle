@@ -1,9 +1,15 @@
 <template>
-  <v-btn :size="size" :icon="icon" :loading="isPending" @click="openSubtool" />
+  <v-btn
+    :size="size"
+    variant="text"
+    :icon="icon"
+    :loading="isPending"
+    @click="openSubtool"
+  />
 </template>
 
 <script lang="ts">
-import { SubtoolType } from "@/types/base";
+import type { SubtoolType } from "@/types/base";
 import { OpenSubtoolEvent } from "@/types/event";
 import { defineComponent } from "vue";
 
@@ -58,6 +64,7 @@ export default defineComponent({
       const _this = this;
       window.electronAPI.onMessageByChannel(this.channelId, (data) => {
         _this.isPending = false;
+        debugger;
         _this.$emit("onData", data);
       });
     },

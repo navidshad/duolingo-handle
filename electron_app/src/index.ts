@@ -1,25 +1,23 @@
 import { app, BrowserWindow } from "electron";
-import { GoogleCloud } from "./services/google-cloud.service";
 import { TextService } from "./services/text.service";
 import { isDev } from "./statics";
 import { config } from "dotenv";
 import path from "path";
-import { StoragService } from "./services/storage.service";
+import { StorageService } from "./services/storage.service";
+
+import { WindowsManagerService, WindowType } from "./services/windows.service";
 
 import {
-  WindowsManagerService,
-  OpenToolEvent,
-  WindowType,
   SetIgnoreMouseEvents,
-} from "./services/windows.service";
-
-import {
   BaseEvent,
   CloseToolEvent,
   OpenSubtoolEvent,
   OpenWindowEvent,
+  OpenToolEvent,
   RouteMessageEvent,
+  ExitEvent,
 } from "../../ui_app/src/types/event";
+import { TimeService } from "./services/time.service";
 
 // Load environment variables from .env file
 const envFileName = isDev() ? ".env" : ".env.production";
@@ -32,9 +30,9 @@ config({ path: path.join(__dirname, envFileName) });
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
 
 // Initialize services
-const googleCloudService = new GoogleCloud(process.env.GOOGLE_CLOUD_API_KEY);
-const textService = new TextService();
-const storagService = new StoragService();
+new TextService();
+new StorageService();
+new TimeService();
 
 const windowsManagerService = new WindowsManagerService(
   process.env.BASE_URL,
@@ -48,13 +46,6 @@ if (require("electron-squirrel-startup")) {
 
 function createMainWindow() {
   windowsManagerService.createWindow("login");
-
-  // setTimeout(() => {
-  //   windowsManagerService.sendMessage('tools-box', {
-  //     type: 'system-info',
-  //     info: JSON.parse(JSON.stringify(process.env)),
-  //   } as any)
-  // }, 2000);
 }
 
 // This method will be called when Electron has finished
@@ -138,6 +129,12 @@ windowsManagerService.onMessage((data) => {
       routeMessageEvent.channelId,
       routeMessageEvent.data
     );
+  }
+
+  // To exit the app.
+  //
+  else if (ExitEvent.instanceof(data)) {
+    app.exit();
   }
 });
 

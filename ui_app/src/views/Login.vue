@@ -1,6 +1,7 @@
 <script lang="ts">
-import { CloseToolEvent, OpenWindowEvent } from "@/types/event";
+import { httpClient } from "@/plugins/axios";
 import { defineComponent } from "vue";
+import { useToast } from "vue-toastification";
 
 export default defineComponent({
   name: "Login",
@@ -8,28 +9,40 @@ export default defineComponent({
   data() {
     return {
       token: "",
+      isPending: false,
+      totalRemainingExams: 0,
     };
+  },
+
+  mounted() {
+    window.electronAPI.readFromStore("voucher").then((voucher) => {
+      if (voucher) {
+        this.token = voucher;
+      }
+    });
   },
 
   methods: {
     login() {
       window.electronAPI.writeInStore("voucher", this.token);
-      this.$router.push("/choose-exam-type");
+      this.$router.push(
+        "/choose-exam-type?totalRemainingExams=" + this.totalRemainingExams
+      );
     },
 
-    // goToApp() {
-    //   window.electronAPI.sendMessage(
-    //     new OpenWindowEvent({
-    //       windowType: "tools-box",
-    //     })
-    //   );
+    async checkVoucher() {
+      this.isPending = true;
 
-    //   window.electronAPI.sendMessage(
-    //     new CloseToolEvent({
-    //       id: "login",
-    //     })
-    //   );
-    // },
+      await httpClient
+        .post("/voucher/check", { voucher: this.token })
+        .then((data: any) => {
+          this.totalRemainingExams = data.totalRemainingExams as number;
+          this.login();
+        })
+        .finally(() => {
+          this.isPending = false;
+        });
+    },
   },
 });
 </script>
@@ -46,6 +59,8 @@ export default defineComponent({
       />
     </div>
 
-    <v-btn @click="login" color="primary">Login</v-btn>
+    <v-btn :loading="isPending" @click="checkVoucher" color="primary"
+      >Login</v-btn
+    >
   </section>
 </template>

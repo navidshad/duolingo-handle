@@ -16,7 +16,12 @@
       </div>
 
       <div>
-        <v-btn :loading="isFinding" class="m-2" color="primary" @click="find"
+        <v-btn
+          :loading="isFinding"
+          variant="text"
+          class="m-2"
+          color="primary"
+          @click="find"
           >Find</v-btn
         >
       </div>
@@ -34,6 +39,7 @@
       <v-btn
         class="my-2"
         size="small"
+        variant="text"
         icon="fa fa-remove"
         @click="$emit('remove')"
       />
@@ -43,8 +49,8 @@
 
 <script lang="ts">
 import { createChatCompletion } from "@/services/ai";
-import { DialogType } from "@/types/conversation";
-import { CompletionMessage } from "@/types/gpt";
+import type { DialogType } from "@/types/conversation";
+import type { CompletionMessage } from "@/types/gpt";
 import { inject } from "vue";
 import { defineComponent } from "vue";
 
@@ -54,7 +60,7 @@ export default defineComponent({
       diaglogs: inject<DialogType[]>("diaglogs", []),
       getDialogsSummary: inject<(index: number) => string>(
         "getDialogsSummary",
-        (index: number) => "",
+        (index: number) => ""
       ),
     };
   },
@@ -139,7 +145,7 @@ export default defineComponent({
         `,
       });
 
-      createChatCompletion({ message: messages })
+      createChatCompletion({ messages })
         .then((answer) => {
           this.answer = answer;
           this.$emit("onAnswer", answer);

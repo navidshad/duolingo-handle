@@ -9,6 +9,7 @@ import components from "./components/components";
 import "./plugins/lord-icon";
 import fontawesome from "./plugins/fontawesome";
 import { vuetify } from "./plugins/vuetify";
+import { installToastification } from "./plugins/toastification";
 
 const app = createApp(App).use(router);
 
@@ -19,6 +20,7 @@ Object.keys(components).forEach((key) =>
 
 app.use(fontawesome);
 app.use(vuetify);
+installToastification(app);
 
 app.mount("#app");
 

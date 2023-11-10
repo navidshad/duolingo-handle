@@ -4,19 +4,17 @@ import { BaseEvent, OpenSubtoolEvent } from "../../../ui_app/src/types/event";
 import { windowsConfigs, WindowConfig } from "../windows";
 
 export { WindowType } from "../../../ui_app/src/types/base";
-export {
-  BaseEvent,
-  OpenToolEvent,
-  SetIgnoreMouseEvents,
-} from "../../../ui_app/src/types/event";
 
 export class WindowsManagerService {
+  private static instance: WindowsManagerService;
   entryPagePath: string;
   defaultPreloadPath: string;
 
   windows: { [key: string]: BrowserWindow } = {};
 
   constructor(entryPagePath: string, defaultPreloadPath: string) {
+    WindowsManagerService.instance = this;
+
     this.entryPagePath = entryPagePath;
     this.defaultPreloadPath = defaultPreloadPath;
 
@@ -24,6 +22,10 @@ export class WindowsManagerService {
     ipcMain.handle("window:get-media-source", this.onAskForMediaSourceId);
     ipcMain.handle("window:get-window-bound", this.onAskForBound);
     ipcMain.handle("window:set-window-bound", this.onSetBound);
+  }
+
+  static getInstance() {
+    return this.instance;
   }
 
   private async onAskForMediaSourceId(
@@ -77,6 +79,9 @@ export class WindowsManagerService {
     } else {
       initConfig.webPreferences.preload = this.defaultPreloadPath;
     }
+
+    // Setup auto hide menu bar
+    initConfig.autoHideMenuBar = true;
 
     // Create the browser window.
     const window = new BrowserWindow(initConfig);

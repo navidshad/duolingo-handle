@@ -26,8 +26,8 @@ export const windowsConfigs: WindowConfig[] = [
   {
     type: "login",
     initConfig: {
-      height: 400,
-      width: 600,
+      height: 600,
+      width: 650,
       title: "Duolingo Handle",
       alwaysOnTop: true,
       resizable: true,
@@ -36,8 +36,8 @@ export const windowsConfigs: WindowConfig[] = [
   {
     type: "choose-exam-type",
     initConfig: {
-      height: 400,
-      width: 600,
+      height: 600,
+      width: 650,
       title: "Duolingo Handle",
       alwaysOnTop: true,
       resizable: true,
@@ -46,7 +46,7 @@ export const windowsConfigs: WindowConfig[] = [
   {
     type: "tools-box",
     initConfig: {
-      height: 230,
+      height: 250,
       width: 220,
       title: "Tools Box",
       alwaysOnTop: true,

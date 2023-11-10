@@ -1,4 +1,8 @@
-import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
+import {
+  createRouter,
+  createWebHashHistory,
+  type RouteRecordRaw,
+} from "vue-router";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -20,6 +24,11 @@ const routes: Array<RouteRecordRaw> = [
     path: "/tools-box",
     name: "tools-box",
     component: () => import("../views/ToolBox.vue"),
+  },
+  {
+    path: "/timeup",
+    name: "timeup",
+    component: () => import("../views/TimeUp.vue"),
   },
   {
     path: "/words-detector",
@@ -66,7 +75,7 @@ const subtoolsRoutes: RouteRecordRaw = {
 };
 
 const router = createRouter({
-  history: createWebHashHistory(process.env.BASE_URL),
+  history: createWebHashHistory(import.meta.env.BASE_URL),
   routes: [...routes, subtoolsRoutes],
 });
 

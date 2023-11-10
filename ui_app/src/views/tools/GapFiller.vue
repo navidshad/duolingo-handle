@@ -5,6 +5,7 @@
         <v-btn
           size="x-small"
           icon="fa fa-user-secret"
+          variant="text"
           :loading="isPending"
           @click="detect"
         />
@@ -12,6 +13,7 @@
         <v-btn
           size="x-small"
           icon="fa fa-wand-magic-sparkles"
+          variant="text"
           :loading="isFilling"
           :disabled="!detectedText.length"
           @click="fillGaps"
@@ -24,7 +26,12 @@
           @click="toggleTranslate"
         /> -->
 
-        <v-btn size="x-small" icon="fa fa-eraser" @click="clear" />
+        <v-btn
+          size="x-small"
+          variant="text"
+          icon="fa fa-eraser"
+          @click="clear"
+        />
       </template>
     </Frameheader>
     <section
@@ -66,7 +73,7 @@ export default defineComponent({
       isFilling: false,
       // isTranslating: false,
       // showTranslate: false,
-      types: ["letter", "word"],
+
       detectedText: "",
       filledText: "",
     };
@@ -75,6 +82,7 @@ export default defineComponent({
   methods: {
     clear() {
       this.filledText = "";
+      this.detectedText = "";
     },
 
     async detect() {
@@ -102,13 +110,13 @@ export default defineComponent({
       this.isFilling = true;
 
       const systemCharecter = `
-        fill empty positions where marked by "?". 
-        for example "this is a new wo???" is "this is a new world". 
+        fill empty positions where marked by questionmark "?". 
+        Example: currect form of "this is a new wo???" is "this is a new world".
         then put corrected words inside a [] like "this is a new [world]."
       `;
 
       this.filledText = await createChatCompletion({
-        message: [
+        messages: [
           {
             role: "system",
             content: systemCharecter,
@@ -124,7 +132,7 @@ export default defineComponent({
     addCharActivePositionOfContent(char = "?") {
       // Get the textarea element
       const textarea = (this.$refs.content as HTMLElement).querySelector(
-        "textarea",
+        "textarea"
       ) as HTMLTextAreaElement;
 
       // Get the cursor position
@@ -134,7 +142,7 @@ export default defineComponent({
       const textBeforeCursor = textarea.value.substring(0, cursorPosition);
       const textAfterCursor = textarea.value.substring(
         cursorPosition,
-        textarea.value.length,
+        textarea.value.length
       );
 
       this.detectedText = textBeforeCursor + char + textAfterCursor;

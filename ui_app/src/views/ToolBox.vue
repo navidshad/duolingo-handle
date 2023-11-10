@@ -1,6 +1,6 @@
 <template>
   <div class="w-screen h-screen px-2 py-1 flex flex-col">
-    <div class="flex-1">
+    <div class="flex-1 flex justify-between">
       <v-btn
         variant="flat"
         size="x-small"
@@ -10,6 +10,8 @@
       >
         None
       </v-btn>
+
+      <time-counter />
     </div>
 
     <div v-for="toolset in tools" class="flex space-x-1 h-2/5">
@@ -38,11 +40,20 @@
 
 <script lang="ts">
 import { defineComponent, inject } from "vue";
-import { ToolType } from "@/types/base";
-import { BaseEvent, OpenToolEvent, SetIgnoreMouseEvents } from "@/types/event";
+import type { ToolType } from "@/types/base";
+import { type BaseEvent, OpenToolEvent } from "@/types/event";
+import TimeCounter from "@/components/partials/TimeCounter.vue";
 
 export default defineComponent({
   name: "toolsbox",
+
+  components: {
+    TimeCounter,
+  },
+
+  mounted() {
+    window.electronAPI.startTimer();
+  },
 
   setup() {
     return {
@@ -62,19 +73,19 @@ export default defineComponent({
           {
             type: "words-detector",
             icon: "fa fa-w",
-            lordIcon: "/lord-icons/searching-glasses.json",
+            lordIcon: "lord-icons/searching-glasses.json",
             title: "Word",
           },
           {
             type: "speaking",
             icon: "fa fa-microphone-lines",
-            lordIcon: "/lord-icons/lecturer-female.json",
+            lordIcon: "lord-icons/lecturer-female.json",
             title: "Speaking",
           },
           {
             type: "writing-guide",
             icon: "fa fa-w",
-            lordIcon: "/lord-icons/writing-machine.json",
+            lordIcon: "lord-icons/writing-machine.json",
             title: "Writing",
           },
         ],
@@ -82,19 +93,19 @@ export default defineComponent({
           {
             type: "voice-recognition",
             icon: "fa fa-headphones",
-            lordIcon: "/lord-icons/subwoofer.json",
+            lordIcon: "lord-icons/subwoofer.json",
             title: "Voice",
           },
           {
             type: "conversation",
             icon: "fa fa-microphone-lines",
-            lordIcon: "/lord-icons/support-service.json",
+            lordIcon: "lord-icons/support-service.json",
             title: "Conversation",
           },
           {
             type: "gap-filler",
             icon: "fa fa-microphone-lines",
-            lordIcon: "/lord-icons/origami.json",
+            lordIcon: "lord-icons/origami.json",
             title: "Gap Filler",
           },
         ],

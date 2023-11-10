@@ -1,19 +1,45 @@
 services:
-  mongodb:
-    image: mongo
+  nginx:
+    image: navidshad/duolingo-handle:${NGINX_IMAGE_NAME}
+    # build:
+    #   context: .
+    #   dockerfile: nginx.Dockerfile
     ports:
-      - "27017:27017"
-    volumes:
-      - ./data:/data/db
+      - "80:80"
+    restart: always
+    depends_on:
+      - "examui"
+      - "server"
+
+  examui:
+    image: navidshad/duolingo-handle:${EXAM_UI_IMAGE_NAME:-duolingo-handle-ui:latest}
+    # build:
+    #   context: .
+    #   dockerfile: examui.Dockerfile
+    ports:
+      - "8080:80"
+    restart: always
+
   server:
-    image: navidshad/duolingo-handle:${SERVER_IMAGE_NAME:-duolingo-server}
+    image: navidshad/duolingo-handle:${SERVER_IMAGE_NAME:-duolingo-handle:latest}
+    # build:
+    #   context: .
+    #   dockerfile: server.Dockerfile
     restart: always
     ports:
-      - "8081:81"
+      - "8081:8081"
     environment:
       - ADMIN_EMAIL=${SERVER_ADMIN_EMAIL}
       - ADMIN_PASSWORD=${SERVER_ADMIN_PASSWORD}
       - GOOGLE_CLOUD_API_KEY=${GOOGLE_CLOUD_API_KEY}
       - OPENAI_KEY=${OPENAI_KEY}
     depends_on:
-      - "mongodb"
+      - "mongo"
+
+  mongo:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./data:/data/db
+    restart: always

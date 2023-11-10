@@ -1,5 +1,5 @@
 <template>
-  <v-btn icon="fa-solid fa-language" size="x-small">
+  <v-btn icon="fa-solid fa-language" size="x-small" variant="text">
     <v-icon :color="isActive ? 'primary' : ''" />
   </v-btn>
 </template>

@@ -6,17 +6,16 @@ FROM node:18-alpine3.17 as build-stage
 
 WORKDIR /app
 
-COPY ui_app/package.json ./
-COPY ui_app/yarn.lock ./
+COPY ./ui_app/package.json ./
+COPY ./ui_app/yarn.lock ./
 RUN yarn install
 
-COPY ui_app .
+COPY ./ui_app .
 RUN yarn build
 
 # -------------------------------------
-FROM arm64v8/nginx:1.17.8-alpine as production-stage
+FROM arm64v8/nginx as production-stage
 
 COPY --from=build-stage /app/dist /usr/share/nginx/html
 
 EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]

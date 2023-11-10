@@ -13,7 +13,14 @@ export const mainConfig: Configuration = {
   module: {
     rules,
   },
-  plugins: [new CopyWebpackPlugin({ patterns: [{ from: "./.env", to: "" }] })],
+  plugins: [
+    new CopyWebpackPlugin({
+      patterns: [
+        { from: "./.env", to: "" },
+        { from: "./.env.production", to: "" },
+      ],
+    }),
+  ],
   resolve: {
     extensions: [".js", ".ts", ".jsx", ".tsx", ".css", ".json"],
   },

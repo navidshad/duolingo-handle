@@ -5,11 +5,13 @@ name: Build Client Apps
 on:
   workflow_dispatch:
 
+env:
+  MAC_ARTIFACT_ZIP_FILE: "duolingo-mac-arm64.zip"
+  WIN_ARTIFACT_ZIP_FILE: "duolingo-windows.zip"
+
 jobs:
   build-mac-arm:
     runs-on: macos-12
-    env:
-      ARTIFACT_ZIP_FILE: "duolingo-mac-arm64.zip"
     steps:
       - uses: actions/checkout@v2
 
@@ -33,33 +35,19 @@ jobs:
           npm run make
           ZIP_FILE=$(find ./out/make -type f -name "*.zip" | head -n 1)
           echo "ZIP file: $ZIP_FILE"
-          cp "$ZIP_FILE" "./out/make/${{ env.ARTIFACT_ZIP_FILE }}"
+          cp "$ZIP_FILE" "./out/make/${{ env.MAC_ARTIFACT_ZIP_FILE }}"
           ls -R out/make
-
-      - name: Copy Mac-App file to EC2
-        uses: garygrossgarten/github-action-scp@release
-        with:
-          local: "./electron_app/out/make/${{ env.ARTIFACT_ZIP_FILE }}"
-          remote: "client-apps"
-          host: ${{ secrets.EC2_HOST }}
-          username: ec2-user
-          privateKey: ${{ secrets.EC2_KEY }}
 
       - name: Upload Mac App Artifact
         uses: actions/upload-artifact@v2
         with:
           name: mac-app
-          path: |
-            electron_app/out/make
-            electron_app/.env.production
-            electron_app/.env
+          path: "electron_app/out/make/${{ env.MAC_ARTIFACT_ZIP_FILE }}"
           retention-days: 30
 
   build-windows:
     needs: build-mac-arm
     runs-on: windows-2022
-    env:
-      ARTIFACT_ZIP_FILE: "duolingo-windows.zip"
     steps:
       - uses: actions/checkout@v2
 
@@ -79,21 +67,41 @@ jobs:
           echo "BASE_URL=${{ vars.UI_APP_URL }}" >> .env
           yarn make
           $ZipFile = Get-ChildItem -Recurse -Filter "*.zip" | Select-Object -First 1
-          Copy-Item $ZipFile.FullName "out/make/${{ env.ARTIFACT_ZIP_FILE }}"
+          Copy-Item $ZipFile.FullName "out/make/${{ env.WIN_ARTIFACT_ZIP_FILE }}"
           Get-ChildItem -Path out/make -Recurse | Select-Object -ExpandProperty FullName
-
-      - name: Copy Windows-App file to EC2
-        uses: appleboy/scp-action@v0.1.4
-        with:
-          source: "./electron_app/out/make/${{ env.ARTIFACT_ZIP_FILE }}"
-          target: "client-apps"
-          host: ${{ secrets.EC2_HOST }}
-          username: ec2-user
-          key: ${{ secrets.EC2_KEY }}
 
       - name: Upload Windows App Artifact
         uses: actions/upload-artifact@v2
         with:
           name: windows-app
-          path: electron_app/out/make
+          path: electron_app/out/make/${{ env.WIN_ARTIFACT_ZIP_FILE }}
           retention-days: 30
+
+  upload-Client-Apps:
+    needs: [build-mac-arm, build-windows]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Mac App Artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: mac-app
+          path: download
+
+      - name: Download Windows App Artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: windows-app
+          path: download
+
+      - name: Check downloaded files
+        run: |
+          ls -R download
+
+      - name: Copy Client App Files to EC2
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          source: "download/${{ env.MAC_ARTIFACT_ZIP_FILE }},download/${{ env.WIN_ARTIFACT_ZIP_FILE}}"
+          target: ./client-apps
+          host: ${{ secrets.EC2_HOST }}
+          username: ec2-user
+          key: ${{ secrets.EC2_KEY }}

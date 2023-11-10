@@ -36,14 +36,14 @@ jobs:
           cp "$ZIP_FILE" "./out/make/${{ env.ARTIFACT_ZIP_FILE }}"
           ls -R out/make
 
-      # - name: Copy Mac-App file to EC2
-      #   uses: appleboy/scp-action@v0.1.4
-      #   with:
-      #     source: docker-compose.yaml
-      #     target: .
-      #     host: ${{ secrets.EC2_HOST }}
-      #     username: ec2-user
-      #     key: ${{ secrets.EC2_KEY }}
+      - name: Copy Mac-App file to EC2
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          source: "./electron_app/out/make/${{ env.ARTIFACT_ZIP_FILE }}"
+          target: client-apps
+          host: ${{ secrets.EC2_HOST }}
+          username: ec2-user
+          key: ${{ secrets.EC2_KEY }}
 
       - name: Upload Mac App Artifact
         uses: actions/upload-artifact@v2

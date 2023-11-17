@@ -12,6 +12,10 @@ import { join } from "path";
 const config: ForgeConfig = {
   packagerConfig: {
     buildVersion: new Date().getTime().toString(),
+    extendInfo: {
+      NSMicrophoneUsageDescription:
+        "This app needs access to your microphone because of the voice recognition feature.",
+    },
   },
   rebuildConfig: {},
   makers: [

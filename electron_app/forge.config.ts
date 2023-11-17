@@ -10,7 +10,9 @@ import { rendererConfig } from "./webpack.renderer.config";
 import { join } from "path";
 
 const config: ForgeConfig = {
-  packagerConfig: {},
+  packagerConfig: {
+    buildVersion: new Date().getTime().toString(),
+  },
   rebuildConfig: {},
   makers: [
     new MakerSquirrel({}),

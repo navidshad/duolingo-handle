@@ -6,6 +6,8 @@ export async function getAudioStream() {
         video: false,
       });
 
+      console.log("Got audio stream ", captureStream);
+
       resolve(captureStream);
     } catch (err) {
       reject(err);

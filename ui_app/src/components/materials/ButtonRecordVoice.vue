@@ -83,6 +83,7 @@ export default defineComponent({
 
       this.recorder.start();
       console.log("Recording started");
+      this.$emit("onStart");
     },
 
     stopRecording() {
@@ -94,6 +95,8 @@ export default defineComponent({
       this.isLoading = true;
       const blob = new Blob(this.chunks, { type: "audio/wav" });
       const base64 = await blobToBase64(blob);
+
+      this.$emit("onAudioBase64", base64);
 
       detectTextFromAudio(base64)
         .then((text: any) => (this.text = text))

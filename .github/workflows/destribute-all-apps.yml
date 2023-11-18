@@ -15,13 +15,20 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Install python setuptools
-        run: pip3 install setuptools
+      #
+      # Not needed for self-hosted runners
+      #
 
-      - name: Install Node.js
-        uses: actions/setup-node@v1
-        with:
-          node-version: 16.20.1
+      # - name: Install python setuptools
+      #   run: pip3 install setuptools
+
+      # - name: Install Node.js
+      #   uses: actions/setup-node@v1
+      #   with:
+      #     node-version: 16.20.1
+
+      #
+      # End
 
       - name: Install dependencies
         working-directory: ./electron_app

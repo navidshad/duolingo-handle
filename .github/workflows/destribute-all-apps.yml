@@ -11,7 +11,7 @@ env:
 
 jobs:
   build-mac-arm:
-    runs-on: macos-13
+    runs-on: self-hosted
     steps:
       - uses: actions/checkout@v2
 
@@ -45,63 +45,63 @@ jobs:
           path: "electron_app/out/make/${{ env.MAC_ARTIFACT_ZIP_FILE }}"
           retention-days: 30
 
-  build-windows:
-    needs: build-mac-arm
-    runs-on: windows-2022
-    steps:
-      - uses: actions/checkout@v2
+  # build-windows:
+  #   needs: build-mac-arm
+  #   runs-on: windows-2022
+  #   steps:
+  #     - uses: actions/checkout@v2
 
-      - name: Install Node.js
-        uses: actions/setup-node@v1
-        with:
-          node-version: 16.20.1
+  #     - name: Install Node.js
+  #       uses: actions/setup-node@v1
+  #       with:
+  #         node-version: 16.20.1
 
-      - name: Install dependencies
-        working-directory: ./electron_app
-        run: yarn
+  #     - name: Install dependencies
+  #       working-directory: ./electron_app
+  #       run: yarn
 
-      - name: Build Windows App
-        working-directory: ./electron_app
-        run: |
-          echo "BASE_URL=${{ vars.UI_APP_URL }}" >> .env.production
-          echo "BASE_URL=${{ vars.UI_APP_URL }}" >> .env
-          yarn make
-          $ZipFile = Get-ChildItem -Recurse -Filter "*.zip" | Select-Object -First 1
-          Copy-Item $ZipFile.FullName "out/make/${{ env.WIN_ARTIFACT_ZIP_FILE }}"
-          Get-ChildItem -Path out/make -Recurse | Select-Object -ExpandProperty FullName
+  #     - name: Build Windows App
+  #       working-directory: ./electron_app
+  #       run: |
+  #         echo "BASE_URL=${{ vars.UI_APP_URL }}" >> .env.production
+  #         echo "BASE_URL=${{ vars.UI_APP_URL }}" >> .env
+  #         yarn make
+  #         $ZipFile = Get-ChildItem -Recurse -Filter "*.zip" | Select-Object -First 1
+  #         Copy-Item $ZipFile.FullName "out/make/${{ env.WIN_ARTIFACT_ZIP_FILE }}"
+  #         Get-ChildItem -Path out/make -Recurse | Select-Object -ExpandProperty FullName
 
-      - name: Upload Windows App Artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: windows-app
-          path: electron_app/out/make/${{ env.WIN_ARTIFACT_ZIP_FILE }}
-          retention-days: 30
+  #     - name: Upload Windows App Artifact
+  #       uses: actions/upload-artifact@v2
+  #       with:
+  #         name: windows-app
+  #         path: electron_app/out/make/${{ env.WIN_ARTIFACT_ZIP_FILE }}
+  #         retention-days: 30
 
-  upload-Client-Apps:
-    needs: [build-mac-arm, build-windows]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download Mac App Artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: mac-app
-          path: .
+  # upload-Client-Apps:
+  #   needs: [build-mac-arm, build-windows]
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Download Mac App Artifact
+  #       uses: actions/download-artifact@v2
+  #       with:
+  #         name: mac-app
+  #         path: .
 
-      - name: Download Windows App Artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: windows-app
-          path: .
+  #     - name: Download Windows App Artifact
+  #       uses: actions/download-artifact@v2
+  #       with:
+  #         name: windows-app
+  #         path: .
 
-      - name: Check downloaded files
-        run: |
-          ls -R
+  #     - name: Check downloaded files
+  #       run: |
+  #         ls -R
 
-      - name: Copy Client App Files to EC2
-        uses: appleboy/scp-action@v0.1.4
-        with:
-          source: "${{ env.MAC_ARTIFACT_ZIP_FILE }},${{ env.WIN_ARTIFACT_ZIP_FILE}}"
-          target: ./client-apps
-          host: ${{ secrets.EC2_HOST }}
-          username: ec2-user
-          key: ${{ secrets.EC2_KEY }}
+  #     - name: Copy Client App Files to EC2
+  #       uses: appleboy/scp-action@v0.1.4
+  #       with:
+  #         source: "${{ env.MAC_ARTIFACT_ZIP_FILE }},${{ env.WIN_ARTIFACT_ZIP_FILE}}"
+  #         target: ./client-apps
+  #         host: ${{ secrets.EC2_HOST }}
+  #         username: ec2-user
+  #         key: ${{ secrets.EC2_KEY }}

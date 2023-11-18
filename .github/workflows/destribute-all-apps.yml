@@ -39,7 +39,7 @@ jobs:
         run: |
           echo "BASE_URL=${{ vars.UI_APP_URL }}" >> .env.production
           echo "BASE_URL=${{ vars.UI_APP_URL }}" >> .env
-          npm run make
+          npm run make --arch=x64
           ZIP_FILE=$(find ./out/make -type f -name "*.zip" | head -n 1)
           echo "ZIP file: $ZIP_FILE"
           cp "$ZIP_FILE" "./out/make/${{ env.MAC_ARTIFACT_ZIP_FILE }}"

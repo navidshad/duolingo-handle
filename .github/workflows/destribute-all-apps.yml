@@ -50,7 +50,6 @@ jobs:
         with:
           name: mac-app
           path: "electron_app/out/make/${{ env.MAC_ARTIFACT_ZIP_FILE }}"
-          retention-days: 30
 
   # build-windows:
   #   needs: build-mac-arm
@@ -82,7 +81,6 @@ jobs:
   #       with:
   #         name: windows-app
   #         path: electron_app/out/make/${{ env.WIN_ARTIFACT_ZIP_FILE }}
-  #         retention-days: 30
 
   # upload-Client-Apps:
   #   needs: [build-mac-arm, build-windows]

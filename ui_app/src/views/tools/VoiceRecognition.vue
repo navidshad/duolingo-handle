@@ -5,11 +5,11 @@
         <audio
           v-if="base64Audio"
           class="flex-1 scale-[0.6]"
-          :src="'data:audio/mpeg;base64,' + base64Audio"
+          :src="'data:audio/wav;base64,' + base64Audio"
           controls
         />
 
-        <button-record-voice
+        <button-record-voice-mac
           size="small"
           class="ml-2"
           start-on-mount

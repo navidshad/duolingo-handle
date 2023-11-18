@@ -42,10 +42,18 @@ export default interface ElectronApi {
   writeInStore: (key: string, value: string) => void;
   readFromStore: (key: string) => Promise<string>;
 
+  //
+  // Tools
+  //
   takeScreenShot: (options: {
     coordinateBoundOffset?: { x?: number; y?: number };
     customBound?: Rectangle;
   }) => string;
+
+  /// @returns recordId
+  startRecording: () => Promise<string>;
+  /// @returns base64 string
+  stopRecording: (recordId: string) => Promise<string>;
 
   writeByKeyboard: (string: string) => void;
 }

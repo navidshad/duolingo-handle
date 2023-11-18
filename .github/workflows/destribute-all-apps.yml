@@ -19,13 +19,13 @@ jobs:
       # Not needed for self-hosted runners
       #
 
-      # - name: Install python setuptools
-      #   run: pip3 install setuptools
+      - name: Install python setuptools
+        run: pip3 install setuptools
 
-      # - name: Install Node.js
-      #   uses: actions/setup-node@v1
-      #   with:
-      #     node-version: 16.20.1
+      - name: Install Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16.20.1
 
       #
       # End

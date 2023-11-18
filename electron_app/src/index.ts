@@ -18,6 +18,7 @@ import {
   ExitEvent,
 } from "../../ui_app/src/types/event";
 import { TimeService } from "./services/time.service";
+import { SoundService } from "./services/sound.service";
 
 // Load environment variables from .env file
 const envFileName = isDev() ? ".env" : ".env.production";
@@ -33,6 +34,7 @@ declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
 new TextService();
 new StorageService();
 new TimeService();
+new SoundService();
 
 const windowsManagerService = new WindowsManagerService(
   process.env.BASE_URL,

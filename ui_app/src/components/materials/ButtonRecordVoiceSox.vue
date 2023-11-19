@@ -21,8 +21,6 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { getAudioStream } from "@/helpers/audio";
-import { blobToBase64 } from "@/helpers/file";
 import { detectTextFromAudio } from "@/services/ai";
 
 export default defineComponent({

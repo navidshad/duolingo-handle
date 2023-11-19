@@ -10,7 +10,6 @@
         />
 
         <button-record-voice-sox
-          v-if="isDarwin || isWindows"
           size="small"
           class="ml-2"
           start-on-mount
@@ -19,7 +18,7 @@
           @onStart="base64Audio = text = translatedText = ''"
         />
 
-        <button-record-voice
+        <!-- <button-record-voice
           v-else
           size="small"
           class="ml-2"
@@ -27,7 +26,7 @@
           @on-text="text = $event"
           @onAudioBase64="base64Audio = $event"
           @onStart="base64Audio = text = translatedText = ''"
-        />
+        /> -->
 
         <button-language
           :disabled="!text.length"

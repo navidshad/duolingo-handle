@@ -62,7 +62,7 @@ export class SoundService {
 
       return Promise.resolve(title);
     } catch (error) {
-      fs.unlinkSync(`${title}.wav`);
+      fs.unlinkSync(getPathFromTemp(`${title}.wav`));
       return Promise.reject([error, "sox path:" + getSoxPath()]);
     }
   }

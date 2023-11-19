@@ -16,6 +16,10 @@ const config: ForgeConfig = {
       NSMicrophoneUsageDescription:
         "This app needs access to your microphone because of the voice recognition feature.",
     },
+    extraResource: [
+      // Sox binaries for recording audio
+      join(__dirname, "sox"),
+    ],
   },
   rebuildConfig: {},
   makers: [

@@ -9,7 +9,18 @@
           controls
         />
 
-        <button-record-voice-mac
+        <button-record-voice-sox
+          v-if="isDarwin || isWindows"
+          size="small"
+          class="ml-2"
+          start-on-mount
+          @on-text="text = $event"
+          @onAudioBase64="base64Audio = $event"
+          @onStart="base64Audio = text = translatedText = ''"
+        />
+
+        <button-record-voice
+          v-else
           size="small"
           class="ml-2"
           start-on-mount
@@ -36,13 +47,12 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-
-// @ts-ignore
-import HeaderMixin from "@/mixins/header-hight.js";
+import HeaderMixin from "@/mixins/header-hight";
+import SystemInfoMixin from "@/mixins/system-Info";
 import { translateText } from "@/services/ai";
 
 export default defineComponent({
-  mixins: [HeaderMixin],
+  mixins: [HeaderMixin, SystemInfoMixin],
 
   data() {
     return {

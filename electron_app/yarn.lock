@@ -4793,8 +4793,8 @@ node-loader@^2.0.0:
     loader-utils "^2.0.0"
 
 "node-record-lpcm16@https://github.com/navidshad/node-record-lpcm16":
-  version "1.0.1"
-  resolved "https://github.com/navidshad/node-record-lpcm16#a8f1abbbfffd89bdac0659f7f1f9975f5e9ffc3c"
+  version "1.1.0"
+  resolved "https://github.com/navidshad/node-record-lpcm16#9cb0531806facbc5ed8db5d1d6c962b735aa386b"
   dependencies:
     debug "^2.6.8"
 

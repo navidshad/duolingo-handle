@@ -74,7 +74,7 @@ import { extractAnnotationsFromScreen } from "@/helpers/screen";
 import { defineComponent } from "vue";
 
 // @ts-ignore
-import HeaderMixin from "@/mixins/header-hight.js";
+import HeaderMixin from "@/mixins/header-hight";
 import { sleep } from "@/helpers/promise";
 import { createCompletion } from "@/services/ai";
 

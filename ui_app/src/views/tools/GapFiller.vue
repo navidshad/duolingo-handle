@@ -61,7 +61,7 @@ import { defineComponent } from "vue";
 import { extractTextFromScreen } from "@/helpers/screen";
 
 // @ts-ignore
-import HeaderMixin from "@/mixins/header-hight.js";
+import HeaderMixin from "@/mixins/header-hight";
 import { createChatCompletion } from "@/services/ai";
 
 export default defineComponent({

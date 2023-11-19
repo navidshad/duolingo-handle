@@ -51,8 +51,6 @@ export class SoundService {
     });
 
     try {
-      child_process.execSync(`chmod +x ${getSoxPath()}/sox`);
-
       this.recording = recorder.record({
         recorder: "sox",
         recorderPath: getSoxPath(),

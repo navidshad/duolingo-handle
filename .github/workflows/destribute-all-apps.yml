@@ -11,7 +11,7 @@ env:
 
 jobs:
   build-mac-arm:
-    runs-on: self-hosted
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
 
@@ -19,13 +19,13 @@ jobs:
       # Not needed for self-hosted runners
       #
 
-      # - name: Install python setuptools
-      #   run: pip3 install setuptools
+      - name: Install python setuptools
+        run: pip3 install setuptools
 
-      # - name: Install Node.js
-      #   uses: actions/setup-node@v1
-      #   with:
-      #     node-version: 16.20.1
+      - name: Install Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16.20.1
 
       #
       # End
@@ -34,12 +34,18 @@ jobs:
         working-directory: ./electron_app
         run: yarn
 
+      - name: Fix sox permissions
+        working-directory: ./electron_app
+        run: |
+          chmod +x sox/mac/sox
+          ls -l sox/mac/sox
+
       - name: Build Mac App
         working-directory: ./electron_app
         run: |
           echo "BASE_URL=${{ vars.UI_APP_URL }}" >> .env.production
           echo "BASE_URL=${{ vars.UI_APP_URL }}" >> .env
-          npm run make
+          npm run make --arch=arm64
           ZIP_FILE=$(find ./out/make -type f -name "*.zip" | head -n 1)
           echo "ZIP file: $ZIP_FILE"
           cp "$ZIP_FILE" "./out/make/${{ env.MAC_ARTIFACT_ZIP_FILE }}"
@@ -50,7 +56,6 @@ jobs:
         with:
           name: mac-app
           path: "electron_app/out/make/${{ env.MAC_ARTIFACT_ZIP_FILE }}"
-          retention-days: 30
 
   # build-windows:
   #   needs: build-mac-arm
@@ -82,33 +87,35 @@ jobs:
   #       with:
   #         name: windows-app
   #         path: electron_app/out/make/${{ env.WIN_ARTIFACT_ZIP_FILE }}
-  #         retention-days: 30
 
-  # upload-Client-Apps:
-  #   needs: [build-mac-arm, build-windows]
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Download Mac App Artifact
-  #       uses: actions/download-artifact@v2
-  #       with:
-  #         name: mac-app
-  #         path: .
+  upload-Client-Apps:
+    needs: [
+        build-mac-arm,
+        # build-windows
+      ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Mac App Artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: mac-app
+          path: .
 
-  #     - name: Download Windows App Artifact
-  #       uses: actions/download-artifact@v2
-  #       with:
-  #         name: windows-app
-  #         path: .
+      # - name: Download Windows App Artifact
+      #   uses: actions/download-artifact@v2
+      #   with:
+      #     name: windows-app
+      #     path: .
 
-  #     - name: Check downloaded files
-  #       run: |
-  #         ls -R
+      - name: Check downloaded files
+        run: |
+          ls -R
 
-  #     - name: Copy Client App Files to EC2
-  #       uses: appleboy/scp-action@v0.1.4
-  #       with:
-  #         source: "${{ env.MAC_ARTIFACT_ZIP_FILE }},${{ env.WIN_ARTIFACT_ZIP_FILE}}"
-  #         target: ./client-apps
-  #         host: ${{ secrets.EC2_HOST }}
-  #         username: ec2-user
-  #         key: ${{ secrets.EC2_KEY }}
+      - name: Copy Client App Files to EC2
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          source: "${{ env.MAC_ARTIFACT_ZIP_FILE }}"
+          target: ./client-apps
+          host: ${{ secrets.EC2_HOST }}
+          username: ec2-user
+          key: ${{ secrets.EC2_KEY }}

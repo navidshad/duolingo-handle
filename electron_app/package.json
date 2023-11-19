@@ -5,6 +5,7 @@
   "description": "An exam hand for those who want to cheat on Duolingo exams",
   "main": ".webpack/main",
   "scripts": {
+    "rebuild": "electron-rebuild -f",
     "start": "electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",
@@ -28,6 +29,7 @@
     "@vercel/webpack-asset-relocator-loader": "1.7.3",
     "copy-webpack-plugin": "^11.0.0",
     "electron": "24.0.0",
+    "electron-rebuild": "^3.2.9",
     "eslint": "^8.0.1",
     "eslint-plugin-import": "^2.25.0",
     "fork-ts-checker-webpack-plugin": "^7.2.13",
@@ -44,7 +46,8 @@
     "electron-squirrel-startup": "^1.0.0",
     "electron-store": "^8.1.0",
     "google-gax": "^3.6.0",
-    "openai": "^3.2.1",
-    "robotjs": "^0.6.0"
+    "node-key-sender": "^1.0.11",
+    "node-record-lpcm16": "https://github.com/navidshad/node-record-lpcm16",
+    "openai": "^3.2.1"
   }
 }

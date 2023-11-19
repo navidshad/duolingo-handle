@@ -16,12 +16,13 @@ export const mainConfig: Configuration = {
   plugins: [
     new CopyWebpackPlugin({
       patterns: [
+        // { from: "sox/**/*", to: "" },
         { from: "./.env", to: "" },
         { from: "./.env.production", to: "" },
       ],
     }),
   ],
   resolve: {
-    extensions: [".js", ".ts", ".jsx", ".tsx", ".css", ".json"],
+    extensions: [".js", ".ts", ".jsx", ".tsx", ".css", ".json", ".*"],
   },
 };

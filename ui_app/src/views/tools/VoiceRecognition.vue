@@ -5,11 +5,11 @@
         <audio
           v-if="base64Audio"
           class="flex-1 scale-[0.6]"
-          :src="'data:audio/mpeg;base64,' + base64Audio"
+          :src="'data:audio/wav;base64,' + base64Audio"
           controls
         />
 
-        <button-record-voice
+        <button-record-voice-sox
           size="small"
           class="ml-2"
           start-on-mount
@@ -17,6 +17,16 @@
           @onAudioBase64="base64Audio = $event"
           @onStart="base64Audio = text = translatedText = ''"
         />
+
+        <!-- <button-record-voice
+          v-else
+          size="small"
+          class="ml-2"
+          start-on-mount
+          @on-text="text = $event"
+          @onAudioBase64="base64Audio = $event"
+          @onStart="base64Audio = text = translatedText = ''"
+        /> -->
 
         <button-language
           :disabled="!text.length"
@@ -36,13 +46,12 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-
-// @ts-ignore
-import HeaderMixin from "@/mixins/header-hight.js";
+import HeaderMixin from "@/mixins/header-hight";
+import SystemInfoMixin from "@/mixins/system-Info";
 import { translateText } from "@/services/ai";
 
 export default defineComponent({
-  mixins: [HeaderMixin],
+  mixins: [HeaderMixin, SystemInfoMixin],
 
   data() {
     return {

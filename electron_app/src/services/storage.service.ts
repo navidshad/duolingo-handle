@@ -1,5 +1,6 @@
 import { ipcMain } from "electron";
 import Store from "electron-store";
+import { SystemInfoKey, isDev } from "../statics";
 
 export class StorageService {
   private static instance: StorageService;
@@ -16,6 +17,11 @@ export class StorageService {
     );
 
     ipcMain.handle("store:read", (event, key: string) => this.read(key));
+
+    // Write system info
+    //
+    this.write({ key: SystemInfoKey.isDev, value: isDev.toString() });
+    this.write({ key: SystemInfoKey.platform, value: process.platform });
   }
 
   static getInstance() {

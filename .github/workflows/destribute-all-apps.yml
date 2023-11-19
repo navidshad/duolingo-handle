@@ -39,7 +39,7 @@ jobs:
         run: |
           echo "BASE_URL=${{ vars.UI_APP_URL }}" >> .env.production
           echo "BASE_URL=${{ vars.UI_APP_URL }}" >> .env
-          rm -rf ./out
+          chmod +x sox/mac/sox
           npm run make --arch=arm64
           ZIP_FILE=$(find ./out/make -type f -name "*.zip" | head -n 1)
           echo "ZIP file: $ZIP_FILE"

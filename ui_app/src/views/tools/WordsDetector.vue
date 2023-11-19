@@ -61,7 +61,7 @@ import { defineComponent } from "vue";
 import { extractAnnotationsFromScreen } from "@/helpers/screen";
 
 // @ts-ignore
-import HeaderMixin from "@/mixins/header-hight.js";
+import HeaderMixin from "@/mixins/header-hight";
 import { checkValidWord, translateText } from "@/services/ai";
 
 export default defineComponent({

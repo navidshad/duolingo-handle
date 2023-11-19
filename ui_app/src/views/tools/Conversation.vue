@@ -71,7 +71,7 @@
 import { defineComponent } from "vue";
 
 // @ts-ignore
-import HeaderMixin from "@/mixins/header-hight.js";
+import HeaderMixin from "@/mixins/header-hight";
 import ChatCard from "@/components/materials/ChatCard.vue";
 import ChatCardVoice from "@/components/partials/ChatCardVoice.vue";
 import ChatCardChoice from "@/components/partials/ChatCardChoice.vue";

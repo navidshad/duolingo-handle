@@ -1,4 +1,7 @@
-export default {
+import type { WindowType } from "@/types/base";
+import { defineComponent } from "vue";
+
+export default defineComponent({
   data() {
     return {
       contentHeight: 0,
@@ -7,11 +10,12 @@ export default {
 
   computed: {
     headerHeight() {
+      // @ts-ignore
       return this.$refs.header.$el.clientHeight;
     },
 
     windowType() {
-      return this.$route.path.replaceAll("/", "");
+      return this.$route.path.replaceAll("/", "") as WindowType;
     },
   },
 
@@ -33,7 +37,7 @@ export default {
       window.electronAPI.setBound(this.windowType, {
         y: Math.abs(y - (this.headerHeight + 0)),
         height: height + this.headerHeight,
-      });
+      } as any);
     },
   },
-};
+});

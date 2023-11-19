@@ -131,6 +131,10 @@ contextBridge.exposeInMainWorld("electronAPI", {
     return captureScreenShotBySourceID(sourceId, bound);
   },
 
+  startRecording: () => ipcRenderer.invoke("sound:record"),
+  stopRecording: (recordId: string) =>
+    ipcRenderer.invoke("sound:stop", recordId),
+
   writeByKeyboard: (string: string) =>
     ipcRenderer.invoke("text:write-by-keyboard", string),
 });

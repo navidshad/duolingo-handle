@@ -3,3 +3,8 @@ export const isDev = () => {
 
   return process.env["WEBPACK_SERVE"] === "true";
 };
+
+export const SystemInfoKey = {
+  isDev: "systeminfo_isdev",
+  platform: "systeminfo_platform",
+};

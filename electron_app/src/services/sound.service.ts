@@ -59,7 +59,7 @@ export class SoundService {
       return Promise.resolve(title);
     } catch (error) {
       fs.unlinkSync(`${title}.wav`);
-      return Promise.reject(error);
+      return Promise.reject([error, "sox path:" + getSoxPath()]);
     }
   }
 

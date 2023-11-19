@@ -33,8 +33,8 @@ declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
 // Initialize services
 new TextService();
 new StorageService();
-new TimeService();
 new SoundService();
+const timeService = new TimeService();
 
 const windowsManagerService = new WindowsManagerService(
   process.env.BASE_URL,
@@ -54,6 +54,10 @@ function createMainWindow() {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on("ready", createMainWindow);
+
+app.on("before-quit", () => {
+  timeService.stopTimer();
+});
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits

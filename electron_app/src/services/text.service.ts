@@ -1,5 +1,5 @@
 import { ipcMain } from "electron";
-import nk from "node-key-sender";
+import robotjs from "robotjs";
 
 export class TextService {
   private static instance: TextService;
@@ -17,15 +17,7 @@ export class TextService {
     return this.instance;
   }
 
-  private async writeByKeyboard(string: string) {
-    for (let i = 0; i < string.length; i++) {
-      const char = string[i];
-      try {
-        await nk.sendKey(char);
-      } catch (error) {
-        console.error(error);
-        break;
-      }
-    }
+  private writeByKeyboard(string: string) {
+    robotjs.typeStringDelayed(string, 1000);
   }
 }

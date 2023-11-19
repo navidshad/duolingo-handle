@@ -42,9 +42,13 @@ export class TimeService {
     WindowsManagerService.getInstance().sendMessage("tools-box", timeEvent);
 
     if (this.remainingTime === 0) {
-      clearInterval(this.interval);
+      this.stopTimer();
     }
 
     this.remainingTime += -1;
+  }
+
+  stopTimer() {
+    clearInterval(this.interval);
   }
 }

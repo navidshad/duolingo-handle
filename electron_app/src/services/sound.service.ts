@@ -3,6 +3,7 @@ import fs from "fs";
 import recorder from "node-record-lpcm16";
 import { join } from "path";
 import { tmpdir, platform } from "os";
+import child_process from "child_process";
 
 function getPathFromTemp(name: string) {
   return join(tmpdir(), name);
@@ -50,10 +51,13 @@ export class SoundService {
     });
 
     try {
+      child_process.execSync(`chmod +x ${getSoxPath()}/sox`);
+
       this.recording = recorder.record({
         recorder: "sox",
         recorderPath: getSoxPath(),
       });
+
       this.recording.stream().pipe(file);
 
       return Promise.resolve(title);

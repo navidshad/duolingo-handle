@@ -2,7 +2,7 @@
 # - Build the Docker image and push it to Docker Hub
 # - Deploy the Docker image to EC2 by SSH
 
-name: Deploy All App
+name: Deploy Server, Exam UI, and Nginx
 
 on:
   # push:

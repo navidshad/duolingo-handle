@@ -13,9 +13,7 @@
         "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/electron-forge-vscode-win.cmd"
       },
       "cwd": "${workspaceFolder}",
-      "env": {
-        "BASE_URL": "http://127.0.0.1:5173/client-app"
-      }
+      "envFile": "${workspaceFolder}/.env"
     },
     {
       "type": "node",

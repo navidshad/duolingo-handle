@@ -34,9 +34,9 @@ jobs:
 
       - name: Build the Docker image
         run: |
-          docker build --platform linux/amd64 -t ${{ secrets.DOCKER_USERNAME }}/duolingo-handle:${{ env.IMAGE_TAG_SERVER }} -f server.Dockerfile .
-          docker build --platform linux/amd64 -t ${{ secrets.DOCKER_USERNAME }}/duolingo-handle:${{ env.IMAGE_TAG_EXAM_UI }} -f examui.Dockerfile .
-          docker build --platform linux/amd64 -t ${{ secrets.DOCKER_USERNAME }}/duolingo-handle:${{ env.IMAGE_TAG_NGINX }} -f nginx.Dockerfile .
+          docker build --platform linux/arm64 -t ${{ secrets.DOCKER_USERNAME }}/duolingo-handle:${{ env.IMAGE_TAG_SERVER }} -f server.Dockerfile .
+          docker build --platform linux/arm64 -t ${{ secrets.DOCKER_USERNAME }}/duolingo-handle:${{ env.IMAGE_TAG_EXAM_UI }} -f examui.Dockerfile .
+          docker build --platform linux/arm64 -t ${{ secrets.DOCKER_USERNAME }}/duolingo-handle:${{ env.IMAGE_TAG_NGINX }} -f nginx.Dockerfile .
 
       - name: Push the Docker image to Docker Hub
         run: |

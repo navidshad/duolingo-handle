@@ -11,11 +11,13 @@ module.exports.permissionGroups = [
       "remove_file_access",
     ],
   }),
+
   new PermissionGroup({
     title: "anonymous",
     isAnonymous: true,
     validPermissionTypes: ["anonymous_access"],
   }),
+
   new PermissionGroup({
     title: "administrator",
     validPermissionTypes: [

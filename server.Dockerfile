@@ -2,7 +2,7 @@
 FROM node:20-alpine3.17 as build-product-stage
 WORKDIR /product
 COPY ./product_website/package.json ./
-RUN yarn install
+RUN yarn install --production --ignore-engines
 COPY ./product_website .
 RUN yarn run build
 
@@ -10,7 +10,7 @@ RUN yarn run build
 FROM node:20-alpine3.17 as build-admin-stage
 WORKDIR /admin
 COPY ./admin_app/package.json ./
-RUN yarn install
+RUN yarn install --production --ignore-engines
 COPY ./admin_app .
 RUN yarn run build
 

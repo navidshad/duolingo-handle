@@ -1,4 +1,5 @@
 const { createRest } = require("@modular-rest/server");
+const permissionGroups = require("./permissions").permissionGroups;
 
 const path = require("path");
 
@@ -32,4 +33,5 @@ const app = createRest({
   verificationCodeGeneratorMethod: function () {
     return "123456";
   },
+  permissionGroups: permissionGroups,
 });

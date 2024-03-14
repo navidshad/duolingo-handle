@@ -14,7 +14,7 @@ console.log("public dir", path.join(__dirname, "public"));
 const app = createRest({
   port: 8081,
   modulesPath: path.join(__dirname, "modules"),
-  static: {
+  staticPath: {
     rootDir: "public",
     log: true,
   },
@@ -26,8 +26,8 @@ const app = createRest({
     // do something before init with the koa app
   },
   adminUser: {
-    email: process.env.ADMIN_EMAIL,
-    password: process.env.ADMIN_PASSWORD,
+    email: process.env.ADMIN_EMAIL || "",
+    password: process.env.ADMIN_PASSWORD || "",
   },
   verificationCodeGeneratorMethod: function () {
     return "123456";

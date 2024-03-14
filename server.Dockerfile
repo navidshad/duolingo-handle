@@ -1,21 +1,21 @@
 # Build Product Website
-FROM node:20-alpine3.17 as build-product-stage
+FROM node:18-alpine as build-product-stage
 WORKDIR /product
 COPY ./product_website/package.json ./
-RUN npm install
+RUN yarn install
 COPY ./product_website .
-RUN npm run build
+RUN yarn run build
 
 # Build Admin App
-FROM node:20-alpine3.17 as build-admin-stage
+FROM node:18-alpine as build-admin-stage
 WORKDIR /admin
 COPY ./admin_app/package.json ./
-RUN npm install
+RUN yarn install
 COPY ./admin_app .
-RUN npm run build
+RUN yarn run build
 
 # Setup server app
-FROM node:20-alpine3.17 as build-server-stage
+FROM node:18-alpine as build-server-stage
 WORKDIR /app
 COPY ./server_app/package.json ./
 RUN npm install
@@ -28,7 +28,7 @@ COPY --from=build-admin-stage /admin/dist ./app/public/admin
 RUN rm -rf /admin
 
 # Production stage
-FROM arm64v8/node:18-alpine as production-stage
+FROM node:18-alpine as production-stage
 COPY --from=build-server-stage /app /app
 EXPOSE 8081
 WORKDIR /app

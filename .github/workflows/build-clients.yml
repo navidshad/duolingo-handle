@@ -93,7 +93,7 @@ jobs:
         build-mac-arm,
         # build-windows
       ]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - name: Download Mac App Artifact
         uses: actions/download-artifact@v2

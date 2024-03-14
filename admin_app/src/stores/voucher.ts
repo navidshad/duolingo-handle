@@ -28,7 +28,7 @@ export const voucherStore = defineStore('voucher', () => {
 
     pagination.value = _pagination
 
-    return _pagination.getPage(1).then((data) => (list.value = data))
+    return _pagination.fetchPage(1).then((data) => (list.value = data))
   }
 
   return { list, pagination, getList }

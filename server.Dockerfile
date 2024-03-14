@@ -1,23 +1,23 @@
 # Build Product Website
 FROM node:20-alpine3.17 as build-product-stage
 WORKDIR /product
-COPY ./product_website/package.json ./
-RUN yarn install --production --ignore-engines
+COPY ./product_website/package.json ./product_website/yarn.lock ./
+RUN yarn install
 COPY ./product_website .
 RUN yarn run build
 
 # Build Admin App
 FROM node:20-alpine3.17 as build-admin-stage
 WORKDIR /admin
-COPY ./admin_app/package.json ./
-RUN yarn install --production --ignore-engines
+COPY ./admin_app/package.json ./admin_app/yarn.lock ./
+RUN yarn install
 COPY ./admin_app .
 RUN yarn run build
 
 # Setup server app
 FROM node:20-alpine3.17 as build-server-stage
 WORKDIR /app
-COPY ./server_app/package.json ./
+COPY ./server_app/package.json ./server_app/yarn.lock ./
 RUN npm install
 COPY ./server_app .
 

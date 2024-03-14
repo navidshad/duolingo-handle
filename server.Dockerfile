@@ -28,7 +28,7 @@ COPY --from=build-admin-stage /admin/dist ./app/public/admin
 RUN rm -rf /admin
 
 # Production stage
-FROM arm64v8/node:18-alpine as production-stage
+FROM node:18-alpine as production-stage
 COPY --from=build-server-stage /app /app
 EXPOSE 8081
 WORKDIR /app

@@ -14,7 +14,7 @@ COPY ./ui_app .
 RUN yarn build
 
 # -------------------------------------
-FROM arm64v8/nginx as production-stage
+FROM nginx:1.25-alpine as production-stage
 
 COPY --from=build-stage /app/dist /usr/share/nginx/html
 

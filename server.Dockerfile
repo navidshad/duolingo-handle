@@ -2,17 +2,17 @@
 FROM node:20-alpine3.17 as build-product-stage
 WORKDIR /product
 COPY ./product_website/package.json ./
-RUN npm install
+RUN yarn install
 COPY ./product_website .
-RUN npm run build
+RUN yarn run build
 
 # Build Admin App
 FROM node:20-alpine3.17 as build-admin-stage
 WORKDIR /admin
 COPY ./admin_app/package.json ./
-RUN npm install
+RUN yarn install
 COPY ./admin_app .
-RUN npm run build
+RUN yarn run build
 
 # Setup server app
 FROM node:20-alpine3.17 as build-server-stage

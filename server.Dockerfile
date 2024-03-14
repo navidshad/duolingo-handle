@@ -1,7 +1,7 @@
 # Build Product Website
 FROM node:18-alpine as build-product-stage
 WORKDIR /product
-COPY ./product_website/package.json ./product_website/yarn.lock ./
+COPY ./product_website/package.json ./
 RUN yarn install
 COPY ./product_website .
 RUN yarn run build
@@ -9,7 +9,7 @@ RUN yarn run build
 # Build Admin App
 FROM node:18-alpine as build-admin-stage
 WORKDIR /admin
-COPY ./admin_app/package.json ./admin_app/yarn.lock ./
+COPY ./admin_app/package.json ./
 RUN yarn install
 COPY ./admin_app .
 RUN yarn run build
@@ -17,7 +17,7 @@ RUN yarn run build
 # Setup server app
 FROM node:18-alpine as build-server-stage
 WORKDIR /app
-COPY ./server_app/package.json ./server_app/yarn.lock ./
+COPY ./server_app/package.json ./
 RUN npm install
 COPY ./server_app .
 

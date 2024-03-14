@@ -7,7 +7,6 @@ FROM node:18-alpine3.17 as build-stage
 WORKDIR /app
 
 COPY ./ui_app/package.json ./
-COPY ./ui_app/yarn.lock ./
 RUN yarn install
 
 COPY ./ui_app .

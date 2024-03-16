@@ -95,26 +95,35 @@ jobs:
       ]
     runs-on: ubuntu-22.04
     steps:
-      - name: Download Mac App Artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: mac-app
-          path: .
-
-      # - name: Download Windows App Artifact
+      # - name: Download Mac App Artifact
       #   uses: actions/download-artifact@v2
       #   with:
-      #     name: windows-app
+      #     name: mac-app
       #     path: .
+
+      - name: Download Windows App Artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: windows-app
+          path: .
 
       - name: Check downloaded files
         run: |
           ls -R
 
+      # - name: Copy Client App Files to EC2
+      #   uses: appleboy/scp-action@v0.1.4
+      #   with:
+      #     source: "${{ env.MAC_ARTIFACT_ZIP_FILE }}"
+      #     target: ./client-apps
+      #     host: ${{ secrets.EC2_HOST }}
+      #     username: ec2-user
+      #     key: ${{ secrets.EC2_KEY }}
+
       - name: Copy Client App Files to EC2
         uses: appleboy/scp-action@v0.1.4
         with:
-          source: "${{ env.MAC_ARTIFACT_ZIP_FILE }}"
+          source: "${{ env.WIN_ARTIFACT_ZIP_FILE }}"
           target: ./client-apps
           host: ${{ secrets.EC2_HOST }}
           username: ec2-user

@@ -78,15 +78,15 @@ jobs:
           echo "BASE_URL=${{ vars.UI_APP_URL }}" >> .env.production
           echo "BASE_URL=${{ vars.UI_APP_URL }}" >> .env
           yarn make
-          $ZipFile = Get-ChildItem -Recurse -Filter "*.zip" | Select-Object -First 1
-          Copy-Item $ZipFile.FullName "out/make/${{ env.WIN_ARTIFACT_ZIP_FILE }}"
-          Get-ChildItem -Path out/make -Recurse | Select-Object -ExpandProperty FullName
+          # $ZipFile = Get-ChildItem -Recurse -Filter "*.zip" | Select-Object -First 1
+          # Copy-Item $ZipFile.FullName "out/make/${{ env.WIN_ARTIFACT_ZIP_FILE }}"
+          # Get-ChildItem -Path out/make -Recurse | Select-Object -ExpandProperty FullName
 
       - name: Upload Windows App Artifact
         uses: actions/upload-artifact@v2
         with:
           name: windows-app
-          path: electron_app/out/make/${{ env.WIN_ARTIFACT_ZIP_FILE }}
+          path: electron_app/out/make
 
   upload-Client-Apps:
     needs: [

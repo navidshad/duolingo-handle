@@ -120,6 +120,9 @@ jobs:
       #     username: ec2-user
       #     key: ${{ secrets.EC2_KEY }}
 
+      - name: Set Permissions for ZIP File
+        run: chmod 644 ${{ env.WIN_ARTIFACT_ZIP_FILE }}
+
       - name: Copy Client App Files to EC2
         uses: appleboy/scp-action@v0.1.4
         with:

@@ -4794,7 +4794,7 @@ node-loader@^2.0.0:
 
 "node-record-lpcm16@https://github.com/navidshad/node-record-lpcm16":
   version "1.1.1"
-  resolved "https://github.com/navidshad/node-record-lpcm16#1de3db8716da04336136e2470c5bfc4be0860e26"
+  resolved "https://github.com/navidshad/node-record-lpcm16#614aa64d44b1a248ca8652a07ea6a090ac908604"
   dependencies:
     debug "^2.6.8"
 

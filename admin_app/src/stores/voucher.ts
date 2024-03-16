@@ -1,15 +1,16 @@
 import { COLLECTIONS, DB } from '@/static/database'
 import type { VoucherType } from '@/views/voucher/types/voucher.type'
 import { dataProvider } from '@modular-rest/client'
+import type { PaginatedResponseType } from '@modular-rest/client/dist/types/types'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
 export const voucherStore = defineStore('voucher', () => {
   const list = ref<VoucherType[]>([])
-  const pagination = ref()
+  const pagination = ref<PaginatedResponseType<VoucherType> | null>(null)
 
   async function getList() {
-    const _pagination = await dataProvider.list<VoucherType>(
+    pagination.value = await dataProvider.list<VoucherType>(
       {
         database: DB.exam,
         collection: COLLECTIONS.voucher,
@@ -26,9 +27,11 @@ export const voucherStore = defineStore('voucher', () => {
       }
     )
 
-    pagination.value = _pagination
+    await pagination.value?.updatePagination()
 
-    return _pagination.fetchPage(1).then((data) => (list.value = data))
+    return pagination.value.fetchPage(1).then((data) => {
+      list.value = data
+    })
   }
 
   return { list, pagination, getList }

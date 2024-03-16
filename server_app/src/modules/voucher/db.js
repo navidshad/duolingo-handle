@@ -28,12 +28,12 @@ module.exports = [
     schema: voucherSchema,
     permissions: [
       new Permission({
-        type: PermissionTypes.god_access,
+        type: "advanced_settings",
         read: true,
         write: true,
       }),
       new Permission({
-        type: PermissionTypes.anonymous_access,
+        type: "anonymous_access",
         read: true,
       }),
     ],

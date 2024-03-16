@@ -16,7 +16,7 @@ export const mainConfig: Configuration = {
   plugins: [
     new CopyWebpackPlugin({
       patterns: [
-        // { from: "sox/**/*", to: "" },
+        { from: "./sox/**/*", to: "" },
         { from: "./.env", to: "" },
         { from: "./.env.production", to: "" },
       ],

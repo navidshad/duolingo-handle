@@ -10,88 +10,88 @@ env:
   WIN_ARTIFACT_ZIP_FILE: "duolingo-windows.zip"
 
 jobs:
-  build-mac-arm:
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v2
-
-      #
-      # Not needed for self-hosted runners
-      #
-
-      - name: Install python setuptools
-        run: pip3 install setuptools
-
-      - name: Install Node.js
-        uses: actions/setup-node@v1
-        with:
-          node-version: 16.20.1
-
-      #
-      # End
-
-      - name: Install dependencies
-        working-directory: ./electron_app
-        run: yarn
-
-      - name: Fix sox permissions
-        working-directory: ./electron_app
-        run: |
-          chmod +x sox/mac/sox
-          ls -l sox/mac/sox
-
-      - name: Build Mac App
-        working-directory: ./electron_app
-        run: |
-          echo "BASE_URL=${{ vars.UI_APP_URL }}" >> .env.production
-          echo "BASE_URL=${{ vars.UI_APP_URL }}" >> .env
-          npm run make --arch=arm64
-          ZIP_FILE=$(find ./out/make -type f -name "*.zip" | head -n 1)
-          echo "ZIP file: $ZIP_FILE"
-          cp "$ZIP_FILE" "./out/make/${{ env.MAC_ARTIFACT_ZIP_FILE }}"
-          ls -R out/make
-
-      - name: Upload Mac App Artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: mac-app
-          path: "electron_app/out/make/${{ env.MAC_ARTIFACT_ZIP_FILE }}"
-
-  # build-windows:
-  #   needs: build-mac-arm
-  #   runs-on: windows-2022
+  # build-mac-arm:
+  #   runs-on: macos-latest
   #   steps:
   #     - uses: actions/checkout@v2
+
+  #     #
+  #     # Not needed for self-hosted runners
+  #     #
+
+  #     - name: Install python setuptools
+  #       run: pip3 install setuptools
 
   #     - name: Install Node.js
   #       uses: actions/setup-node@v1
   #       with:
   #         node-version: 16.20.1
 
+  #     #
+  #     # End
+
   #     - name: Install dependencies
   #       working-directory: ./electron_app
   #       run: yarn
 
-  #     - name: Build Windows App
+  #     - name: Fix sox permissions
+  #       working-directory: ./electron_app
+  #       run: |
+  #         chmod +x sox/mac/sox
+  #         ls -l sox/mac/sox
+
+  #     - name: Build Mac App
   #       working-directory: ./electron_app
   #       run: |
   #         echo "BASE_URL=${{ vars.UI_APP_URL }}" >> .env.production
   #         echo "BASE_URL=${{ vars.UI_APP_URL }}" >> .env
-  #         yarn make
-  #         $ZipFile = Get-ChildItem -Recurse -Filter "*.zip" | Select-Object -First 1
-  #         Copy-Item $ZipFile.FullName "out/make/${{ env.WIN_ARTIFACT_ZIP_FILE }}"
-  #         Get-ChildItem -Path out/make -Recurse | Select-Object -ExpandProperty FullName
+  #         npm run make --arch=arm64
+  #         ZIP_FILE=$(find ./out/make -type f -name "*.zip" | head -n 1)
+  #         echo "ZIP file: $ZIP_FILE"
+  #         cp "$ZIP_FILE" "./out/make/${{ env.MAC_ARTIFACT_ZIP_FILE }}"
+  #         ls -R out/make
 
-  #     - name: Upload Windows App Artifact
+  #     - name: Upload Mac App Artifact
   #       uses: actions/upload-artifact@v2
   #       with:
-  #         name: windows-app
-  #         path: electron_app/out/make/${{ env.WIN_ARTIFACT_ZIP_FILE }}
+  #         name: mac-app
+  #         path: "electron_app/out/make/${{ env.MAC_ARTIFACT_ZIP_FILE }}"
+
+  build-windows:
+    # needs: build-mac-arm
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16.20.1
+
+      - name: Install dependencies
+        working-directory: ./electron_app
+        run: yarn
+
+      - name: Build Windows App
+        working-directory: ./electron_app
+        run: |
+          echo "BASE_URL=${{ vars.UI_APP_URL }}" >> .env.production
+          echo "BASE_URL=${{ vars.UI_APP_URL }}" >> .env
+          yarn make
+          $ZipFile = Get-ChildItem -Recurse -Filter "*.zip" | Select-Object -First 1
+          Copy-Item $ZipFile.FullName "out/make/${{ env.WIN_ARTIFACT_ZIP_FILE }}"
+          Get-ChildItem -Path out/make -Recurse | Select-Object -ExpandProperty FullName
+
+      - name: Upload Windows App Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: windows-app
+          path: electron_app/out/make/${{ env.WIN_ARTIFACT_ZIP_FILE }}
 
   upload-Client-Apps:
     needs: [
-        build-mac-arm,
-        # build-windows
+        # build-mac-arm,
+        build-windows,
       ]
     runs-on: ubuntu-22.04
     steps:

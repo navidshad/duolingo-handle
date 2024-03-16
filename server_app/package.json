@@ -16,7 +16,7 @@
   "dependencies": {
     "@google-cloud/speech": "^6.0.2",
     "@google-cloud/vision": "^4.0.2",
-    "@modular-rest/server": "^1.10.0",
+    "@modular-rest/server": "^1.10.1",
     "axios": "^1.5.0",
     "dotenv": "^16.3.1",
     "google-gax": "^4.0.4",

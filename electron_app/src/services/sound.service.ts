@@ -3,7 +3,6 @@ import fs from "fs";
 import recorder from "node-record-lpcm16";
 import { join } from "path";
 import { tmpdir, platform } from "os";
-import child_process from "child_process";
 
 function getPathFromTemp(name: string) {
   return join(tmpdir(), name);
@@ -51,15 +50,21 @@ export class SoundService {
     });
 
     try {
-      this.recording = recorder.record({
+      const platformType = platform();
+      const recordConfig = {
         recorder: "sox",
         recorderPath: getSoxPath(),
-      });
+        execFile: platformType == "win32" ? "sox.exe" : "sox",
+      };
+
+      this.recording = recorder.record(recordConfig);
 
       this.recording.stream().pipe(file);
 
       return Promise.resolve(title);
     } catch (error) {
+      this.recording = null;
+      console.log("Error recording sound", error, "sox path:" + getSoxPath());
       return Promise.reject([error, "sox path:" + getSoxPath()]);
     }
   }

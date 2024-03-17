@@ -4,29 +4,30 @@
       <template #actions>
         <audio
           v-if="base64Audio"
-          class="flex-1 scale-[0.6]"
+          class="scale-[0.6]"
           :src="'data:audio/wav;base64,' + base64Audio"
           controls
         />
 
         <button-record-voice-sox
+          v-if="audioRecorderType === 'sox'"
           size="small"
           class="ml-2"
-          start-on-mount
+          :start-on-mount="false"
           @on-text="text = $event"
           @onAudioBase64="base64Audio = $event"
           @onStart="base64Audio = text = translatedText = ''"
         />
 
-        <!-- <button-record-voice
-          v-else
+        <button-record-voice
+          v-else-if="audioRecorderType === 'chrome'"
           size="small"
           class="ml-2"
-          start-on-mount
+          :start-on-mount="false"
           @on-text="text = $event"
           @onAudioBase64="base64Audio = $event"
           @onStart="base64Audio = text = translatedText = ''"
-        /> -->
+        />
 
         <button-language
           :disabled="!text.length"
@@ -34,6 +35,19 @@
           :isActive="showTranslate"
           @click="toggleTranslate"
         />
+      </template>
+
+      <template #right-actions>
+        <!-- <v-select
+          class="scale-[0.6] mt-5 w-32"
+          v-model="audioRecorderType"
+          :items="[
+            { title: 'Sox Audio', value: 'sox' },
+            { title: 'Chrome Audio', value: 'chrome' },
+          ]"
+          label="Select"
+          dense
+        /> -->
       </template>
     </Frameheader>
 
@@ -60,6 +74,7 @@ export default defineComponent({
       base64Audio: "",
       text: "",
       translatedText: "",
+      audioRecorderType: "chrome",
     };
   },
 

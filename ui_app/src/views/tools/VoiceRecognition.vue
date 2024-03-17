@@ -38,7 +38,7 @@
       </template>
 
       <template #right-actions>
-        <!-- <v-select
+        <v-select
           class="scale-[0.6] mt-5 w-32"
           v-model="audioRecorderType"
           :items="[
@@ -47,7 +47,7 @@
           ]"
           label="Select"
           dense
-        /> -->
+        />
       </template>
     </Frameheader>
 
